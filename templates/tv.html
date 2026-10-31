@@ -484,14 +484,33 @@
                 .replace(/'/g, "&#39;");
         }
 
+        let isAudioUnlocked = false;
         function unlockAudioEngine() {
+            if (isAudioUnlocked) return;
+            isAudioUnlocked = true;
+
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
-            if (audioCtx.state === "suspended") audioCtx.resume();
-            document.getElementById("audioUnlockBanner").classList.add("hidden");
-            speakText("Painel sonoro da A5 Tecnologia ativado.");
+            if (audioCtx.state === "suspended") {
+                audioCtx.resume().catch(() => {});
+            }
+
+            const banner = document.getElementById("audioUnlockBanner");
+            if (banner) banner.classList.add("hidden");
+
+            // Destrava e sincroniza sintetizador de voz do navegador sem travar a fila
+            if ("speechSynthesis" in window) {
+                try {
+                    window.speechSynthesis.cancel();
+                    window.speechSynthesis.resume();
+                    initVoices();
+                } catch (e) {}
+            }
         }
+
+        window.addEventListener("pointerdown", () => unlockAudioEngine());
+        window.addEventListener("keydown", () => unlockAudioEngine());
 
         setInterval(() => {
             const now = new Date();
@@ -1351,10 +1370,10 @@
             }
         }
 
-        function playSynthesizedSound(type) {
-            if (tvMuted) return;
+        function playSynthesizedSound(type, forcePlay = false) {
+            if (tvMuted && !forcePlay) return;
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === "suspended") audioCtx.resume();
+            if (audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
 
             const now = audioCtx.currentTime;
 
@@ -1386,44 +1405,120 @@
             osc.stop(startTime + duration);
         }
 
-        function speakText(text) {
-            if (tvMuted || !("speechSynthesis" in window)) {
+        let activeTtsUtterance = null;
+        let cachedVoices = [];
+
+        function initVoices() {
+            if ("speechSynthesis" in window) {
+                cachedVoices = window.speechSynthesis.getVoices() || [];
+            }
+        }
+        if ("speechSynthesis" in window) {
+            initVoices();
+            window.speechSynthesis.onvoiceschanged = initVoices;
+        }
+
+        function speakText(text, forcePriority = false) {
+            if (!("speechSynthesis" in window)) {
                 activeTts = false;
                 checkEndAudioDucking();
                 return;
             }
-            window.speechSynthesis.cancel();
+
+            // Chamados da diretoria, apoio ou emergência ignoram o mudo ambiente da TV
+            if (tvMuted && !forcePriority) {
+                activeTts = false;
+                checkEndAudioDucking();
+                return;
+            }
+
+            const cleanText = (text || "").trim();
+            if (!cleanText) {
+                activeTts = false;
+                checkEndAudioDucking();
+                return;
+            }
 
             activeTts = true;
             setAudioDucking(true);
 
-            const utter = new SpeechSynthesisUtterance(text);
-            utter.lang = "pt-BR";
-            utter.rate = 1.02;
-            utter.pitch = 1.0;
+            try {
+                window.speechSynthesis.cancel();
+                window.speechSynthesis.resume();
+            } catch (e) {}
 
-            const voices = window.speechSynthesis.getVoices();
-            const ptVoice = voices.find(v => v.lang.includes("pt-BR") || v.lang.includes("pt_BR"));
-            if (ptVoice) utter.voice = ptVoice;
+            const utter = new SpeechSynthesisUtterance(cleanText);
+            activeTtsUtterance = utter; // Evita garbage collection prematura no Chromium
+            window._activeTtsUtterance = utter;
+
+            utter.lang = "pt-BR";
+            utter.rate = 1.0;
+            utter.pitch = 1.0;
+            utter.volume = 1.0;
+
+            const voices = cachedVoices.length ? cachedVoices : (window.speechSynthesis.getVoices() || []);
+            const ptVoice = voices.find(v => v.lang && (v.lang.toLowerCase().includes("pt-br") || v.lang.toLowerCase().includes("pt_br") || v.lang.toLowerCase().startsWith("pt")));
+            if (ptVoice) {
+                utter.voice = ptVoice;
+                utter.lang = ptVoice.lang;
+            }
+
+            let resumeInterval = setInterval(() => {
+                if (!window.speechSynthesis.speaking) {
+                    clearInterval(resumeInterval);
+                } else {
+                    window.speechSynthesis.pause();
+                    window.speechSynthesis.resume();
+                }
+            }, 5000);
+
+            utter.onstart = () => {
+                activeTts = true;
+                setAudioDucking(true);
+            };
 
             utter.onend = () => {
-                activeTts = false;
-                checkEndAudioDucking();
+                clearInterval(resumeInterval);
+                if (window._activeTtsUtterance === utter) {
+                    activeTts = false;
+                    activeTtsUtterance = null;
+                    window._activeTtsUtterance = null;
+                    checkEndAudioDucking();
+                }
             };
-            utter.onerror = () => {
-                activeTts = false;
-                checkEndAudioDucking();
+
+            utter.onerror = (err) => {
+                clearInterval(resumeInterval);
+                if (err && err.error === "canceled") return;
+                console.warn("TTS Error:", err);
+                if (window._activeTtsUtterance === utter) {
+                    activeTts = false;
+                    activeTtsUtterance = null;
+                    window._activeTtsUtterance = null;
+                    checkEndAudioDucking();
+                }
             };
 
             setTimeout(() => {
-                window.speechSynthesis.speak(utter);
-            }, 650);
+                try {
+                    window.speechSynthesis.resume();
+                    window.speechSynthesis.speak(utter);
+                    window.speechSynthesis.resume();
+                } catch (err) {
+                    console.error("Erro ao chamar speak():", err);
+                    clearInterval(resumeInterval);
+                    activeTts = false;
+                    checkEndAudioDucking();
+                }
+            }, 350);
         }
 
         function triggerTvAnnouncement(payload) {
             // SILENCIA O YOUTUBE E O ÁUDIO IMEDIATAMENTE NO INÍCIO DO ALERTA
             activeAnnouncement = true;
             setAudioDucking(true);
+
+            const isPriorityAnnouncement = (payload.type === "director_call" || payload.type === "call_alert" || payload.type === "support_alert" || Boolean(payload.is_urgent));
 
             const modal = document.getElementById("tvAnnouncementModal");
             const box = document.getElementById("tvAnnouncementBox");
@@ -1461,7 +1556,7 @@
                     </div>
                 `;
 
-                playSynthesizedSound("victory");
+                playSynthesizedSound("victory", isPriorityAnnouncement);
                 confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 } });
             } else if (payload.type === "new_arrival") {
                 const isUrg = payload.is_urgent;
@@ -1481,7 +1576,7 @@
                     </div>
                 ` : "";
 
-                playSynthesizedSound(isUrg ? "urgent" : "bell");
+                playSynthesizedSound(isUrg ? "urgent" : "bell", isPriorityAnnouncement);
             } else if (payload.type === "director_call") {
                 const isUrg = payload.is_urgent;
                 const borderCls = isUrg ? "border-rose-500 shadow-[0_0_90px_rgba(244,63,94,0.5)]" : "border-amber-500 shadow-[0_0_80px_rgba(245,158,11,0.35)]";
@@ -1497,7 +1592,20 @@
                     ? `<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-sm font-bold text-amber-300 animate-pulse"><i data-lucide="mic" class="w-4 h-4"></i><span>Reproduzindo áudio de voz do chefe...</span></div>`
                     : `<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-semibold text-zinc-300"><i data-lucide="building" class="w-3.5 h-3.5 text-amber-400"></i><span>${esc(payload.sender || 'Sala da Diretoria')}</span></div>`;
 
-                playSynthesizedSound(isUrg ? "urgent" : "bell");
+                playSynthesizedSound(isUrg ? "urgent" : "bell", true);
+            } else if (payload.type === "call_alert") {
+                const isUrg = payload.is_urgent;
+                box.className = "max-w-4xl w-full rounded-3xl p-8 md:p-12 text-center border-4 border-amber-500 bg-zinc-950/95 shadow-[0_0_80px_rgba(245,158,11,0.35)] overflow-hidden relative";
+                icon.innerHTML = `<div class="w-20 h-20 mx-auto rounded-2xl bg-amber-500/20 border-2 border-amber-500/40 text-amber-400 flex items-center justify-center mb-2 animate-bounce"><i data-lucide="bell-ring" class="w-12 h-12"></i></div>`;
+                badge.textContent = "🔔 CHAMADO NA RECEPÇÃO";
+                badge.className = "inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-mono font-black uppercase tracking-widest mb-3 bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/30";
+                title.textContent = payload.tech_name;
+                title.className = "text-5xl md:text-6xl font-black uppercase tracking-tight mb-3 text-white break-words drop-shadow-md";
+                subtitle.textContent = payload.reason || "Comparecer na recepção";
+                subtitle.className = "text-2xl md:text-3xl font-extrabold text-amber-400 uppercase mb-4 break-words";
+                extra.innerHTML = `<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-semibold text-zinc-300"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-400"></i><span>Recepção / Atendimento</span></div>`;
+
+                playSynthesizedSound("urgent", true);
             } else {
                 box.className = "max-w-4xl w-full rounded-3xl p-8 md:p-12 text-center border-4 border-sky-500 bg-zinc-950/95 shadow-[0_0_80px_rgba(14,165,233,0.35)] overflow-hidden relative";
                 icon.innerHTML = `<div class="w-20 h-20 mx-auto rounded-2xl bg-sky-500/20 border-2 border-sky-500/40 text-sky-400 flex items-center justify-center mb-2 animate-pulse"><i data-lucide="megaphone" class="w-12 h-12"></i></div>`;
@@ -1509,7 +1617,7 @@
                 subtitle.className = "text-2xl md:text-3xl font-bold text-sky-400 uppercase mb-4 break-words";
                 extra.innerHTML = payload.label ? `<div class="text-lg text-zinc-300">${esc(payload.label)}</div>` : "";
 
-                playSynthesizedSound("urgent");
+                playSynthesizedSound(isPriorityAnnouncement ? "urgent" : "bell", isPriorityAnnouncement);
             }
 
             modal.classList.replace("hidden", "flex");
@@ -1532,18 +1640,18 @@
                         }, 1000);
                     };
                     voiceAudio.onerror = () => {
-                        if (payload.tts_text) speakText(payload.tts_text);
+                        if (payload.tts_text) speakText(payload.tts_text, isPriorityAnnouncement);
                     };
                     setTimeout(() => {
                         voiceAudio.play().catch(() => {
-                            if (payload.tts_text) speakText(payload.tts_text);
+                            if (payload.tts_text) speakText(payload.tts_text, isPriorityAnnouncement);
                         });
                     }, 650);
                 } catch (e) {
-                    if (payload.tts_text) speakText(payload.tts_text);
+                    if (payload.tts_text) speakText(payload.tts_text, isPriorityAnnouncement);
                 }
             } else if (payload.tts_text) {
-                speakText(payload.tts_text);
+                speakText(payload.tts_text, isPriorityAnnouncement);
             }
 
             setTimeout(() => {

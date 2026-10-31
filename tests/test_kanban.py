@@ -318,6 +318,9 @@ class TestA5KanbanComplete(unittest.TestCase):
         self.assertIn("tv_announcement", names)
         self.assertIn("tv_mute_changed", names)
 
+        # Restaura tv_muted para False para não deixar a TV mutada após o teste
+        self.sio.emit("panic_silence_tv", {"muted": False})
+
         # Testa chamada REST da diretoria
         r_dir = self.client.post("/api/director/call", json={
             "tech_name": "TEC. ANTONIO",

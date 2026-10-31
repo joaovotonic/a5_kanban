@@ -54,14 +54,33 @@ def announce_finished_mobile(os_number, client_name, tech_name, inmetro_seal, fi
     })
 
 
+def _normalize_speech_name(tech_name):
+    """Normaliza o nome do técnico para pronúncia natural no sintetizador de voz (TTS)."""
+    t_name = (tech_name or "Oficina").strip()
+    if t_name.upper().startswith("TODOS"):
+        return "toda a equipe da oficina"
+    elif t_name.upper().startswith("SR. "):
+        return "Senhor " + t_name[4:].title()
+    elif t_name.upper().startswith("TEC. "):
+        return "Técnico " + t_name[5:].title()
+    return t_name.title()
+
+
 def announce_call_tech(tech_name, reason):
+    speech_name = _normalize_speech_name(tech_name)
+    clean_reason = (reason or "Comparecer na recepção").strip()
+    if clean_reason.lower().startswith("comparecer"):
+        tts_text = f"Atenção, {speech_name}. Por favor, {clean_reason.lower()}."
+    else:
+        tts_text = f"Atenção, {speech_name}. Por favor, comparecer na recepção: {clean_reason}."
+
     _announce({
         "type": "call_alert",
         "title": "CHAMADO NA RECEPÇÃO",
-        "tech_name": tech_name,
-        "reason": reason,
+        "tech_name": tech_name or "Oficina",
+        "reason": clean_reason,
         "is_urgent": True,
-        "tts_text": f"Atenção {tech_name}. Por favor, comparecer na recepção. {reason}."
+        "tts_text": tts_text,
     })
 
 
@@ -69,10 +88,12 @@ def announce_director_call(tech_name, message="", is_urgent=False, audio_base64=
     """Chamado ou áudio enviado pelo chefe / sala da diretoria para a TV da oficina."""
     title = "🚨 CHAMADO URGENTE DA DIRETORIA" if is_urgent else "📢 CHAMADO DA DIRETORIA"
     clean_msg = (message or "").strip()
+    speech_name = _normalize_speech_name(tech_name)
+
     if clean_msg:
-        tts_text = f"Atenção {tech_name}. Mensagem da diretoria: {clean_msg}."
+        tts_text = f"Atenção, {speech_name}. Mensagem da diretoria: {clean_msg}."
     else:
-        tts_text = f"Atenção {tech_name}. Favor comparecer à sala da diretoria."
+        tts_text = f"Atenção, {speech_name}. Por favor, comparecer à sala da diretoria."
 
     _announce({
         "type": "director_call",

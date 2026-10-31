@@ -324,3 +324,34 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
      - **Áudio de Voz Real (Microfone):** Gravação de voz via API MediaRecorder do navegador, com cronômetro em tempo real, player para conferência e envio imediato do áudio real do chefe para ser reproduzido nas caixas da TV.
   4. **Modo Urgente:** Botão toggle 🚨 URGENTE que ativa sirene de alerta sonoro e moldura vermelha pulsante na TV.
   5. **Silenciamento / Pausa Automática da TV:** Qualquer chamado enviado pela diretoria (voz ou texto) aciona o motor de Audio Ducking, pausando imediatamente as músicas do YouTube e silenciando todo o som da TV até a mensagem do chefe terminar de ser reproduzida.
+
+
+---
+
+## 📌 Item 22: Desbloqueio e Restauração Definitiva do Motor de Voz Sintetizada (TTS) na TV
+
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Diretoria e Recepção (Priscila)
+* **Telas & Arquivos Impactados:**
+  - `templates/tv.html` (Motor de fala Web SpeechSynthesis, Audio Unlock e modais de anúncio)
+  - `kanban/realtime.py` (Normalização fonética de nomes para fala natural em chamados da recepção e diretoria)
+  - `tests/test_kanban.py` (Correção de persistência do mudo nos testes unitários)
+  - `database/kanban.db` (Reset da flag `tv_muted = '0'`)
+* **Problemas Identificados & Soluções Aplicadas:**
+  1. **Flag `tv_muted` Ativada no Banco de Dados:**
+     - A configuração `tv_muted` estava gravada como `'1'` no SQLite (devido à execução de testes do silenciador de pânico), fazendo com que a TV iniciasse completamente mutada e abortasse a execução de `speakText()`.
+     - **Solução:** `tv_muted` foi redefinido para `'0'` no banco de dados e o teste unitário (`test_07_websocket_events`) agora restaura obrigatoriamente o estado para não mutado ao finalizar.
+  2. **Deadlock do Chromium com Utterance Vazia:**
+     - Ao clicar na tela da TV para desbloquear o áudio, `unlockAudioEngine()` executava `window.speechSynthesis.speak(new SpeechSynthesisUtterance(""))`. No motor Chromium (Chrome e Edge no Windows), utterances com string vazia nunca disparam evento de conclusão (`end`), congelando permanentemente a fila interna do sintetizador e impedindo qualquer fala posterior.
+     - **Solução:** Removida a emissão da utterance vazia. O desbloqueio agora apenas reativa o `audioCtx` e executa `cancel()` e `resume()` limpos no sintetizador de voz.
+  3. **Sobrescrita de Prioridade para Mensagens da Diretoria e Recepção:**
+     - O método `speakText(text, forcePriority)` e `playSynthesizedSound(type, forcePlay)` agora contam com parâmetro de prioridade ativado obrigatoriamente para:
+       - Chamados da Diretoria (`director_call`);
+       - Chamados de Técnico na Recepção disparados pela Priscila (`call_alert`);
+       - Chamados de Apoio na Bancada (`support_alert`);
+       - Alertas com flag `is_urgent: true`.
+     - Isso garante que avisos operacionais e da gerência sejam sempre ouvidos, mesmo se a TV estiver com som ambiente mutado.
+  4. **Normalização Fonética para Síntese Natural:**
+     - Em `kanban/realtime.py`, a função `_normalize_speech_name` converte automaticamente nomenclaturas de cadastro ("SR. JACSON" → "Senhor Jacson", "TEC. ENZO" → "Técnico Enzo", "TODOS" → "toda a equipe da oficina"), evitando que a voz soletre pontos ou siglas.
+  5. **Watchdog contra Congelamento de Áudio do Chrome:**
+     - Adicionado intervalo periódico de `resume()` a cada 5 segundos enquanto `speechSynthesis.speaking` estiver ativo, protegendo contra o bug conhecido do Chrome que interrompe vozes em mensagens com mais de 15 segundos.
