@@ -224,5 +224,29 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
   - **Mecanismo de Audio Ducking Nativo Instantâneo (0ms):**
     - Como o player agora utiliza um elemento `<video id="ytNativeVideo">` nativo alimentado pelo nosso servidor, o controle de volume (`video.volume = 0`) e pausa (`video.pause()`) durante alertas e voz TTS da TV é 100% síncrono, instantâneo e imune a bloqueios de navegador.
 
+---
+
+## 📌 Item 18: Modernização Visual Premium do Frontend (Design System Linear/shadcn, Tailwind CSS, Lucide Icons e Microinterações Fluidas)
+
+* **Status:** ⏳ **Em Andamento (Fase 1: Quadro Kanban Principal `/admin`)**
+* **Solicitante:** Diretoria / Usuário
+* **Telas Impactadas:** `templates/admin.html` (e subsequentes: `templates/tv.html`, `templates/saida.html`, etc.)
+* **Objetivo:**
+  - Eliminar a estética artificial/genérica ("cara de IA", gradientes roxos/azuis neon excessivos e poluição visual).
+  - Implementar uma interface SaaS moderna, sóbria e ultra-profissional inspirada no padrão de excelência de produtos como **Linear.app** e **shadcn/ui**.
+  - Melhorar a fluidez visual com transições suaves e microinterações de clique e arrasto.
+* **Pilares de Engenharia do Novo Design:**
+  1. **Paleta Zinc/Neutral Profunda:**
+     - Fundo escuro com camadas refinadas (`#09090b` -> `#121215` -> `#18181b`), bordas sutis com transparência (`border-zinc-800` / `border-white/5`) e alto contraste de legibilidade.
+  2. **Tipografia Técnica e Números Tabulares:**
+     - Fonte **Inter / Geist Sans** com renderização subpixel perfeita e `font-variant-numeric: tabular-nums` para alinhamento de números de O.S. e pesagens.
+  3. **Ícones Vetoriais Profissionais (Lucide Icons):**
+     - Substituição de emojis por ícones vetoriais uniformes e elegantes.
+  4. **Microinterações e AutoAnimate:**
+     - Animações físicas naturais ao mover cards entre colunas, abrir modais e filtrar O.S. sem flashes ou quebras de layout.
+  5. **Preservação de 100% das Funcionalidades:**
+     - Todas as integrações com backend (SortableJS, WebSockets, modais, autenticação de exclusão, reaberturas, links da TV e balcão) são mantidas intactas.
+
+
 
 
