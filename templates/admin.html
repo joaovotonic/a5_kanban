@@ -262,25 +262,53 @@
             <form id="newOsForm" onsubmit="submitNewOs(event)" class="space-y-3.5">
                 <input type="hidden" name="pending_entry_id" id="newOsPendingEntryId" value="">
 
-                <!-- SUGESTÕES DE FOTOS PRÉ-ENTRADA DO CELULAR -->
-                <div id="newOsPendingBox" class="hidden p-3 rounded-xl border border-sky-500/30 bg-sky-500/5 space-y-2">
+                <!-- INTEGRAÇÃO FOTOS CELULAR & PRÉ-ENTRADA -->
+                <div class="p-3.5 rounded-xl border border-sky-500/30 bg-sky-500/[0.04] space-y-2.5">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold uppercase text-sky-600 dark:text-sky-400 flex items-center gap-1.5">
-                            <i data-lucide="smartphone" class="w-3.5 h-3.5"></i>
-                            Fotos do Celular aguardando O.S. (toque para puxar):
-                        </span>
-                        <a href="/recepcao-fotos" target="_blank" class="text-[11px] font-semibold text-sky-500 underline">Abrir Mobile</a>
+                        <div class="flex items-center gap-2">
+                            <div class="p-1.5 rounded-lg bg-sky-500/15 text-sky-500">
+                                <i data-lucide="smartphone" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold uppercase text-slate-900 dark:text-zinc-100 block">Fotos Celular (Recepção)</span>
+                                <span class="text-[10px] text-slate-500 dark:text-zinc-400">Puxe fotos registradas pelo celular ou anexe novas</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <button type="button" onclick="openPendingPhotosModal()" class="text-xs font-semibold px-2 py-1 rounded-lg border border-slate-300 dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-300 transition flex items-center gap-1">
+                                <i data-lucide="folder-search" class="w-3.5 h-3.5 text-sky-500"></i>
+                                <span>Ver Fila (<span id="newOsPendingCount">0</span>)</span>
+                            </button>
+                            <a href="/recepcao-fotos" target="_blank" class="text-xs font-bold px-2.5 py-1 rounded-lg bg-sky-500/15 hover:bg-sky-500/25 text-sky-600 dark:text-sky-400 border border-sky-500/30 transition flex items-center gap-1">
+                                <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+                                <span>Câmera Mobile</span>
+                            </a>
+                        </div>
                     </div>
-                    <div id="newOsPendingChips" class="flex flex-wrap gap-1.5"></div>
-                </div>
 
-                <!-- PREVIEW DAS FOTOS VINCULADAS -->
-                <div id="newOsLinkedPhotosBox" class="hidden p-3 rounded-xl border border-emerald-500/30 bg-emerald-500/5 space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span id="newOsLinkedPhotosLabel" class="text-xs font-bold text-emerald-600 dark:text-emerald-400"></span>
-                        <button type="button" onclick="clearNewOsPendingSelection()" class="text-[11px] font-bold text-red-500 underline">Desvincular</button>
+                    <!-- CHIPS DE PRÉ-ENTRADAS AGUARDANDO -->
+                    <div id="newOsPendingBox">
+                        <div id="newOsPendingChips" class="flex flex-wrap gap-1.5 pt-0.5"></div>
                     </div>
-                    <div id="newOsLinkedPhotosThumbs" class="flex items-center gap-2 overflow-x-auto"></div>
+
+                    <!-- PREVIEW DAS FOTOS VINCULADAS -->
+                    <div id="newOsLinkedPhotosBox" class="hidden p-2.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span id="newOsLinkedPhotosLabel" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                                <span>Fotos Vinculadas</span>
+                            </span>
+                            <button type="button" onclick="clearNewOsPendingSelection()" class="text-[11px] font-bold text-red-500 hover:text-red-600 underline">Desvincular</button>
+                        </div>
+                        <div id="newOsLinkedPhotosThumbs" class="flex items-center gap-2 overflow-x-auto py-1"></div>
+                    </div>
+
+                    <!-- UPLOAD MANUAL DIRETO DO PC -->
+                    <div class="pt-1.5 border-t border-slate-200 dark:border-zinc-800/80">
+                        <label class="block text-[10px] font-bold uppercase tracking-wider mb-1 text-slate-500 dark:text-zinc-400">Ou Enviar Fotos Direto do Computador:</label>
+                        <input type="file" name="entry_photos" id="newOsEntryPhotosInput" multiple accept="image/*"
+                            class="w-full text-xs text-slate-500 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-sky-500/15 file:text-sky-600 dark:file:text-sky-400 hover:file:bg-sky-500/25 file:cursor-pointer cursor-pointer border border-slate-200 dark:border-zinc-800 rounded-xl p-1 bg-white dark:bg-zinc-900">
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-3 gap-3">
@@ -565,41 +593,63 @@
             const toast = document.createElement("div");
             const isReopen = notif.type === "reopen_request";
             const isReady = notif.type === "tech_finished";
-            const borderCls = isReopen ? "border-amber-500/50 bg-amber-950/95 text-amber-100" : (isReady ? "border-emerald-500/50 bg-emerald-950/95 text-emerald-100" : "border-sky-500/50 bg-zinc-900/95 text-white");
-            const iconName = isReopen ? "unlock" : (isReady ? "check-circle" : "bell");
 
-            toast.className = `pointer-events-auto rounded-xl border ${borderCls} p-3.5 shadow-2xl backdrop-blur-md transition-all duration-300 flex flex-col gap-2`;
+            let borderCls = "border-sky-500/40 bg-zinc-950/95 text-white shadow-sky-500/10";
+            let iconName = "bell";
+            let accentColor = "text-sky-400";
+            let glowBadge = "bg-sky-500/15 border-sky-400/30 text-sky-400";
+
+            if (isReopen) {
+                borderCls = "border-amber-500/50 bg-zinc-950/95 text-amber-50 shadow-amber-500/20";
+                iconName = "unlock";
+                accentColor = "text-amber-400";
+                glowBadge = "bg-amber-500/15 border-amber-400/30 text-amber-400";
+            } else if (isReady) {
+                borderCls = "border-emerald-500/50 bg-zinc-950/95 text-emerald-50 shadow-emerald-500/20";
+                iconName = "check-circle";
+                accentColor = "text-emerald-400";
+                glowBadge = "bg-emerald-500/15 border-emerald-400/30 text-emerald-400";
+            }
+
+            toast.className = `pointer-events-auto rounded-2xl border ${borderCls} p-4 shadow-2xl backdrop-blur-xl transition-all duration-300 flex flex-col gap-2.5`;
             toast.innerHTML = `
-                <div class="flex items-start justify-between gap-2">
-                    <div class="flex items-center gap-2 font-bold text-xs uppercase tracking-wide">
-                        <i data-lucide="${iconName}" class="w-4 h-4"></i>
-                        <span>${esc(notif.title || 'Notificação da Oficina')}</span>
+                <div class="flex items-start justify-between gap-3">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-xl flex items-center justify-center ${glowBadge} border shrink-0">
+                            <i data-lucide="${iconName}" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-mono uppercase tracking-wider font-bold ${accentColor} block">Notificação em Tempo Real</span>
+                            <span class="font-bold text-xs uppercase text-white">${esc(notif.title || 'Notificação da Oficina')}</span>
+                        </div>
                     </div>
-                    <button type="button" onclick="this.closest('.pointer-events-auto').remove()" class="text-slate-400 hover:text-white font-bold text-xs p-1">
-                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                    <button type="button" onclick="this.closest('.pointer-events-auto').remove()" class="text-zinc-400 hover:text-white p-1 rounded-lg transition hover:bg-white/10">
+                        <i data-lucide="x" class="w-4 h-4"></i>
                     </button>
                 </div>
-                <p class="text-xs leading-snug opacity-95">${esc(notif.message || '')}</p>
+                <p class="text-xs leading-relaxed text-zinc-300">${esc(notif.message || '')}</p>
                 ${isReady ? `
-                    <div class="flex items-center justify-between gap-2 rounded-lg bg-zinc-950 text-white px-3 py-1.5 border border-emerald-500/40">
+                    <div class="flex items-center justify-between gap-2 rounded-xl bg-zinc-900/90 text-white p-2.5 border border-emerald-500/30">
                         <div class="min-w-0">
-                            <div class="text-[9px] font-bold uppercase text-emerald-400">Lacre Colocado</div>
-                            <div class="text-base font-bold font-mono tracking-wider break-all">${esc(notif.inmetro_seal || 'NÃO INFORMADO')}</div>
+                            <div class="text-[9px] font-bold uppercase tracking-wider text-emerald-400">Lacre Inmetro Lacrado</div>
+                            <div class="text-base font-bold font-mono tracking-widest text-emerald-300 break-all">${esc(notif.inmetro_seal || 'NÃO INFORMADO')}</div>
                         </div>
-                        ${notif.inmetro_seal ? `<button type="button" onclick="copySealNumber('${esc(notif.inmetro_seal)}')" class="shrink-0 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-2 py-1 rounded text-[11px]">Copiar</button>` : ''}
+                        ${notif.inmetro_seal ? `<button type="button" onclick="copySealNumber('${esc(notif.inmetro_seal)}')" class="shrink-0 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-2.5 py-1 rounded-lg text-xs transition flex items-center gap-1 shadow-sm"><i data-lucide="copy" class="w-3.5 h-3.5"></i> Copiar</button>` : ''}
                     </div>
                 ` : ''}
-                <div class="flex flex-wrap items-center gap-2 pt-1">
+                <div class="flex flex-wrap items-center gap-2 pt-1 border-t border-white/5">
                     ${isReopen && notif.card_id ? `
                         <button type="button" onclick="approveReopenRequest(${notif.card_id}, '${esc(notif.os_number)}'); this.closest('.pointer-events-auto').remove();"
-                            class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs shadow">
-                            Liberar Reabertura
+                            class="bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs shadow transition flex items-center gap-1.5">
+                            <i data-lucide="unlock" class="w-3.5 h-3.5"></i>
+                            <span>Liberar Reabertura</span>
                         </button>
                     ` : ''}
                     ${notif.os_number ? `
                         <button type="button" onclick="openCardDetail('${esc(notif.os_number)}'); this.closest('.pointer-events-auto').remove();"
-                            class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs shadow">
-                            Abrir O.S. ${esc(notif.os_number)}
+                            class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs shadow transition flex items-center gap-1.5">
+                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                            <span>Abrir O.S. ${esc(notif.os_number)}</span>
                         </button>
                     ` : ''}
                 </div>
@@ -607,8 +657,48 @@
             container.appendChild(toast);
             refreshIcons();
             setTimeout(() => {
-                if (toast && toast.parentNode) toast.remove();
+                if (toast && toast.parentNode) {
+                    toast.classList.add("opacity-0", "translate-y-2");
+                    setTimeout(() => toast.remove(), 300);
+                }
             }, isReady ? 60000 : 18000);
+        }
+
+        // Função global de toast para feedback de ações do usuário
+        function showToast(message, type = "info") {
+            const container = document.getElementById("adminNotificationsContainer");
+            if (!container) return;
+            const toast = document.createElement("div");
+            let borderCls = "border-sky-500/40 bg-zinc-950/95 text-white";
+            let iconName = "info";
+            let iconColor = "text-sky-400";
+            if (type === "success") {
+                borderCls = "border-emerald-500/40 bg-zinc-950/95 text-white";
+                iconName = "check-circle";
+                iconColor = "text-emerald-400";
+            } else if (type === "error") {
+                borderCls = "border-red-500/40 bg-zinc-950/95 text-white";
+                iconName = "alert-circle";
+                iconColor = "text-red-400";
+            }
+            toast.className = `pointer-events-auto rounded-xl border ${borderCls} px-3.5 py-2.5 shadow-xl backdrop-blur-xl transition-all duration-300 flex items-center justify-between gap-3`;
+            toast.innerHTML = `
+                <div class="flex items-center gap-2 text-xs font-semibold">
+                    <i data-lucide="${iconName}" class="w-4 h-4 ${iconColor} shrink-0"></i>
+                    <span>${esc(message)}</span>
+                </div>
+                <button type="button" onclick="this.closest('.pointer-events-auto').remove()" class="text-zinc-400 hover:text-white p-1">
+                    <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                </button>
+            `;
+            container.appendChild(toast);
+            refreshIcons();
+            setTimeout(() => {
+                if (toast && toast.parentNode) {
+                    toast.classList.add("opacity-0");
+                    setTimeout(() => toast.remove(), 300);
+                }
+            }, 4000);
         }
 
         async function copySealNumber(seal) {
@@ -1068,43 +1158,88 @@
             filterCards();
         }
 
-        function updatePendingPhotosUI() {
-            fetch("/api/pending-entries").then(r => r.json()).then(data => {
-                const entries = data.entries || [];
-                const badge = document.getElementById("navPendingPhotosBadge");
-                if (badge) {
-                    badge.innerText = entries.length;
-                    badge.classList.toggle("hidden", entries.length === 0);
+        async function updatePendingPhotosUI() {
+            let pending = boardData.pending_entries || [];
+            try {
+                const res = await fetch("/api/pending-entries");
+                if (res.ok) {
+                    const data = await res.json();
+                    pending = data.pending_entries || data.entries || pending;
+                    boardData.pending_entries = pending;
                 }
+            } catch (e) {}
 
-                const listEl = document.getElementById("pendingPhotosModalList");
-                if (listEl) {
-                    if (entries.length === 0) {
-                        listEl.innerHTML = `<div class="p-6 text-center text-xs text-slate-400 border border-dashed border-slate-200 dark:border-zinc-800 rounded-xl">Nenhuma foto pendente no momento.</div>`;
-                    } else {
-                        listEl.innerHTML = entries.map(e => `
-                            <div class="p-3 rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900/60 flex items-center justify-between gap-3 text-xs">
-                                <div class="min-w-0 flex-1">
-                                    <div class="font-bold uppercase text-slate-900 dark:text-white truncate">${esc(e.client_name)}</div>
-                                    <div class="text-[11px] text-slate-400 truncate">${esc(e.equipment_type || '')} • ${esc(e.reported_defect || 'Defeito não informado')}</div>
-                                    <div class="text-[10px] text-slate-500 font-mono mt-0.5">${(e.entry_photos || []).length} fotos anexadas</div>
-                                </div>
-                                <div class="flex items-center gap-1.5 shrink-0">
-                                    <button type="button" onclick="applyPendingEntryById(${e.id})"
-                                        class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold px-3 py-1.5 rounded-lg text-xs shadow transition">
-                                        Criar O.S.
-                                    </button>
-                                    <button type="button" onclick="deletePendingEntryFromAdmin(${e.id})"
-                                        class="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition" title="Excluir">
-                                        <i data-lucide="trash" class="w-4 h-4"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        `).join("");
-                        refreshIcons();
-                    }
+            const navBadge = document.getElementById("navPendingPhotosBadge");
+            if (navBadge) {
+                navBadge.textContent = pending.length;
+                navBadge.classList.toggle("hidden", pending.length === 0);
+            }
+
+            // Atualiza chips dentro do modal Nova O.S.
+            const pendingCountEl = document.getElementById("newOsPendingCount");
+            if (pendingCountEl) pendingCountEl.textContent = pending.length;
+
+            const chipsContainer = document.getElementById("newOsPendingChips");
+            if (chipsContainer) {
+                if (pending.length === 0) {
+                    chipsContainer.innerHTML = `<span class="text-[11px] text-slate-400 italic py-0.5">Nenhuma foto no celular aguardando no momento. Abra a câmera mobile acima para registrar.</span>`;
+                } else {
+                    chipsContainer.innerHTML = pending.map(p => {
+                        const photos = p.photos || p.entry_photos || [];
+                        return `
+                            <button type="button" onclick="applyPendingEntryById(${p.id})"
+                                    class="px-2.5 py-1 rounded-lg bg-white dark:bg-zinc-900 border border-sky-500/30 hover:border-sky-500 text-xs font-bold flex items-center gap-1.5 shadow-sm transition active:scale-[0.98]">
+                                <span class="uppercase text-slate-800 dark:text-zinc-200">${esc(p.client_name)}</span>
+                                <span class="bg-sky-500 text-slate-950 font-mono font-bold text-[10px] px-1.5 py-0.2 rounded-full flex items-center gap-0.5">
+                                    <i data-lucide="camera" class="w-2.5 h-2.5"></i>
+                                    <span>${photos.length}</span>
+                                </span>
+                            </button>
+                        `;
+                    }).join("");
                 }
-            }).catch(() => {});
+                refreshIcons();
+            }
+
+            // Atualiza lista no modal de Fotos da Recepção
+            const modalList = document.getElementById("pendingPhotosModalList");
+            if (modalList) {
+                if (pending.length === 0) {
+                    modalList.innerHTML = `<div class="p-6 text-center text-xs text-slate-400 border border-dashed border-slate-200 dark:border-zinc-800 rounded-xl">Nenhuma foto pré-entrada aguardando abertura de O.S. no momento.</div>`;
+                } else {
+                    modalList.innerHTML = pending.map(p => {
+                        const photos = p.photos || p.entry_photos || [];
+                        const thumbs = photos.slice(0, 5).map(u => `<img src="${esc(u)}" onclick="window.open('${esc(u)}')" class="w-12 h-12 rounded-lg object-cover border border-slate-200 dark:border-zinc-800 cursor-zoom-in">`).join("");
+                        return `
+                            <div class="p-3 rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900/60 flex flex-col gap-2">
+                                <div class="flex items-center justify-between gap-2">
+                                    <div class="min-w-0">
+                                        <p class="text-sm font-bold uppercase truncate text-slate-900 dark:text-white">${esc(p.client_name)}</p>
+                                        <p class="text-xs text-sky-500 font-semibold flex items-center gap-1">
+                                            <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+                                            <span>${photos.length} foto(s) no celular</span>
+                                            ${p.equipment_model ? `<span class="text-slate-400">• ${esc(p.equipment_model)}</span>` : ''}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-2 shrink-0">
+                                        <button type="button" onclick="applyPendingEntryById(${p.id})"
+                                                class="bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-lg shadow transition flex items-center gap-1">
+                                            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                                            <span>Usar na Nova O.S.</span>
+                                        </button>
+                                        <button type="button" onclick="deletePendingEntryFromAdmin(${p.id})"
+                                                class="p-1.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition" title="Excluir">
+                                            <i data-lucide="trash" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                ${thumbs ? `<div class="flex items-center gap-1.5 overflow-x-auto">${thumbs}</div>` : ''}
+                            </div>
+                        `;
+                    }).join("");
+                    refreshIcons();
+                }
+            }
         }
 
         function openPendingPhotosModal() {
@@ -1124,21 +1259,80 @@
 
         function applyPendingEntryById(entryId) {
             closeModal("pendingPhotosModal");
-            openNewOsModal(entryId);
+            const pendingList = boardData.pending_entries || [];
+            const entry = pendingList.find(p => p.id === entryId);
+            if (!entry) return;
+
+            const form = document.getElementById("newOsForm");
+            document.getElementById("newOsPendingEntryId").value = entry.id;
+            document.getElementById("newOsClientNameInput").value = entry.client_name;
+            if (entry.equipment_model && form.equipment_model) form.equipment_model.value = entry.equipment_model;
+            if (entry.equipment_type && form.equipment_type) form.equipment_type.value = entry.equipment_type;
+            if (entry.serial_number && form.serial_number) form.serial_number.value = entry.serial_number;
+            if (entry.reported_defect && form.reported_defect) form.reported_defect.value = entry.reported_defect;
+            if (entry.shelf_location && form.shelf_location) form.shelf_location.value = entry.shelf_location;
+
+            const box = document.getElementById("newOsLinkedPhotosBox");
+            const lbl = document.getElementById("newOsLinkedPhotosLabel");
+            const thumbs = document.getElementById("newOsLinkedPhotosThumbs");
+            const photos = entry.photos || entry.entry_photos || [];
+            if (lbl) lbl.textContent = `✓ ${photos.length} foto(s) de "${entry.client_name}" vinculadas automaticamente!`;
+            if (thumbs) {
+                thumbs.innerHTML = photos.map(u => `<img src="${esc(u)}" class="w-12 h-12 rounded-lg object-cover border border-emerald-500/50 shrink-0">`).join("");
+            }
+            if (box) box.classList.remove("hidden");
+            document.getElementById("newOsClientSuggestions")?.classList.add("hidden");
+
+            const modal = document.getElementById("newOsModal");
+            if (modal.classList.contains("hidden")) {
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+            }
+            document.getElementById("newOsNumberInput")?.focus();
+            refreshIcons();
         }
 
         function clearNewOsPendingSelection() {
             document.getElementById("newOsPendingEntryId").value = "";
-            document.getElementById("newOsLinkedPhotosBox")?.classList.add("hidden");
+            const box = document.getElementById("newOsLinkedPhotosBox");
+            if (box) box.classList.add("hidden");
+            const thumbs = document.getElementById("newOsLinkedPhotosThumbs");
+            if (thumbs) thumbs.innerHTML = "";
         }
 
         function onNewOsClientInput(val) {
+            const q = (val || "").trim().toUpperCase();
             const sug = document.getElementById("newOsClientSuggestions");
-            if (!val || val.length < 2) {
+            const pending = boardData.pending_entries || [];
+            if (!q || pending.length === 0) {
                 sug?.classList.add("hidden");
                 return;
             }
-            fetch(`/api/parts/search?q=${encodeURIComponent(val)}`).catch(() => {});
+            const matched = pending.filter(p => (p.client_name || "").toUpperCase().includes(q));
+            if (matched.length === 0) {
+                sug?.classList.add("hidden");
+                return;
+            }
+            sug.innerHTML = matched.map(p => {
+                const photos = p.photos || p.entry_photos || [];
+                return `
+                    <button type="button" onclick="applyPendingEntryById(${p.id})"
+                            class="w-full text-left px-3.5 py-2 hover:bg-slate-50 dark:hover:bg-zinc-800 flex items-center justify-between text-xs transition">
+                        <span class="font-bold uppercase text-slate-800 dark:text-zinc-200">${esc(p.client_name)}</span>
+                        <span class="text-sky-500 font-semibold flex items-center gap-1 font-mono text-[11px]">
+                            <i data-lucide="camera" class="w-3 h-3"></i>
+                            ${photos.length} fotos no celular
+                        </span>
+                    </button>
+                `;
+            }).join("");
+            sug.classList.remove("hidden");
+            refreshIcons();
+
+            const exact = pending.find(p => (p.client_name || "").trim().toUpperCase() === q);
+            if (exact && !document.getElementById("newOsPendingEntryId").value) {
+                applyPendingEntryById(exact.id);
+            }
         }
 
         async function onScaleModelInput(inputEl, suggestionsBoxId, equipTypeSelectId) {
@@ -1190,7 +1384,7 @@
             }
         }
 
-        function openNewOsModal(preselectPendingId = null, preselectListId = null) {
+        async function openNewOsModal(preselectPendingId = null, preselectListId = null) {
             const form = document.getElementById("newOsForm");
             if (form) form.reset();
             selectedNewOsLabels = [];
@@ -1213,9 +1407,16 @@
                 `).join("");
             }
 
+            clearNewOsPendingSelection();
+            await updatePendingPhotosUI();
+
             const modal = document.getElementById("newOsModal");
             modal.classList.remove("hidden");
             modal.classList.add("flex");
+
+            if (preselectPendingId) {
+                applyPendingEntryById(preselectPendingId);
+            }
             refreshIcons();
         }
 
@@ -1246,14 +1447,15 @@
                 const data = await res.json();
                 if (res.ok) {
                     closeModal("newOsModal");
+                    showToast(`O.S. ${data.card?.os_number || ''} cadastrada com sucesso!`, "success");
                     if (data.card?.os_number) {
                         openThermalLabel(data.card.os_number);
                     }
                 } else {
-                    alert(data.error || "Erro ao criar O.S.");
+                    showToast(data.error || "Erro ao criar O.S.", "error");
                 }
             } catch (err) {
-                alert("Erro ao conectar ao servidor.");
+                showToast("Erro ao conectar ao servidor.", "error");
             }
         }
 

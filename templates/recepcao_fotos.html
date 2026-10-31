@@ -1,80 +1,64 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>A5 Kanban | Fotos da Recepção (Pré-Teorema)</title>
+    <title>Fotos da Recepção • A5 Tecnologia</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
+                    }
+                }
+            }
+        };
+    </script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <style>
-        :root {
-            --bg-page: #000000;
-            --bg-header: rgba(5, 8, 17, 0.94);
-            --bg-card: #080c17;
-            --bg-input: #050811;
-            --border-card: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-        }
-        body.theme-clean {
-            --bg-page: #f0f6ff;
-            --bg-header: rgba(255, 255, 255, 0.96);
-            --bg-card: #ffffff;
-            --bg-input: #f8fafc;
-            --border-card: #bfdbfe;
-            --text-main: #0f172a;
-            --text-muted: #475569;
-        }
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-page);
-            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
             -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.2s, color 0.2s;
         }
-        .surface-header {
-            background-color: var(--bg-header);
-            border-bottom: 1px solid var(--border-card);
-        }
-        .surface-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-card);
-        }
-        .surface-input {
-            background-color: var(--bg-input);
-            border: 1px solid var(--border-card);
-            color: var(--text-main);
-        }
-        body.theme-clean .text-white { color: #0f172a !important; }
-        body.theme-clean .text-slate-200,
-        body.theme-clean .text-slate-300 { color: #1e293b !important; }
-        body.theme-clean .text-slate-400 { color: #475569 !important; }
-        body.theme-clean .btn-keep-white,
-        body.theme-clean .btn-keep-white * { color: #ffffff !important; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 9999px; }
     </style>
 </head>
-<body class="min-h-screen pb-14">
+<body class="bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 min-h-screen pb-16 antialiased transition-colors">
 
-    <!-- CABEÇALHO MOBILE RECEPÇÃO -->
-    <header class="surface-header backdrop-blur-md px-4 py-3 flex items-center justify-between sticky top-0 z-40 shadow-lg">
+    <!-- CABEÇALHO MOBILE -->
+    <header class="bg-white dark:bg-zinc-900/90 border-b border-slate-200 dark:border-zinc-800 backdrop-blur-md px-4 py-3 flex items-center justify-between sticky top-0 z-40 shadow-sm">
         <div class="flex items-center space-x-2.5 min-w-0">
-            <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center font-black text-base text-white btn-keep-white shadow-md shadow-blue-600/30 shrink-0">
+            <div class="w-8 h-8 rounded-lg bg-sky-500 flex items-center justify-center font-extrabold text-sm text-slate-950 shadow-sm shrink-0">
                 A5
             </div>
             <div class="min-w-0">
-                <h1 class="text-sm font-black tracking-tight text-white leading-tight truncate">FOTOS DA RECEPÇÃO</h1>
-                <p class="text-[10px] text-blue-400 font-bold uppercase tracking-wider truncate">Pré-Entrada • Antes do Teorema</p>
+                <h1 class="text-xs font-bold tracking-tight text-slate-900 dark:text-white leading-tight truncate">FOTOS DA RECEPÇÃO</h1>
+                <p class="text-[10px] text-sky-500 font-semibold tracking-wider truncate">Pré-Entrada • Antes do Teorema</p>
             </div>
         </div>
-        <div class="flex items-center gap-2 shrink-0">
-            <button onclick="toggleTheme()" id="themeToggleBtn" title="Alternar Tema Clean / Dark"
-                    class="surface-card text-xs font-bold px-2.5 py-1.5 rounded-lg transition flex items-center gap-1">
-                <span id="themeIcon">☀️</span>
-                <span id="themeLabel" class="text-[11px]">Clean</span>
+        <div class="flex items-center gap-1.5 shrink-0">
+            <button onclick="toggleTheme()" id="themeToggleBtn" title="Alternar Tema"
+                    class="p-2 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 text-slate-600 dark:text-zinc-300 transition">
+                <i data-lucide="moon" class="w-4 h-4"></i>
             </button>
-            <a href="/admin" class="surface-card text-[11px] font-bold px-2.5 py-1.5 rounded-lg text-blue-400">
-                💻 Painel
+            <a href="/admin" class="bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm transition flex items-center gap-1">
+                <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
+                <span>Painel</span>
             </a>
         </div>
     </header>
@@ -82,32 +66,28 @@
     <main class="max-w-lg mx-auto px-4 pt-4 space-y-4">
 
         <!-- BANNER INFORMATIVO -->
-        <div class="surface-card rounded-2xl p-3.5 border-l-4 border-l-blue-600 shadow-md">
-            <div class="flex items-start justify-between gap-2">
-                <div>
-                    <p class="text-xs font-extrabold text-blue-400 uppercase tracking-wider">📱 Fluxo Rápido da Priscila</p>
-                    <p class="text-xs text-slate-300 mt-1 leading-relaxed">
-                        1. Tire as fotos da balança aqui colocando apenas o <b>Nome do Cliente</b>.<br>
-                        2. Gere o número da O.S. no <b>Teorema</b>.<br>
-                        3. No PC (<b class="text-blue-400">➕ Nova O.S.</b>), escolha ou digite o nome do cliente e as fotos serão puxadas automaticamente!
-                    </p>
-                </div>
+        <div class="rounded-xl p-3.5 border border-sky-500/25 bg-sky-500/5 text-xs space-y-1.5">
+            <div class="flex items-center gap-1.5 font-bold uppercase text-[11px] text-sky-500">
+                <i data-lucide="info" class="w-3.5 h-3.5"></i>
+                <span>Fluxo Rápido da Recepção</span>
             </div>
-            <div class="mt-2 pt-2 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-400">
-                <span>Link do Celular:</span>
-                <code class="font-mono font-bold text-blue-400">http://{{ local_ip }}:{{ port }}/recepcao-fotos</code>
-            </div>
+            <p class="text-slate-600 dark:text-zinc-300 leading-relaxed text-[11px]">
+                1. Fotografe a balança na bancada com o <b>Nome do Cliente</b>.<br>
+                2. Emita o número da O.S. no <b>Teorema</b>.<br>
+                3. No computador (<b class="text-sky-500">➕ Nova O.S.</b>), selecione o cliente e as fotos entram automaticamente!
+            </p>
         </div>
 
-        <!-- FORMULÁRIO DE CAPTURA DE FOTOS PRÉ-TEOREMA -->
-        <form id="preEntryForm" onsubmit="submitPreEntry(event)" class="surface-card rounded-2xl p-4 shadow-xl space-y-3.5">
+        <!-- FORMULÁRIO DE CAPTURA DE FOTOS -->
+        <form id="preEntryForm" onsubmit="submitPreEntry(event)" class="bg-white dark:bg-zinc-900 rounded-2xl p-4 border border-slate-200 dark:border-zinc-800 shadow-sm space-y-3.5">
             <input type="hidden" id="entryIdInput" value="">
 
             <div class="flex items-center justify-between">
-                <h2 class="text-sm font-black uppercase tracking-wider text-white flex items-center gap-1.5">
-                    <span>📸 Nova Captura de Chegada</span>
+                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
+                    <i data-lucide="camera" class="w-4 h-4 text-sky-500"></i>
+                    <span>Nova Captura de Chegada</span>
                 </h2>
-                <button type="button" id="clearTargetBtn" onclick="resetFormTarget()" class="hidden text-[11px] font-bold text-amber-400 underline">
+                <button type="button" id="clearTargetBtn" onclick="resetFormTarget()" class="hidden text-[11px] font-semibold text-amber-500 underline">
                     Cancelar vínculo
                 </button>
             </div>
@@ -115,83 +95,92 @@
             <div>
                 <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Nome do Cliente *</label>
                 <input type="text" id="clientNameInput" required
-                       placeholder="Ex: SUPERMERCADO BH / PADARIA CENTRAL"
-                       class="w-full surface-input rounded-xl px-3.5 py-3 text-base font-black uppercase focus:outline-none focus:border-blue-500">
-                <p id="targetHint" class="hidden text-[11px] text-emerald-400 font-bold mt-1"></p>
+                       placeholder="Ex: PADARIA CENTRAL / SUPERMERCADO"
+                       class="w-full bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-sm font-bold uppercase text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500/30 focus:border-sky-500">
+                <p id="targetHint" class="hidden text-[11px] text-emerald-400 font-semibold mt-1 flex items-center gap-1">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                    <span id="targetHintText"></span>
+                </p>
             </div>
 
-            <!-- Campos Opcionais Rápidos -->
-            <details class="surface-input rounded-xl p-3">
-                <summary class="text-xs font-bold text-slate-300 cursor-pointer select-none">
-                    ➕ Informar Modelo / Série / Defeito agora (Opcional)
+            <!-- Campos Opcionais -->
+            <details class="bg-slate-50 dark:bg-zinc-950/60 rounded-xl p-3 border border-slate-200 dark:border-zinc-800/80">
+                <summary class="text-xs font-semibold text-slate-600 dark:text-zinc-400 cursor-pointer select-none flex items-center justify-between">
+                    <span>Modelo / Série / Defeito (Opcional)</span>
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
                 </summary>
                 <div class="grid grid-cols-1 gap-2.5 mt-3">
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Modelo</label>
                             <input type="text" id="modelInput" placeholder="Ex: Prix 4 Uno"
-                                   class="w-full surface-card rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+                                   class="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-lg px-2.5 py-2 text-xs focus:outline-none focus:border-sky-500">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Nº de Série</label>
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Nº Série</label>
                             <input type="text" id="serialInput" placeholder="Opcional"
-                                   class="w-full surface-card rounded-lg px-2.5 py-2 text-xs font-mono text-white focus:outline-none focus:border-blue-500">
+                                   class="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-lg px-2.5 py-2 text-xs font-mono focus:outline-none focus:border-sky-500">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Defeito Relatado na Chegada</label>
-                        <input type="text" id="defectInput" placeholder="Ex: Muito suja, cabeçote falhando..."
-                               class="w-full surface-card rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Defeito Relatado</label>
+                        <input type="text" id="defectInput" placeholder="Ex: Diferença de peso, não liga..."
+                               class="w-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-lg px-2.5 py-2 text-xs focus:outline-none focus:border-sky-500">
                     </div>
                 </div>
             </details>
 
             <!-- Botão Câmera do Celular -->
             <div>
-                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Fotos da Balança na Recepção *</label>
-                <label class="flex flex-col items-center justify-center border-2 border-dashed border-blue-500/60 hover:border-blue-500 bg-blue-950/20 rounded-2xl p-5 cursor-pointer transition active:scale-[0.99]">
-                    <span class="text-3xl mb-1">📷</span>
-                    <span class="text-sm font-black text-blue-400 uppercase tracking-wide">Abrir Câmera / Tirar Fotos</span>
-                    <span class="text-[11px] text-slate-400 mt-0.5">Toque de novo para tirar várias fotos do equipamento</span>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Fotos da Balança *</label>
+                <label class="flex flex-col items-center justify-center border-2 border-dashed border-sky-500/40 hover:border-sky-500 bg-sky-500/5 rounded-2xl p-5 cursor-pointer transition active:scale-[0.99]">
+                    <i data-lucide="camera" class="w-8 h-8 text-sky-500 mb-1"></i>
+                    <span class="text-xs font-bold text-sky-500 uppercase tracking-wide">Abrir Câmera / Tirar Fotos</span>
+                    <span class="text-[10px] text-slate-400 mt-0.5">Tire quantas fotos forem necessárias</span>
                     <input type="file" id="cameraInput" accept="image/*" capture="environment" multiple class="hidden" onchange="handlePhotosSelected(event)">
                 </label>
 
-                <!-- Botão alternativo para escolher da galeria -->
-                <div class="mt-2 flex justify-between items-center">
-                    <label class="text-xs font-bold text-blue-400 underline cursor-pointer">
-                        🖼️ Ou escolher fotos da Galeria
+                <!-- Botão Galeria -->
+                <div class="mt-2 flex justify-between items-center text-xs">
+                    <label class="text-sky-500 font-semibold cursor-pointer flex items-center gap-1 hover:underline">
+                        <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                        <span>Escolher da Galeria</span>
                         <input type="file" accept="image/*" multiple class="hidden" onchange="handlePhotosSelected(event)">
                     </label>
-                    <span id="photoCounterBadge" class="text-xs font-extrabold text-slate-400">0 foto(s) pronta(s)</span>
+                    <span id="photoCounterBadge" class="font-mono text-slate-400 font-semibold">0 foto(s)</span>
                 </div>
 
-                <!-- Miniaturas das fotos tiradas -->
+                <!-- Miniaturas das fotos -->
                 <div id="photoPreviewGrid" class="grid grid-cols-4 gap-2 mt-3"></div>
             </div>
 
             <button type="submit" id="submitBtn"
-                    class="w-full bg-blue-600 hover:bg-blue-500 active:scale-[0.99] text-white btn-keep-white font-black py-3.5 rounded-xl text-sm uppercase tracking-wider shadow-lg shadow-blue-600/30 transition">
-                💾 Salvar Fotos para o Teorema
+                    class="w-full bg-sky-500 hover:bg-sky-400 active:scale-[0.99] text-slate-950 font-bold py-3 rounded-xl text-xs uppercase tracking-wider shadow-md transition flex items-center justify-center gap-1.5">
+                <i data-lucide="save" class="w-4 h-4"></i>
+                <span>Salvar Fotos para o Teorema</span>
             </button>
         </form>
 
-        <!-- LISTA DE CLIENTES COM FOTOS AGUARDANDO O.S. NO TEOREMA -->
-        <section class="surface-card rounded-2xl p-4 shadow-xl">
-            <div class="flex items-center justify-between mb-3">
+        <!-- LISTA DE FOTOS AGUARDANDO TEOREMA -->
+        <section class="bg-white dark:bg-zinc-900 rounded-2xl p-4 border border-slate-200 dark:border-zinc-800 shadow-sm space-y-3">
+            <div class="flex items-center justify-between">
                 <div>
-                    <h2 class="text-xs font-black uppercase tracking-wider text-white">⏳ Aguardando Abertura no Teorema</h2>
-                    <p class="text-[11px] text-slate-400">Assim que você criar a Nova O.S. no PC, o item sai daqui sozinho.</p>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
+                        <i data-lucide="clock" class="w-3.5 h-3.5 text-sky-500"></i>
+                        <span>Aguardando O.S. no Teorema</span>
+                    </h2>
+                    <p class="text-[10px] text-slate-400">Sai automaticamente após criar a Nova O.S. no PC.</p>
                 </div>
-                <span id="pendingCountBadge" class="bg-blue-600 text-white btn-keep-white text-xs font-black px-2.5 py-1 rounded-full">0</span>
+                <span id="pendingCountBadge" class="bg-sky-500/10 text-sky-500 font-mono text-xs font-bold px-2 py-0.5 rounded-full border border-sky-500/25">0</span>
             </div>
 
-            <div id="pendingListContainer" class="space-y-2.5"></div>
+            <div id="pendingListContainer" class="space-y-2"></div>
         </section>
 
     </main>
 
-    <!-- TOAST DE CONFIRMAÇÃO -->
-    <div id="toastBox" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 hidden bg-emerald-600 text-white btn-keep-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-2xl"></div>
+    <!-- TOAST -->
+    <div id="toastBox" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 hidden font-bold text-xs px-4 py-2.5 rounded-xl shadow-2xl transition"></div>
 
     <script>
         let stagedBlobs = [];
@@ -206,29 +195,34 @@
                 .replace(/'/g, '&#39;');
         }
 
+        function refreshIcons() {
+            if (window.lucide) lucide.createIcons();
+        }
+
         function showToast(msg, isError = false) {
             const box = document.getElementById('toastBox');
             box.textContent = msg;
-            box.className = `fixed bottom-4 left-1/2 -translate-x-1/2 z-50 font-bold text-xs px-4 py-2.5 rounded-xl shadow-2xl text-white btn-keep-white ${isError ? 'bg-red-600' : 'bg-emerald-600'}`;
+            box.className = `fixed bottom-4 left-1/2 -translate-x-1/2 z-50 font-bold text-xs px-4 py-2.5 rounded-xl shadow-2xl text-white ${isError ? 'bg-red-600' : 'bg-emerald-600'}`;
             box.classList.remove('hidden');
             setTimeout(() => box.classList.add('hidden'), 3200);
         }
 
-        // Tema Clean (Azul e Branco) / Dark (Azul e Preto)
         function applyTheme(theme) {
-            const isClean = theme === 'clean';
-            document.body.classList.toggle('theme-clean', isClean);
-            document.getElementById('themeIcon').textContent = isClean ? '🌙' : '☀️';
-            document.getElementById('themeLabel').textContent = isClean ? 'Dark' : 'Clean';
+            const isDark = theme === 'dark';
+            document.documentElement.classList.toggle('dark', isDark);
+            const btn = document.getElementById('themeToggleBtn');
+            if (btn) {
+                btn.innerHTML = isDark ? `<i data-lucide="sun" class="w-4 h-4"></i>` : `<i data-lucide="moon" class="w-4 h-4"></i>`;
+                refreshIcons();
+            }
             localStorage.setItem('a5_theme_recepcao', theme);
         }
         function toggleTheme() {
             const cur = localStorage.getItem('a5_theme_recepcao') || 'dark';
-            applyTheme(cur === 'clean' ? 'dark' : 'clean');
+            applyTheme(cur === 'dark' ? 'clean' : 'dark');
         }
-        applyTheme(localStorage.getItem('a5_theme_recepcao') || localStorage.getItem('a5_admin_theme') || 'dark');
+        applyTheme(localStorage.getItem('a5_theme_recepcao') || 'dark');
 
-        // Compressão de imagem no navegador para envio rápido via Wi-Fi
         function compressImageFile(file, maxDim = 1400, quality = 0.80) {
             return new Promise((resolve) => {
                 if (!file || !file.type.startsWith('image/')) {
@@ -289,16 +283,16 @@
         function renderPhotoPreviews() {
             const grid = document.getElementById('photoPreviewGrid');
             const badge = document.getElementById('photoCounterBadge');
-            badge.textContent = `${stagedBlobs.length} foto(s) pronta(s)`;
+            badge.textContent = `${stagedBlobs.length} foto(s)`;
             if (stagedBlobs.length === 0) {
                 grid.innerHTML = '';
                 return;
             }
             grid.innerHTML = stagedBlobs.map((item, idx) => `
-                <div class="relative rounded-xl overflow-hidden border border-blue-500/40 aspect-square bg-slate-950">
+                <div class="relative rounded-xl overflow-hidden border border-slate-200 dark:border-zinc-800 aspect-square bg-zinc-950">
                     <img src="${item.previewUrl}" class="w-full h-full object-cover">
                     <button type="button" onclick="removeStagedPhoto(${idx})"
-                            class="absolute top-1 right-1 bg-red-600 text-white btn-keep-white w-5 h-5 rounded-full text-xs font-black flex items-center justify-center shadow">
+                            class="absolute top-1 right-1 bg-red-600 text-white w-5 h-5 rounded-full text-xs font-bold flex items-center justify-center shadow">
                         ✕
                     </button>
                 </div>
@@ -314,10 +308,11 @@
             document.getElementById('serialInput').value = entry.serial_number || '';
             document.getElementById('defectInput').value = entry.reported_defect || '';
             const hint = document.getElementById('targetHint');
-            hint.textContent = `📎 Adicionando mais fotos em "${entry.client_name}" (${(entry.photos || []).length} já salvas)`;
+            document.getElementById('targetHintText').textContent = `Adicionando mais fotos em "${entry.client_name}" (${(entry.photos || []).length} já salvas)`;
             hint.classList.remove('hidden');
             document.getElementById('clearTargetBtn').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            refreshIcons();
         }
 
         function resetFormTarget() {
@@ -340,7 +335,7 @@
 
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
-            btn.textContent = '⏳ ENVIANDO FOTOS...';
+            btn.innerHTML = `<span>Enviando fotos...</span>`;
 
             try {
                 const fd = new FormData();
@@ -369,12 +364,13 @@
                 } else {
                     await loadPendingEntries();
                 }
-                showToast(`✅ Fotos de "${clientName}" salvas! Agora é só abrir a O.S. no Teorema.`);
+                showToast(`✓ Fotos de "${clientName}" salvas!`);
             } catch (err) {
                 showToast(err.message || 'Falha ao enviar fotos', true);
             } finally {
                 btn.disabled = false;
-                btn.textContent = '💾 Salvar Fotos para o Teorema';
+                btn.innerHTML = `<i data-lucide="save" class="w-4 h-4"></i><span>Salvar Fotos para o Teorema</span>`;
+                refreshIcons();
             }
         }
 
@@ -401,7 +397,7 @@
 
             if (pendingEntries.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center py-6 text-xs text-slate-400">
+                    <div class="text-center py-6 text-xs text-slate-400 border border-dashed border-slate-200 dark:border-zinc-800 rounded-xl">
                         Nenhuma foto aguardando número de O.S. no momento.
                     </div>
                 `;
@@ -409,28 +405,30 @@
             }
 
             container.innerHTML = pendingEntries.map(entry => {
-                const photos = entry.photos || [];
+                const photos = entry.photos || entry.entry_photos || [];
                 const thumbs = photos.slice(0, 4).map(u => `
-                    <img src="${esc(u)}" class="w-11 h-11 rounded-lg object-cover border border-slate-700 shrink-0">
+                    <img src="${esc(u)}" class="w-12 h-12 rounded-lg object-cover border border-slate-200 dark:border-zinc-800 shrink-0">
                 `).join('');
                 return `
-                    <div class="surface-input rounded-xl p-3 flex flex-col gap-2">
+                    <div class="rounded-xl p-3 bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 flex flex-col gap-2">
                         <div class="flex items-start justify-between gap-2">
                             <div class="min-w-0">
-                                <p class="text-sm font-black text-white uppercase truncate">${esc(entry.client_name)}</p>
-                                <p class="text-[11px] text-blue-400 font-bold">
-                                    📷 ${photos.length} foto(s) pronta(s) p/ puxar na Nova O.S.
-                                    ${entry.equipment_model ? ` • ${esc(entry.equipment_model)}` : ''}
+                                <p class="text-xs font-bold uppercase truncate text-slate-900 dark:text-white">${esc(entry.client_name)}</p>
+                                <p class="text-[10px] text-sky-500 font-semibold flex items-center gap-1">
+                                    <i data-lucide="camera" class="w-3 h-3"></i>
+                                    <span>${photos.length} fotos salvas</span>
+                                    ${entry.equipment_model ? `<span class="text-slate-400">• ${esc(entry.equipment_model)}</span>` : ''}
                                 </p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0">
                                 <button type="button" onclick="selectExistingEntry(${entry.id})"
-                                        class="bg-blue-600 hover:bg-blue-500 text-white btn-keep-white text-[11px] font-bold px-2.5 py-1 rounded-lg">
-                                    + Fotos
+                                        class="bg-sky-500 hover:bg-sky-400 text-slate-950 text-[10px] font-bold px-2.5 py-1 rounded-md transition flex items-center gap-1">
+                                    <i data-lucide="plus" class="w-3 h-3"></i>
+                                    <span>+ Fotos</span>
                                 </button>
                                 <button type="button" onclick="removePendingEntry(${entry.id}, '${esc(entry.client_name)}')"
-                                        class="bg-red-950/60 hover:bg-red-900/70 text-red-300 border border-red-800/60 text-[11px] font-bold px-2 py-1 rounded-lg">
-                                    🗑️
+                                        class="p-1 rounded text-slate-400 hover:text-red-400 transition" title="Excluir">
+                                    <i data-lucide="trash" class="w-3.5 h-3.5"></i>
                                 </button>
                             </div>
                         </div>
@@ -438,6 +436,7 @@
                     </div>
                 `;
             }).join('');
+            refreshIcons();
         }
 
         async function loadPendingEntries() {
@@ -461,4 +460,3 @@
     </script>
 </body>
 </html>
-

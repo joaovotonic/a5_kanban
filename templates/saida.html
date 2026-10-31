@@ -4,73 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bancada Mobile QR Code - A5 Tecnologia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { darkMode: 'class' };
     </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <style>
         body {
-            background-color: #05070B;
-            color: #F8FAFC;
+            background-color: #09090b;
+            color: #f4f4f5;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             transition: background-color 0.2s, color 0.2s;
         }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
         .surface-card {
-            background-color: #0B0F17;
-            border: 1px solid #1E293B;
+            background-color: #18181b;
+            border: 1px solid #27272a;
         }
         .surface-inner {
-            background-color: #05070B;
-            border: 1px solid #1E293B;
+            background-color: #09090b;
+            border: 1px solid #27272a;
         }
-        /* [L-16] Tema Clean (Azul & Branco) para Bancada Mobile */
+        /* Tema Clean (Zinc & Light) para Bancada Mobile */
         body.theme-clean {
-            background-color: #F0F6FF;
-            color: #0F172A;
+            background-color: #f8fafc;
+            color: #0f172a;
         }
         body.theme-clean .surface-card {
-            background-color: #FFFFFF;
-            border-color: #BFDBFE;
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.06);
+            background-color: #ffffff;
+            border-color: #e2e8f0;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
         }
-        body.theme-clean .surface-inner,
-        body.theme-clean .bg-\[\#0B0F17\] {
-            background-color: #F8FAFC !important;
-            border-color: #CBD5E1 !important;
-            color: #0F172A !important;
+        body.theme-clean .surface-inner {
+            background-color: #f1f5f9 !important;
+            border-color: #e2e8f0 !important;
+            color: #0f172a !important;
         }
-        body.theme-clean .text-white { color: #0F172A !important; }
+        body.theme-clean .text-white { color: #0f172a !important; }
         body.theme-clean .text-slate-200,
-        body.theme-clean .text-slate-300 { color: #1E293B !important; }
-        body.theme-clean .text-slate-400 { color: #475569 !important; }
-        body.theme-clean .text-sky-300,
-        body.theme-clean .text-sky-400 { color: #0369A1 !important; }
-        body.theme-clean header .text-white,
-        body.theme-clean .bg-\[\#081221\] .text-white,
-        body.theme-clean .bg-sky-600,
-        body.theme-clean .bg-sky-600 * { color: #FFFFFF !important; }
-        body.theme-clean .bg-\[\#081221\] .text-sky-300 { color: #7DD3FC !important; }
+        body.theme-clean .text-slate-300 { color: #1e293b !important; }
+        body.theme-clean .text-slate-400 { color: #64748b !important; }
+        body.theme-clean header {
+            background-color: #ffffff !important;
+            border-bottom-color: #e2e8f0 !important;
+        }
+        body.theme-clean header .text-white {
+            color: #0f172a !important;
+        }
     </style>
 </head>
 <body class="min-h-screen pb-16 antialiased">
 
-    <!-- HEADER FIXO (FOCO AZUL & PRETO / AZUL & BRANCO [L-16]) -->
-    <header class="bg-[#081221]/95 border-b border-sky-500/25 px-4 py-3 sticky top-0 z-30 backdrop-blur-md flex items-center justify-between gap-2">
+    <!-- HEADER FIXO -->
+    <header class="bg-zinc-950/90 border-b border-zinc-800 px-4 py-3 sticky top-0 z-30 backdrop-blur-md flex items-center justify-between gap-2">
         <div class="flex items-center gap-2.5 min-w-0">
-            <span class="bg-sky-500 text-slate-950 font-black px-2.5 py-1 rounded-lg text-sm shrink-0">A5</span>
+            <span class="bg-sky-500 text-slate-950 font-mono font-black px-2.5 py-1 rounded-lg text-sm shrink-0">A5</span>
             <div class="min-w-0">
-                <h1 class="font-bold text-sm leading-tight truncate text-white">BANCADA TÉCNICA DIGITAL</h1>
-                <p id="headerSub" class="text-[11px] text-sky-300 truncate">Orçamento & Finalização via QR Code</p>
+                <h1 class="font-bold text-sm leading-tight truncate text-zinc-100">BANCADA TÉCNICA DIGITAL</h1>
+                <p id="headerSub" class="text-[11px] text-sky-400 truncate">Orçamento & Finalização via QR Code</p>
             </div>
         </div>
         <div class="flex items-center gap-1.5 shrink-0">
             <button type="button" onclick="toggleMobileTheme()" id="mobileThemeBtn"
-                class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs px-2.5 py-2 rounded-xl shrink-0"
+                class="bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-bold text-xs px-2.5 py-1.5 rounded-xl shrink-0 flex items-center gap-1"
                 title="Alternar Tema Clean / Dark">
-                ☀️ Clean
+                <i data-lucide="sun" class="w-3.5 h-3.5"></i>
+                <span>Tema</span>
             </button>
-            <button type="button" onclick="requestSupport()" class="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white font-bold text-xs px-3 py-2 rounded-xl shadow shrink-0">
-                📢 Pedir Apoio
+            <button type="button" onclick="requestSupport()" class="bg-sky-500 hover:bg-sky-400 active:scale-95 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-xl shadow shrink-0 flex items-center gap-1">
+                <i data-lucide="megaphone" class="w-3.5 h-3.5"></i>
+                <span>Pedir Apoio</span>
             </button>
         </div>
     </header>
@@ -79,12 +88,16 @@
 
         <!-- BUSCA / SELEÇÃO DE O.S. (Preenchido automaticamente via QR Code) -->
         <div class="surface-card rounded-2xl p-3.5 overflow-hidden">
-            <label class="block text-[11px] font-bold uppercase text-slate-400 mb-1.5">Número da O.S. (QR Code da Etiqueta)</label>
+            <label class="block text-[11px] font-bold uppercase text-zinc-400 mb-1.5 flex items-center gap-1.5">
+                <i data-lucide="qr-code" class="w-3.5 h-3.5 text-sky-400"></i>
+                <span>Número da O.S. (QR Code da Etiqueta)</span>
+            </label>
             <div class="flex gap-2">
                 <input type="text" inputmode="numeric" id="osInput" value="{{ os_number }}" placeholder="Digite o Nº da O.S."
-                    class="min-w-0 flex-1 surface-inner rounded-xl px-3.5 py-2 font-black text-lg text-sky-400 focus:outline-none focus:border-sky-500">
-                <button type="button" onclick="loadOsData()" class="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white px-5 rounded-xl font-bold text-sm shrink-0">
-                    Carregar
+                    class="min-w-0 flex-1 surface-inner rounded-xl px-3.5 py-2 font-mono font-bold text-lg text-sky-400 focus:outline-none focus:border-sky-500">
+                <button type="button" onclick="loadOsData()" class="bg-sky-500 hover:bg-sky-400 active:scale-95 text-slate-950 px-5 rounded-xl font-bold text-sm shrink-0 flex items-center gap-1.5 shadow-sm">
+                    <i data-lucide="search" class="w-4 h-4"></i>
+                    <span>Carregar</span>
                 </button>
             </div>
         </div>
@@ -630,13 +643,22 @@
         let afterLabelPhotos = []; // Etiqueta Depois (na finalização)
         let capturedPhotos = [];   // Balança pronta e lacrada (na finalização)
 
-        // [L-16] Alternância de Tema Clean (Azul & Branco) e Dark (Azul & Preto)
+        function refreshLucide() {
+            if (window.lucide) {
+                try { lucide.createIcons(); } catch (e) {}
+            }
+        }
+
+        // [L-16] Alternância de Tema Clean e Dark
         function applyMobileTheme(theme) {
             const isClean = theme === "clean";
             document.body.classList.toggle("theme-clean", isClean);
             const btn = document.getElementById("mobileThemeBtn");
-            if (btn) btn.textContent = isClean ? "🌙 Dark" : "☀️ Clean";
+            if (btn) {
+                btn.innerHTML = isClean ? `<i data-lucide="moon" class="w-3.5 h-3.5"></i><span>Dark</span>` : `<i data-lucide="sun" class="w-3.5 h-3.5"></i><span>Clean</span>`;
+            }
             localStorage.setItem("a5_mobile_theme", theme);
+            refreshLucide();
         }
         function toggleMobileTheme() {
             const cur = localStorage.getItem("a5_mobile_theme") || "dark";
@@ -1108,6 +1130,7 @@
                 document.getElementById("finishedSummaryBox").innerHTML = buildQuoteSummaryHTML(card, true);
                 document.getElementById("stageFinished").classList.remove("hidden");
             }
+            refreshLucide();
         }
 
         function unlockAsCurrentTech() {

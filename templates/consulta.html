@@ -1,38 +1,85 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta Rápida de Balcão - A5 Tecnologia</title>
+    <title>Consulta Rápida de Balcão • A5 Tecnologia</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>tailwind.config = { darkMode: 'class' };</script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
+                    }
+                }
+            }
+        };
+    </script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@formkit/auto-animate@0.8.2/index.min.js"></script>
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 9999px; }
+    </style>
 </head>
-<body class="bg-[#F8FAFC] dark:bg-[#05070B] text-slate-900 dark:text-slate-100 min-h-screen antialiased transition-colors">
-    <header class="bg-[#0B3B60] dark:bg-[#081221] border-b border-white/10 text-white px-6 py-4 shadow-md flex flex-wrap items-center justify-between gap-3">
+<body class="bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 min-h-screen antialiased transition-colors">
+
+    <!-- HEADER MINIMALISTA SAAS -->
+    <header class="bg-white dark:bg-zinc-900/90 border-b border-slate-200 dark:border-zinc-800 px-6 py-3 sticky top-0 z-30 backdrop-blur-md flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3">
-            <span class="bg-sky-500 text-slate-950 font-black px-3 py-1 rounded-xl text-base">A5</span>
+            <div class="flex items-center justify-center bg-sky-500 text-slate-950 font-extrabold w-8 h-8 rounded-lg text-sm tracking-wider shadow-sm">
+                A5
+            </div>
             <div>
-                <h1 class="text-lg font-black">🔎 CONSULTA RÁPIDA DE O.S. (BALCÃO / VENDAS)</h1>
-                <p class="text-xs text-sky-200">Modo somente leitura • Localização física e status em tempo real</p>
+                <h1 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                    <i data-lucide="search" class="w-4 h-4 text-sky-400"></i>
+                    Consulta Rápida de Balcão
+                </h1>
+                <p class="text-[11px] text-slate-400">Modo somente leitura • Localização física e status em tempo real</p>
             </div>
         </div>
         <div class="flex items-center gap-2">
             <button onclick="toggleConsultaTheme()" id="consultaThemeBtn"
-                    class="text-xs font-bold bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-2 rounded-xl transition">
-                🌙 Dark
+                    class="text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-slate-200 dark:border-zinc-700 text-slate-700 dark:text-zinc-300 p-2 rounded-lg transition" title="Alternar Tema">
+                <i data-lucide="moon" class="w-4 h-4"></i>
             </button>
-            <a href="/admin" class="text-xs font-bold bg-white/10 hover:bg-white/20 border border-white/15 px-3.5 py-2 rounded-xl transition">Voltar ao Admin</a>
+            <a href="/admin" class="text-xs font-bold bg-sky-500 hover:bg-sky-400 text-slate-950 px-3.5 py-2 rounded-lg shadow-sm transition flex items-center gap-1.5">
+                <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
+                <span>Painel Admin</span>
+            </a>
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto p-6">
-        <div class="bg-white dark:bg-[#0B0F17] p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 mb-6">
-            <input type="text" id="qInput" oninput="renderList()" autofocus
-                placeholder="Digite o Nº da O.S., Nome do Cliente, Modelo da Balança ou Lacre..."
-                class="w-full px-4 py-3 text-base bg-transparent border border-slate-300 dark:border-slate-700 rounded-xl focus:outline-none focus:border-sky-600">
+    <main class="max-w-5xl mx-auto p-6 space-y-5">
+        <!-- BARRA DE BUSCA -->
+        <div class="relative bg-white dark:bg-zinc-900 p-3 rounded-2xl shadow-sm border border-slate-200 dark:border-zinc-800">
+            <div class="relative flex items-center">
+                <i data-lucide="search" class="w-5 h-5 text-slate-400 absolute left-3.5 pointer-events-none"></i>
+                <input type="text" id="qInput" oninput="renderList()" autofocus
+                    placeholder="Digite o Nº da O.S., Nome do Cliente, Modelo da Balança ou Lacre..."
+                    class="w-full pl-11 pr-4 py-2.5 text-sm bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-900 dark:text-zinc-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/30 focus:border-sky-500 transition">
+            </div>
         </div>
 
+        <!-- GRID DE RESULTADOS -->
         <div id="resultsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
     </main>
 
@@ -40,7 +87,6 @@
         const socket = io();
         let allCards = [];
 
-        // [S-01] Escape seguro contra quebra de HTML / XSS
         function esc(str) {
             return String(str ?? "")
                 .replace(/&/g, "&amp;")
@@ -50,18 +96,25 @@
                 .replace(/'/g, "&#39;");
         }
 
-        async function loadData() {
-            const res = await fetch("/api/board");
-            const data = await res.json();
-            allCards = [];
-            data.lists.forEach(l => {
-                l.cards.forEach(c => {
-                    c.stage_name = l.title;
-                    allCards.push(c);
-                });
-            });
-            renderList();
+        function refreshIcons() {
+            if (window.lucide) lucide.createIcons();
         }
+
+        async function loadData() {
+            try {
+                const res = await fetch("/api/board");
+                const data = await res.json();
+                allCards = [];
+                data.lists.forEach(l => {
+                    l.cards.forEach(c => {
+                        c.stage_name = l.title;
+                        allCards.push(c);
+                    });
+                });
+                renderList();
+            } catch (e) {}
+        }
+
         loadData();
         socket.on("board_updated", loadData);
 
@@ -74,48 +127,82 @@
                 return str.includes(q);
             });
 
-            // [L-14] & [L-16] overflow-hidden rounded-2xl, break-words e paleta focal Azul & Branco / Azul & Preto
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full p-8 text-center border border-dashed border-slate-200 dark:border-zinc-800 rounded-2xl text-xs text-slate-400">
+                        Nenhum equipamento encontrado com os termos pesquisados.
+                    </div>
+                `;
+                return;
+            }
+
             container.innerHTML = filtered.map(c => {
                 const photos = [...(c.entry_photos || []), ...(c.quote_photos || []), ...(c.label_before_photos || []), ...(c.label_after_photos || []), ...(c.exit_photos || [])];
                 return `
-                    <div class="bg-white dark:bg-[#0B0F17] rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between overflow-hidden">
+                    <div class="bg-white dark:bg-zinc-900 rounded-xl p-4 shadow-sm border border-slate-200 dark:border-zinc-800 flex flex-col justify-between overflow-hidden hover:border-sky-500/40 transition">
                         <div>
                             <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
-                                <span class="bg-[#0B3B60] dark:bg-sky-600 text-white font-black px-3 py-1 rounded-xl text-sm">O.S. ${esc(c.os_number)}</span>
-                                <span class="bg-sky-50 dark:bg-sky-950/60 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-800 font-bold text-xs px-2.5 py-1 rounded-full truncate max-w-[200px]">${esc(c.stage_name)}</span>
+                                <span class="font-mono text-xs font-bold px-2.5 py-1 rounded bg-slate-100 dark:bg-zinc-800 text-slate-800 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700">
+                                    OS ${esc(c.os_number)}
+                                </span>
+                                <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20 truncate max-w-[200px]">
+                                    ${esc(c.stage_name)}
+                                </span>
                             </div>
-                            <h3 class="font-black text-base uppercase break-words text-slate-900 dark:text-white">${esc(c.client_name)}</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-2.5 break-words">${esc(c.equipment_type)} ${esc(c.equipment_model || '')}</p>
-                            <div class="text-xs space-y-1 bg-slate-50 dark:bg-[#05070B] p-3 rounded-xl border border-slate-200 dark:border-slate-800 break-words">
-                                <div><strong>📍 Local / Estante:</strong> ${esc(c.shelf_location || 'Não informado')}</div>
-                                <div><strong>👨‍🔧 Técnico:</strong> ${esc(c.tech_name || 'Fila')}</div>
-                                <div><strong>🛡️ Lacre Colocado:</strong> <span class="text-sky-700 dark:text-sky-400 font-bold">${esc(c.inmetro_seal || 'Pendente')}</span></div>
+
+                            <h3 class="font-bold text-sm uppercase text-slate-900 dark:text-white break-words">${esc(c.client_name)}</h3>
+                            <p class="text-xs text-slate-500 dark:text-zinc-400 mb-3 break-words">${esc(c.equipment_type)} ${c.equipment_model ? '• ' + esc(c.equipment_model) : ''}</p>
+
+                            <div class="text-xs space-y-1.5 bg-slate-50 dark:bg-zinc-950/60 p-3 rounded-lg border border-slate-200 dark:border-zinc-800/80">
+                                <div class="flex items-center gap-1.5">
+                                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+                                    <span>Local: <strong>${esc(c.shelf_location || 'Recepção')}</strong></span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <i data-lucide="user" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+                                    <span>Técnico: <strong>${esc(c.tech_name || 'Fila')}</strong></span>
+                                </div>
+                                ${c.inmetro_seal ? `
+                                    <div class="flex items-center gap-1.5 text-emerald-500 font-bold font-mono">
+                                        <i data-lucide="shield-check" class="w-3.5 h-3.5 shrink-0"></i>
+                                        <span>Lacre: ${esc(c.inmetro_seal)}</span>
+                                    </div>
+                                ` : ''}
                             </div>
                         </div>
+
                         ${photos.length ? `
-                            <div class="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 flex gap-2 overflow-x-auto">
+                            <div class="mt-3 pt-2.5 border-t border-slate-100 dark:border-zinc-800/80 flex gap-2 overflow-x-auto">
                                 ${photos.map(url => `
-                                    <img src="${esc(url)}" onclick="window.open('${esc(url)}')" class="w-16 h-16 object-cover rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer shrink-0">
+                                    <img src="${esc(url)}" onclick="window.open('${esc(url)}')" class="w-14 h-14 object-cover rounded-lg border border-slate-200 dark:border-zinc-800 cursor-zoom-in shrink-0 hover:scale-105 transition">
                                 `).join("")}
                             </div>
                         ` : ''}
                     </div>
                 `;
             }).join("");
+
+            refreshIcons();
+            if (window.autoAnimate) autoAnimate(container);
         }
 
         function applyConsultaTheme(theme) {
             const isDark = theme === "dark";
             document.documentElement.classList.toggle("dark", isDark);
             const btn = document.getElementById("consultaThemeBtn");
-            if (btn) btn.textContent = isDark ? "☀️ Clean" : "🌙 Dark";
+            if (btn) {
+                btn.innerHTML = isDark ? `<i data-lucide="sun" class="w-4 h-4"></i>` : `<i data-lucide="moon" class="w-4 h-4"></i>`;
+                refreshIcons();
+            }
             localStorage.setItem("a5_consulta_theme", theme);
         }
+
         function toggleConsultaTheme() {
-            const cur = localStorage.getItem("a5_consulta_theme") || "clean";
+            const cur = localStorage.getItem("a5_consulta_theme") || "dark";
             applyConsultaTheme(cur === "dark" ? "clean" : "dark");
         }
-        applyConsultaTheme(localStorage.getItem("a5_consulta_theme") || localStorage.getItem("a5_theme") || "clean");
+
+        applyConsultaTheme(localStorage.getItem("a5_consulta_theme") || localStorage.getItem("a5_theme") || "dark");
     </script>
 </body>
 </html>
