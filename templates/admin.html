@@ -1354,8 +1354,8 @@
                 box.innerHTML = scales.map(sc => `
                     <div class="p-2 hover:bg-slate-100 dark:hover:bg-zinc-800 cursor-pointer text-xs"
                          onclick="selectScaleModel('${inputEl.id}', '${suggestionsBoxId}', '${equipTypeSelectId}', ${JSON.stringify(sc).replace(/"/g, '&quot;')})">
-                        <div class="font-bold text-slate-800 dark:text-zinc-200">${esc(sc.model_name)}</div>
-                        <div class="text-[10px] text-slate-400">${esc(sc.division_rule || '')}</div>
+                        <div class="font-bold text-slate-800 dark:text-zinc-200">${esc(sc.display_name || sc.model_name)}</div>
+                        <div class="text-[10px] text-slate-500 dark:text-zinc-400">${esc(sc.description || sc.capacity_str || '')}</div>
                     </div>
                 `).join("");
             } catch (e) {
@@ -1365,7 +1365,9 @@
 
         function selectScaleModel(inputId, suggestionsBoxId, equipTypeSelectId, scale) {
             const inp = document.getElementById(inputId);
-            if (inp) inp.value = scale.model_name;
+            if (inp) {
+                inp.value = scale.model_name + (scale.capacity_str ? ` / ${scale.capacity_str}` : "");
+            }
             const box = document.getElementById(suggestionsBoxId);
             if (box) box.classList.add("hidden");
             if (equipTypeSelectId && scale.equipment_type) {
@@ -1563,6 +1565,13 @@
                                 <i data-lucide="unlock" class="w-3.5 h-3.5"></i>
                                 <span>${card.reopen_requested === 1 ? 'Liberar Reabertura' : 'Reabrir Orçamento'}</span>
                             </button>
+                            ${card.reopen_requested === 1 ? `
+                                <button onclick="denyReopenRequest(${card.id})"
+                                    class="bg-slate-100 hover:bg-red-500 hover:text-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 text-slate-700 dark:text-zinc-300 font-semibold px-2.5 py-1.5 rounded-lg text-xs transition flex items-center gap-1.5">
+                                    <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                                    <span>Recusar</span>
+                                </button>
+                            ` : ''}
                         ` : ''}
 
                         <button onclick="openThermalLabel('${esc(card.os_number)}')" class="bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 text-slate-700 dark:text-zinc-300 px-2.5 py-1.5 rounded-lg text-xs font-medium hover:border-sky-500 transition" title="Etiqueta">
@@ -1819,13 +1828,38 @@
         }
 
         async function denyReopenRequest(cardId) {
-            if (!confirm("Recusar pedido de reabertura?")) return;
-            await fetch(`/api/cards/${cardId}/update`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ reopen_requested: 0 })
-            });
-            fetchBoard();
+            if (!confirm("Recusar pedido de reabertura desta O.S.?")) return;
+            try {
+                const res = await fetch(`/api/cards/${cardId}/deny-reopen`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ actor: "Priscila (Recepção)" })
+                });
+                if (res.ok) {
+                    showToast("Pedido de reabertura recusado.", "info");
+                    // Otimista: remove do banner imediatamente
+                    (boardData.lists || []).forEach(lst => {
+                        (lst.cards || []).forEach(c => {
+                            if (c.id === cardId) {
+                                c.reopen_requested = 0;
+                                c.reopen_requested_by = "";
+                            }
+                        });
+                    });
+                    updateReopenRequestsBanner();
+                    const modal = document.getElementById("cardDetailModal");
+                    if (modal && !modal.classList.contains("hidden") && window._lastOpenedCard?.id === cardId) {
+                        window._lastOpenedCard.reopen_requested = 0;
+                        openCardDetail(window._lastOpenedCard.os_number);
+                    }
+                    fetchBoard();
+                } else {
+                    const data = await res.json();
+                    showToast(data.error || "Erro ao recusar reabertura", "error");
+                }
+            } catch (err) {
+                showToast("Erro de comunicação ao recusar.", "error");
+            }
         }
 
         async function cancelCardFromAdmin() {

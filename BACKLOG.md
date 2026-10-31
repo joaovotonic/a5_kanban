@@ -260,6 +260,31 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
   5. **Preservação de 100% das Funcionalidades:**
      - Todas as integrações com backend (SortableJS, WebSockets, modais, autenticação de exclusão, reaberturas, links da TV e balcão) são mantidas intactas.
 
+---
+
+## 📌 Item 19: Correções de Contraste no Modo Clean, Autocomplete Toledo e Fluxo de Recusa de Reabertura
+
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Recepção, Oficina e Gerência
+* **Telas Impactadas:**
+  - `templates/admin.html` (Autocomplete Toledo e Banner/Modal de Reabertura de O.S.)
+  - `templates/tv.html` (Contraste no Tema Clean: Cabeçalho, Relógio, Data e Nomes nos Cartões)
+  - `templates/saida.html` (Bancada Mobile: Títulos, Nomes Técnicos no Orçamento e Contraste Clean)
+* **Problemas Identificados & Soluções Aplicadas:**
+  1. **Autocomplete com `[object Object]` no cadastro de O.S. (`templates/admin.html`):**
+     - O campo `division_rule` do catálogo Toledo é um dicionário Python/JSON. Sua interpolação direta em template string JS gerava `[object Object]`.
+     - **Solução:** Substituído por `${esc(sc.description || sc.capacity_str || '')}` e `sc.display_name || sc.model_name`, exibindo o modelo e faixa de pesagem de forma limpa e legível.
+  2. **Banner de Reabertura permanecia na tela após clicar em 'Recusar' (`templates/admin.html`):**
+     - O botão chamava `POST /api/cards/${cardId}/update` com `{ reopen_requested: 0 }`. Como a rota genérica de update não manipula a flag de reabertura, o registro permanecia inalterado no SQLite.
+     - **Solução:** Conectado à rota dedicada `POST /api/cards/${cardId}/deny-reopen` com atualização otimista imediata na interface (`reopen_requested = 0`), remoção do banner e recarregamento síncrono via WebSocket.
+  3. **Texto muito claro / branco em fundo branco no Modo Clean (`templates/tv.html` e `templates/saida.html`):**
+     - O elemento raiz `<html>` continha `class="dark"` hardcoded, impedindo o Tailwind de desativar as classes `dark:text-zinc-100` e `dark:text-white` ao mudar para o tema Clean.
+     - No bloco "🔒 Em Orçamento com:", o container possuía fundo azul-escuro hardcoded (`bg-[#081221]`), enquanto a regra CSS do modo Clean forçava o texto do técnico para escuro (`#0f172a`), tornando o nome preto sobre fundo escuro.
+     - **Solução:**
+       - As funções `applyTvTheme` e `applyMobileTheme` agora alternam dinamicamente a classe `dark` no elemento `<html>` (`document.documentElement.classList.toggle("dark", !isClean)`).
+       - No tema Clean, o bloco "Em Orçamento com" ganha estilo exclusivo claro (`bg-[#f0f9ff]`, borda `#bae6fd`, texto `#0c4a6e`), garantindo contraste nítido e visual premium.
+       - Título da TV, relógio, data e nome do cliente nos cartões agora possuem classes e regras de CSS com contraste absoluto `#0f172a` (Slate 900) e `#475569` (Slate 600) no modo Clean.
+
 
 
 

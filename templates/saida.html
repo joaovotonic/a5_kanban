@@ -32,30 +32,98 @@
             border: 1px solid #27272a;
         }
         /* Tema Clean (Zinc & Light) para Bancada Mobile */
+        html.clean-mode,
         body.theme-clean {
-            background-color: #f8fafc;
-            color: #0f172a;
+            background-color: #f8fafc !important;
+            color: #0f172a !important;
         }
         body.theme-clean .surface-card {
-            background-color: #ffffff;
-            border-color: #e2e8f0;
-            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04) !important;
         }
         body.theme-clean .surface-inner {
             background-color: #f1f5f9 !important;
-            border-color: #e2e8f0 !important;
+            border-color: #cbd5e1 !important;
             color: #0f172a !important;
         }
         body.theme-clean .text-white { color: #0f172a !important; }
+        body.theme-clean .text-zinc-100 { color: #0f172a !important; }
+        body.theme-clean .text-zinc-200 { color: #1e293b !important; }
+        body.theme-clean .text-zinc-300 { color: #334155 !important; }
+        body.theme-clean .text-zinc-400 { color: #475569 !important; }
+        body.theme-clean .text-slate-100 { color: #0f172a !important; }
         body.theme-clean .text-slate-200,
         body.theme-clean .text-slate-300 { color: #1e293b !important; }
-        body.theme-clean .text-slate-400 { color: #64748b !important; }
+        body.theme-clean .text-slate-400 { color: #475569 !important; }
         body.theme-clean header {
             background-color: #ffffff !important;
-            border-bottom-color: #e2e8f0 !important;
+            border-bottom-color: #cbd5e1 !important;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05) !important;
         }
-        body.theme-clean header .text-white {
+        body.theme-clean header h1 {
             color: #0f172a !important;
+        }
+        body.theme-clean header #headerSub {
+            color: #0284c7 !important;
+        }
+        body.theme-clean #mobileThemeBtn {
+            background-color: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        body.theme-clean #infoClient {
+            color: #0f172a !important;
+        }
+        body.theme-clean #infoEquip {
+            color: #475569 !important;
+        }
+        body.theme-clean #infoDefect {
+            color: #1e293b !important;
+        }
+
+        /* Bloco "🔒 Em Orçamento com:" e "Finalização" com alto contraste no Clean */
+        body.theme-clean .bg-\[\#081221\] {
+            background-color: #f0f9ff !important;
+            border: 1px solid #bae6fd !important;
+            box-shadow: 0 2px 8px rgba(14, 165, 233, 0.08) !important;
+        }
+        body.theme-clean .bg-\[\#081221\] span {
+            color: #0369a1 !important;
+        }
+        body.theme-clean .bg-\[\#081221\] strong,
+        body.theme-clean .bg-\[\#081221\] #quoteActiveTech {
+            color: #0c4a6e !important;
+        }
+        body.theme-clean .bg-\[\#081221\] #quoteStartedAtText {
+            color: #0284c7 !important;
+        }
+        body.theme-clean .bg-\[\#081221\] button {
+            background-color: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+
+        /* Inputs e botões com bg-[#0B0F17] */
+        body.theme-clean .bg-\[\#0B0F17\] {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        body.theme-clean input.bg-\[\#0B0F17\],
+        body.theme-clean select.bg-\[\#0B0F17\],
+        body.theme-clean textarea.bg-\[\#0B0F17\] {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        body.theme-clean #partSearchResults {
+            background-color: #ffffff !important;
+            border-color: #cbd5e1 !important;
+        }
+        body.theme-clean .border-slate-800,
+        body.theme-clean .border-slate-700 {
+            border-color: #cbd5e1 !important;
         }
     </style>
 </head>
@@ -66,8 +134,8 @@
         <div class="flex items-center gap-2.5 min-w-0">
             <span class="bg-sky-500 text-slate-950 font-mono font-black px-2.5 py-1 rounded-lg text-sm shrink-0">A5</span>
             <div class="min-w-0">
-                <h1 class="font-bold text-sm leading-tight truncate text-zinc-100">BANCADA TÉCNICA DIGITAL</h1>
-                <p id="headerSub" class="text-[11px] text-sky-400 truncate">Orçamento & Finalização via QR Code</p>
+                <h1 class="font-bold text-sm leading-tight truncate text-slate-900 dark:text-zinc-100">BANCADA TÉCNICA DIGITAL</h1>
+                <p id="headerSub" class="text-[11px] text-sky-600 dark:text-sky-400 font-semibold truncate">Orçamento & Finalização via QR Code</p>
             </div>
         </div>
         <div class="flex items-center gap-1.5 shrink-0">
@@ -652,6 +720,8 @@
         // [L-16] Alternância de Tema Clean e Dark
         function applyMobileTheme(theme) {
             const isClean = theme === "clean";
+            document.documentElement.classList.toggle("dark", !isClean);
+            document.documentElement.classList.toggle("clean-mode", isClean);
             document.body.classList.toggle("theme-clean", isClean);
             const btn = document.getElementById("mobileThemeBtn");
             if (btn) {
@@ -660,6 +730,7 @@
             localStorage.setItem("a5_mobile_theme", theme);
             refreshLucide();
         }
+        applyMobileTheme(localStorage.getItem("a5_mobile_theme") || "dark");
         function toggleMobileTheme() {
             const cur = localStorage.getItem("a5_mobile_theme") || "dark";
             applyMobileTheme(cur === "clean" ? "dark" : "clean");
