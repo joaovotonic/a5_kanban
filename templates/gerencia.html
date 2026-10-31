@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerência & Indicadores - A5 Tecnologia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { darkMode: 'class' };</script>
+</head>
+<body class="bg-[#F8FAFC] dark:bg-[#05070B] text-slate-900 dark:text-white min-h-screen antialiased transition-colors">
+    <header class="bg-[#0B3B60] dark:bg-[#081221] border-b border-sky-500/20 px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <span class="bg-sky-500 text-slate-950 font-black px-3 py-1 rounded-xl text-base">A5</span>
+            <div>
+                <h1 class="text-xl font-black text-white">📈 GERÊNCIA, PRODUTIVIDADE & BACKUP</h1>
+                <p class="text-xs text-sky-200 dark:text-sky-300">Auditoria de Ordens de Serviço, SLA e Desempenho de Bancada</p>
+            </div>
+        </div>
+        <div class="flex flex-wrap gap-2">
+            <button onclick="toggleGerenciaTheme()" id="gerenciaThemeBtn"
+                    class="bg-white/10 hover:bg-white/20 border border-white/15 text-white font-bold px-3.5 py-2 rounded-xl text-xs transition">
+                ☀️ Clean
+            </button>
+            <a href="/api/backup/download" class="bg-sky-600 hover:bg-sky-500 text-white font-bold px-4 py-2 rounded-xl text-xs shadow transition">
+                💾 Baixar Backup do Banco (.DB)
+            </a>
+            <a href="/api/export/csv?period=all" class="bg-white/10 hover:bg-white/20 border border-white/15 text-white font-bold px-4 py-2 rounded-xl text-xs transition">
+                📊 Exportar Excel (CSV)
+            </a>
+            <a href="/admin" class="bg-white/10 hover:bg-white/20 border border-white/15 text-white px-4 py-2 rounded-xl text-xs font-bold transition">Voltar ao Kanban</a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-6 space-y-6">
+        <!-- CARDS DE MÉTRICAS (Paleta Focal Azul & Branco / Azul & Preto) -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-white dark:bg-[#0B0F17] border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
+                <span class="text-xs uppercase font-bold text-slate-500 dark:text-slate-400">Finalizadas Hoje</span>
+                <div id="mDaily" class="text-4xl font-black text-sky-600 dark:text-sky-400 mt-1">0</div>
+            </div>
+            <div class="bg-white dark:bg-[#0B0F17] border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
+                <span class="text-xs uppercase font-bold text-slate-500 dark:text-slate-400">Finalizadas no Mês</span>
+                <div id="mMonthly" class="text-4xl font-black text-slate-900 dark:text-white mt-1">0</div>
+            </div>
+            <div class="bg-white dark:bg-[#0B0F17] border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
+                <span class="text-xs uppercase font-bold text-slate-500 dark:text-slate-400">Acumulado no Ano</span>
+                <div id="mYearly" class="text-4xl font-black text-sky-700 dark:text-sky-300 mt-1">0</div>
+            </div>
+            <div class="bg-white dark:bg-[#0B0F17] border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
+                <span class="text-xs uppercase font-bold text-slate-500 dark:text-slate-400">Tempo Médio de Ciclo</span>
+                <div id="mLeadTime" class="text-4xl font-black text-slate-700 dark:text-slate-200 mt-1">0h</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- RANKING DE TÉCNICOS NO MÊS -->
+            <div class="bg-white dark:bg-[#0B0F17] border border-slate-200 dark:border-slate-800 p-5 rounded-2xl overflow-hidden shadow-sm">
+                <h3 class="font-black text-sm uppercase text-sky-700 dark:text-sky-400 mb-4">🏆 Produtividade por Técnico (Mês Atual)</h3>
+                <div id="techRankingList" class="space-y-3"></div>
+            </div>
+
+            <!-- LOG DE AUDITORIA RECENTE ([L-13]: min-w-0 flex-1 break-words + shrink-0 na data) -->
+            <div class="bg-white dark:bg-[#0B0F17] border border-slate-200 dark:border-slate-800 p-5 rounded-2xl overflow-hidden shadow-sm">
+                <h3 class="font-black text-sm uppercase text-sky-700 dark:text-sky-400 mb-4">🕓 Histórico Recente de Movimentações</h3>
+                <div id="historyList" class="space-y-2 max-h-80 overflow-y-auto text-xs"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // [S-01] Escape seguro contra quebra de HTML / XSS
+        function esc(str) {
+            return String(str ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        async function loadAnalytics() {
+            const res = await fetch("/api/analytics");
+            const data = await res.json();
+
+            document.getElementById("mDaily").textContent = data.daily_count;
+            document.getElementById("mMonthly").textContent = data.monthly_count;
+            document.getElementById("mYearly").textContent = data.yearly_count;
+            document.getElementById("mLeadTime").textContent = `${data.avg_Lead_time_hours}h`;
+
+            const maxCount = Math.max(...data.tech_ranking.map(t => t.total), 1);
+            document.getElementById("techRankingList").innerHTML = data.tech_ranking.map(t => {
+                const pct = Math.round((t.total / maxCount) * 100);
+                return `
+                    <div>
+                        <div class="flex justify-between gap-2 text-xs font-bold mb-1">
+                            <span class="truncate">${esc(t.tech)}</span>
+                            <span class="text-sky-400 shrink-0">${t.total} equipamentos</span>
+                        </div>
+                        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden">
+                            <div class="bg-sky-500 h-full rounded-full" style="width:${pct}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join("") || `<p class="text-xs text-slate-500">Nenhuma finalização registrada neste mês ainda.</p>`;
+
+            document.getElementById("historyList").innerHTML = data.recent_history.map(h => `
+                <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#05070B] border border-slate-200 dark:border-slate-800 flex justify-between items-start gap-3 overflow-hidden">
+                    <div class="min-w-0 flex-1 break-words">
+                        <span class="font-black text-sky-700 dark:text-sky-400">O.S. ${esc(h.os_number)}</span> — ${esc(h.action_description)}
+                        <span class="block text-[10px] text-slate-500 mt-0.5">Por: ${esc(h.actor)}</span>
+                    </div>
+                    <span class="text-[10px] text-slate-500 shrink-0 whitespace-nowrap">${esc((h.timestamp || '').slice(0, 16).replace('T', ' '))}</span>
+                </div>
+            `).join("");
+        }
+
+        function applyGerenciaTheme(theme) {
+            const isDark = theme === "dark";
+            document.documentElement.classList.toggle("dark", isDark);
+            const btn = document.getElementById("gerenciaThemeBtn");
+            if (btn) btn.textContent = isDark ? "☀️ Clean" : "🌙 Dark";
+            localStorage.setItem("a5_gerencia_theme", theme);
+        }
+        function toggleGerenciaTheme() {
+            const cur = localStorage.getItem("a5_gerencia_theme") || "dark";
+            applyGerenciaTheme(cur === "dark" ? "clean" : "dark");
+        }
+        applyGerenciaTheme(localStorage.getItem("a5_gerencia_theme") || "dark");
+        loadAnalytics();
+    </script>
+</body>
+</html>

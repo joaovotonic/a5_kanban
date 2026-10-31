@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A5 Kanban | Fotos da Recepção (Pré-Teorema)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-page: #000000;
+            --bg-header: rgba(5, 8, 17, 0.94);
+            --bg-card: #080c17;
+            --bg-input: #050811;
+            --border-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        body.theme-clean {
+            --bg-page: #f0f6ff;
+            --bg-header: rgba(255, 255, 255, 0.96);
+            --bg-card: #ffffff;
+            --bg-input: #f8fafc;
+            --border-card: #bfdbfe;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .surface-header {
+            background-color: var(--bg-header);
+            border-bottom: 1px solid var(--border-card);
+        }
+        .surface-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-card);
+        }
+        .surface-input {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-card);
+            color: var(--text-main);
+        }
+        body.theme-clean .text-white { color: #0f172a !important; }
+        body.theme-clean .text-slate-200,
+        body.theme-clean .text-slate-300 { color: #1e293b !important; }
+        body.theme-clean .text-slate-400 { color: #475569 !important; }
+        body.theme-clean .btn-keep-white,
+        body.theme-clean .btn-keep-white * { color: #ffffff !important; }
+    </style>
+</head>
+<body class="min-h-screen pb-14">
+
+    <!-- CABEÇALHO MOBILE RECEPÇÃO -->
+    <header class="surface-header backdrop-blur-md px-4 py-3 flex items-center justify-between sticky top-0 z-40 shadow-lg">
+        <div class="flex items-center space-x-2.5 min-w-0">
+            <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center font-black text-base text-white btn-keep-white shadow-md shadow-blue-600/30 shrink-0">
+                A5
+            </div>
+            <div class="min-w-0">
+                <h1 class="text-sm font-black tracking-tight text-white leading-tight truncate">FOTOS DA RECEPÇÃO</h1>
+                <p class="text-[10px] text-blue-400 font-bold uppercase tracking-wider truncate">Pré-Entrada • Antes do Teorema</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+            <button onclick="toggleTheme()" id="themeToggleBtn" title="Alternar Tema Clean / Dark"
+                    class="surface-card text-xs font-bold px-2.5 py-1.5 rounded-lg transition flex items-center gap-1">
+                <span id="themeIcon">☀️</span>
+                <span id="themeLabel" class="text-[11px]">Clean</span>
+            </button>
+            <a href="/admin" class="surface-card text-[11px] font-bold px-2.5 py-1.5 rounded-lg text-blue-400">
+                💻 Painel
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-lg mx-auto px-4 pt-4 space-y-4">
+
+        <!-- BANNER INFORMATIVO -->
+        <div class="surface-card rounded-2xl p-3.5 border-l-4 border-l-blue-600 shadow-md">
+            <div class="flex items-start justify-between gap-2">
+                <div>
+                    <p class="text-xs font-extrabold text-blue-400 uppercase tracking-wider">📱 Fluxo Rápido da Priscila</p>
+                    <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+                        1. Tire as fotos da balança aqui colocando apenas o <b>Nome do Cliente</b>.<br>
+                        2. Gere o número da O.S. no <b>Teorema</b>.<br>
+                        3. No PC (<b class="text-blue-400">➕ Nova O.S.</b>), escolha ou digite o nome do cliente e as fotos serão puxadas automaticamente!
+                    </p>
+                </div>
+            </div>
+            <div class="mt-2 pt-2 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-400">
+                <span>Link do Celular:</span>
+                <code class="font-mono font-bold text-blue-400">http://{{ local_ip }}:{{ port }}/recepcao-fotos</code>
+            </div>
+        </div>
+
+        <!-- FORMULÁRIO DE CAPTURA DE FOTOS PRÉ-TEOREMA -->
+        <form id="preEntryForm" onsubmit="submitPreEntry(event)" class="surface-card rounded-2xl p-4 shadow-xl space-y-3.5">
+            <input type="hidden" id="entryIdInput" value="">
+
+            <div class="flex items-center justify-between">
+                <h2 class="text-sm font-black uppercase tracking-wider text-white flex items-center gap-1.5">
+                    <span>📸 Nova Captura de Chegada</span>
+                </h2>
+                <button type="button" id="clearTargetBtn" onclick="resetFormTarget()" class="hidden text-[11px] font-bold text-amber-400 underline">
+                    Cancelar vínculo
+                </button>
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1">Nome do Cliente *</label>
+                <input type="text" id="clientNameInput" required
+                       placeholder="Ex: SUPERMERCADO BH / PADARIA CENTRAL"
+                       class="w-full surface-input rounded-xl px-3.5 py-3 text-base font-black uppercase focus:outline-none focus:border-blue-500">
+                <p id="targetHint" class="hidden text-[11px] text-emerald-400 font-bold mt-1"></p>
+            </div>
+
+            <!-- Campos Opcionais Rápidos -->
+            <details class="surface-input rounded-xl p-3">
+                <summary class="text-xs font-bold text-slate-300 cursor-pointer select-none">
+                    ➕ Informar Modelo / Série / Defeito agora (Opcional)
+                </summary>
+                <div class="grid grid-cols-1 gap-2.5 mt-3">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Modelo</label>
+                            <input type="text" id="modelInput" placeholder="Ex: Prix 4 Uno"
+                                   class="w-full surface-card rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Nº de Série</label>
+                            <input type="text" id="serialInput" placeholder="Opcional"
+                                   class="w-full surface-card rounded-lg px-2.5 py-2 text-xs font-mono text-white focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Defeito Relatado na Chegada</label>
+                        <input type="text" id="defectInput" placeholder="Ex: Muito suja, cabeçote falhando..."
+                               class="w-full surface-card rounded-lg px-2.5 py-2 text-xs text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+            </details>
+
+            <!-- Botão Câmera do Celular -->
+            <div>
+                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Fotos da Balança na Recepção *</label>
+                <label class="flex flex-col items-center justify-center border-2 border-dashed border-blue-500/60 hover:border-blue-500 bg-blue-950/20 rounded-2xl p-5 cursor-pointer transition active:scale-[0.99]">
+                    <span class="text-3xl mb-1">📷</span>
+                    <span class="text-sm font-black text-blue-400 uppercase tracking-wide">Abrir Câmera / Tirar Fotos</span>
+                    <span class="text-[11px] text-slate-400 mt-0.5">Toque de novo para tirar várias fotos do equipamento</span>
+                    <input type="file" id="cameraInput" accept="image/*" capture="environment" multiple class="hidden" onchange="handlePhotosSelected(event)">
+                </label>
+
+                <!-- Botão alternativo para escolher da galeria -->
+                <div class="mt-2 flex justify-between items-center">
+                    <label class="text-xs font-bold text-blue-400 underline cursor-pointer">
+                        🖼️ Ou escolher fotos da Galeria
+                        <input type="file" accept="image/*" multiple class="hidden" onchange="handlePhotosSelected(event)">
+                    </label>
+                    <span id="photoCounterBadge" class="text-xs font-extrabold text-slate-400">0 foto(s) pronta(s)</span>
+                </div>
+
+                <!-- Miniaturas das fotos tiradas -->
+                <div id="photoPreviewGrid" class="grid grid-cols-4 gap-2 mt-3"></div>
+            </div>
+
+            <button type="submit" id="submitBtn"
+                    class="w-full bg-blue-600 hover:bg-blue-500 active:scale-[0.99] text-white btn-keep-white font-black py-3.5 rounded-xl text-sm uppercase tracking-wider shadow-lg shadow-blue-600/30 transition">
+                💾 Salvar Fotos para o Teorema
+            </button>
+        </form>
+
+        <!-- LISTA DE CLIENTES COM FOTOS AGUARDANDO O.S. NO TEOREMA -->
+        <section class="surface-card rounded-2xl p-4 shadow-xl">
+            <div class="flex items-center justify-between mb-3">
+                <div>
+                    <h2 class="text-xs font-black uppercase tracking-wider text-white">⏳ Aguardando Abertura no Teorema</h2>
+                    <p class="text-[11px] text-slate-400">Assim que você criar a Nova O.S. no PC, o item sai daqui sozinho.</p>
+                </div>
+                <span id="pendingCountBadge" class="bg-blue-600 text-white btn-keep-white text-xs font-black px-2.5 py-1 rounded-full">0</span>
+            </div>
+
+            <div id="pendingListContainer" class="space-y-2.5"></div>
+        </section>
+
+    </main>
+
+    <!-- TOAST DE CONFIRMAÇÃO -->
+    <div id="toastBox" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 hidden bg-emerald-600 text-white btn-keep-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-2xl"></div>
+
+    <script>
+        let stagedBlobs = [];
+        let pendingEntries = [];
+
+        function esc(str) {
+            return String(str ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function showToast(msg, isError = false) {
+            const box = document.getElementById('toastBox');
+            box.textContent = msg;
+            box.className = `fixed bottom-4 left-1/2 -translate-x-1/2 z-50 font-bold text-xs px-4 py-2.5 rounded-xl shadow-2xl text-white btn-keep-white ${isError ? 'bg-red-600' : 'bg-emerald-600'}`;
+            box.classList.remove('hidden');
+            setTimeout(() => box.classList.add('hidden'), 3200);
+        }
+
+        // Tema Clean (Azul e Branco) / Dark (Azul e Preto)
+        function applyTheme(theme) {
+            const isClean = theme === 'clean';
+            document.body.classList.toggle('theme-clean', isClean);
+            document.getElementById('themeIcon').textContent = isClean ? '🌙' : '☀️';
+            document.getElementById('themeLabel').textContent = isClean ? 'Dark' : 'Clean';
+            localStorage.setItem('a5_theme_recepcao', theme);
+        }
+        function toggleTheme() {
+            const cur = localStorage.getItem('a5_theme_recepcao') || 'dark';
+            applyTheme(cur === 'clean' ? 'dark' : 'clean');
+        }
+        applyTheme(localStorage.getItem('a5_theme_recepcao') || localStorage.getItem('a5_admin_theme') || 'dark');
+
+        // Compressão de imagem no navegador para envio rápido via Wi-Fi
+        function compressImageFile(file, maxDim = 1400, quality = 0.80) {
+            return new Promise((resolve) => {
+                if (!file || !file.type.startsWith('image/')) {
+                    resolve(file);
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        let { width, height } = img;
+                        if (width > maxDim || height > maxDim) {
+                            if (width > height) {
+                                height = Math.round((height * maxDim) / width);
+                                width = maxDim;
+                            } else {
+                                width = Math.round((width * maxDim) / height);
+                                height = maxDim;
+                            }
+                        }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        canvas.toBlob((blob) => {
+                            if (!blob) { resolve(file); return; }
+                            const safeName = (file.name || 'foto.jpg').replace(/\.[^.]+$/, '') + '.jpg';
+                            resolve(new File([blob], safeName, { type: 'image/jpeg' }));
+                        }, 'image/jpeg', quality);
+                    };
+                    img.onerror = () => resolve(file);
+                    img.src = ev.target.result;
+                };
+                reader.onerror = () => resolve(file);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function handlePhotosSelected(event) {
+            const files = Array.from(event.target.files || []);
+            for (const f of files) {
+                const compressed = await compressImageFile(f);
+                const previewUrl = URL.createObjectURL(compressed);
+                stagedBlobs.push({ file: compressed, previewUrl });
+            }
+            event.target.value = '';
+            renderPhotoPreviews();
+        }
+
+        function removeStagedPhoto(idx) {
+            const item = stagedBlobs[idx];
+            if (item && item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+            stagedBlobs.splice(idx, 1);
+            renderPhotoPreviews();
+        }
+
+        function renderPhotoPreviews() {
+            const grid = document.getElementById('photoPreviewGrid');
+            const badge = document.getElementById('photoCounterBadge');
+            badge.textContent = `${stagedBlobs.length} foto(s) pronta(s)`;
+            if (stagedBlobs.length === 0) {
+                grid.innerHTML = '';
+                return;
+            }
+            grid.innerHTML = stagedBlobs.map((item, idx) => `
+                <div class="relative rounded-xl overflow-hidden border border-blue-500/40 aspect-square bg-slate-950">
+                    <img src="${item.previewUrl}" class="w-full h-full object-cover">
+                    <button type="button" onclick="removeStagedPhoto(${idx})"
+                            class="absolute top-1 right-1 bg-red-600 text-white btn-keep-white w-5 h-5 rounded-full text-xs font-black flex items-center justify-center shadow">
+                        ✕
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function selectExistingEntry(entryId) {
+            const entry = pendingEntries.find(e => e.id === entryId);
+            if (!entry) return;
+            document.getElementById('entryIdInput').value = entry.id;
+            document.getElementById('clientNameInput').value = entry.client_name;
+            document.getElementById('modelInput').value = entry.equipment_model || '';
+            document.getElementById('serialInput').value = entry.serial_number || '';
+            document.getElementById('defectInput').value = entry.reported_defect || '';
+            const hint = document.getElementById('targetHint');
+            hint.textContent = `📎 Adicionando mais fotos em "${entry.client_name}" (${(entry.photos || []).length} já salvas)`;
+            hint.classList.remove('hidden');
+            document.getElementById('clearTargetBtn').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetFormTarget() {
+            document.getElementById('entryIdInput').value = '';
+            document.getElementById('targetHint').classList.add('hidden');
+            document.getElementById('clearTargetBtn').classList.add('hidden');
+        }
+
+        async function submitPreEntry(e) {
+            e.preventDefault();
+            const clientName = document.getElementById('clientNameInput').value.trim().toUpperCase();
+            if (!clientName) {
+                showToast('Informe o Nome do Cliente!', true);
+                return;
+            }
+            if (stagedBlobs.length === 0) {
+                showToast('Tire pelo menos 1 foto da balança!', true);
+                return;
+            }
+
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = '⏳ ENVIANDO FOTOS...';
+
+            try {
+                const fd = new FormData();
+                fd.append('entry_id', document.getElementById('entryIdInput').value);
+                fd.append('client_name', clientName);
+                fd.append('equipment_model', document.getElementById('modelInput').value.trim());
+                fd.append('serial_number', document.getElementById('serialInput').value.trim());
+                fd.append('reported_defect', document.getElementById('defectInput').value.trim());
+                stagedBlobs.forEach(item => fd.append('entry_photos', item.file));
+
+                const res = await fetch('/api/pending-entries', { method: 'POST', body: fd });
+                const data = await res.json();
+                if (!res.ok || data.error) {
+                    throw new Error(data.error || 'Erro ao salvar fotos');
+                }
+
+                stagedBlobs.forEach(item => URL.revokeObjectURL(item.previewUrl));
+                stagedBlobs = [];
+                renderPhotoPreviews();
+                document.getElementById('preEntryForm').reset();
+                resetFormTarget();
+
+                if (data.board && Array.isArray(data.board.pending_entries)) {
+                    pendingEntries = data.board.pending_entries;
+                    renderPendingList();
+                } else {
+                    await loadPendingEntries();
+                }
+                showToast(`✅ Fotos de "${clientName}" salvas! Agora é só abrir a O.S. no Teorema.`);
+            } catch (err) {
+                showToast(err.message || 'Falha ao enviar fotos', true);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '💾 Salvar Fotos para o Teorema';
+            }
+        }
+
+        async function removePendingEntry(entryId, clientName) {
+            if (!confirm(`Apagar as fotos pré-entrada de "${clientName}"?`)) return;
+            try {
+                const res = await fetch(`/api/pending-entries/${entryId}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (data.board && Array.isArray(data.board.pending_entries)) {
+                    pendingEntries = data.board.pending_entries;
+                    renderPendingList();
+                } else {
+                    await loadPendingEntries();
+                }
+                showToast('Pré-entrada removida.');
+            } catch (err) {
+                showToast('Erro ao remover pré-entrada', true);
+            }
+        }
+
+        function renderPendingList() {
+            const container = document.getElementById('pendingListContainer');
+            document.getElementById('pendingCountBadge').textContent = pendingEntries.length;
+
+            if (pendingEntries.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-6 text-xs text-slate-400">
+                        Nenhuma foto aguardando número de O.S. no momento.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = pendingEntries.map(entry => {
+                const photos = entry.photos || [];
+                const thumbs = photos.slice(0, 4).map(u => `
+                    <img src="${esc(u)}" class="w-11 h-11 rounded-lg object-cover border border-slate-700 shrink-0">
+                `).join('');
+                return `
+                    <div class="surface-input rounded-xl p-3 flex flex-col gap-2">
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="min-w-0">
+                                <p class="text-sm font-black text-white uppercase truncate">${esc(entry.client_name)}</p>
+                                <p class="text-[11px] text-blue-400 font-bold">
+                                    📷 ${photos.length} foto(s) pronta(s) p/ puxar na Nova O.S.
+                                    ${entry.equipment_model ? ` • ${esc(entry.equipment_model)}` : ''}
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-1.5 shrink-0">
+                                <button type="button" onclick="selectExistingEntry(${entry.id})"
+                                        class="bg-blue-600 hover:bg-blue-500 text-white btn-keep-white text-[11px] font-bold px-2.5 py-1 rounded-lg">
+                                    + Fotos
+                                </button>
+                                <button type="button" onclick="removePendingEntry(${entry.id}, '${esc(entry.client_name)}')"
+                                        class="bg-red-950/60 hover:bg-red-900/70 text-red-300 border border-red-800/60 text-[11px] font-bold px-2 py-1 rounded-lg">
+                                    🗑️
+                                </button>
+                            </div>
+                        </div>
+                        ${thumbs ? `<div class="flex items-center gap-1.5 overflow-x-auto pt-1">${thumbs}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function loadPendingEntries() {
+            try {
+                const res = await fetch('/api/pending-entries');
+                const data = await res.json();
+                pendingEntries = data.pending_entries || [];
+                renderPendingList();
+            } catch (e) {}
+        }
+
+        const socket = io();
+        socket.on('board_updated', (board) => {
+            if (board && Array.isArray(board.pending_entries)) {
+                pendingEntries = board.pending_entries;
+                renderPendingList();
+            }
+        });
+
+        loadPendingEntries();
+    </script>
+</body>
+</html>
+
