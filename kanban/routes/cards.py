@@ -371,3 +371,23 @@ def cancel_timer():
     cards_service.finish_timer(os_number)
     board = realtime.broadcast_board()
     return jsonify({"success": True, "board": board})
+
+
+@bp.route("/director/call", methods=["POST"])
+def director_call():
+    """Dispara chamado ou áudio de voz da sala da diretoria para a TV."""
+    data = json_body()
+    tech_name = data.get("tech_name") or "Oficina"
+    message = data.get("message") or ""
+    is_urgent = bool(data.get("is_urgent", False))
+    audio_base64 = data.get("audio_base64")
+    sender = data.get("sender") or "Sala da Diretoria"
+
+    realtime.announce_director_call(
+        tech_name=tech_name,
+        message=message,
+        is_urgent=is_urgent,
+        audio_base64=audio_base64,
+        sender=sender
+    )
+    return jsonify({"success": True})

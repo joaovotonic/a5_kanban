@@ -26,6 +26,7 @@ if __name__ == "__main__":
     print(f"  [CONSULTA BALCÃO]     -> http://{local_ip}:{PORT}/consulta")
     print(f"  [GERÊNCIA / RELATÓRIO]-> http://{local_ip}:{PORT}/gerencia")
     print(f"  [FOTOS RECEPÇÃO]      -> http://{local_ip}:{PORT}/recepcao-fotos")
+    print(f"  [SALA DA DIRETORIA]   -> http://{local_ip}:{PORT}/diretoria")
     print("=" * 68)
 
     socketio.run(app, host="0.0.0.0", port=PORT, debug=False, allow_unsafe_werkzeug=True)

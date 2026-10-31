@@ -50,6 +50,8 @@ class TestA5KanbanComplete(unittest.TestCase):
             "/consulta",
             "/gerencia",
             "/recepcao-fotos",
+            "/diretoria",
+            "/chamado",
         ]
         for p in pages:
             res = self.client.get(p)
@@ -307,6 +309,7 @@ class TestA5KanbanComplete(unittest.TestCase):
     def test_07_websocket_events(self):
         """Testa eventos de WebSocket da TV e chamadas de bancada."""
         self.sio.emit("call_tech_reception", {"tech_name": "TEC. Enzo Gabriel", "reason": "Dúvida no orçamento"})
+        self.sio.emit("director_call_tech", {"tech_name": "SR. JACSON", "message": "Comparecer na diretoria", "is_urgent": True})
         self.sio.emit("request_bench_support", {"tech_name": "TEC. Guilherme", "os_number": "026736"})
         self.sio.emit("panic_silence_tv", {"muted": True})
 
@@ -314,6 +317,14 @@ class TestA5KanbanComplete(unittest.TestCase):
         names = [e["name"] for e in recv]
         self.assertIn("tv_announcement", names)
         self.assertIn("tv_mute_changed", names)
+
+        # Testa chamada REST da diretoria
+        r_dir = self.client.post("/api/director/call", json={
+            "tech_name": "TEC. ANTONIO",
+            "message": "Favor trazer O.S.",
+            "is_urgent": False
+        })
+        self.assertEqual(r_dir.status_code, 200)
 
 
 if __name__ == "__main__":

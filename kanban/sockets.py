@@ -15,6 +15,19 @@ def handle_call_tech(data):
     )
 
 
+@socketio.on("director_call_tech")
+def handle_director_call(data):
+    """Chefe chama técnico da sala da diretoria com mensagem ou áudio."""
+    data = data or {}
+    realtime.announce_director_call(
+        tech_name=data.get("tech_name", "Oficina"),
+        message=data.get("message", ""),
+        is_urgent=bool(data.get("is_urgent", False)),
+        audio_base64=data.get("audio_base64"),
+        sender=data.get("sender", "Sala da Diretoria")
+    )
+
+
 @socketio.on("request_bench_support")
 def handle_bench_support(data):
     """Técnico solicita apoio na bancada pelo celular."""

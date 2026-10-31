@@ -52,6 +52,13 @@ def gerencia_page():
     return render_template("gerencia.html")
 
 
+@bp.route("/diretoria")
+@bp.route("/chamado")
+def diretoria_page():
+    """6. Rota Sala da Diretoria (Intercom para o chefe chamar técnicos na TV com áudio e voz)."""
+    return render_template("diretoria.html", local_ip=get_local_ip(), port=PORT)
+
+
 @bp.route("/etiqueta/<path:os_number>")
 def etiqueta_page(os_number):
     """Gera a visualização de impressão térmica 60x40mm com QR Code da O.S."""

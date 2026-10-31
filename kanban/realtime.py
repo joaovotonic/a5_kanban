@@ -65,6 +65,27 @@ def announce_call_tech(tech_name, reason):
     })
 
 
+def announce_director_call(tech_name, message="", is_urgent=False, audio_base64=None, sender="Sala da Diretoria"):
+    """Chamado ou áudio enviado pelo chefe / sala da diretoria para a TV da oficina."""
+    title = "🚨 CHAMADO URGENTE DA DIRETORIA" if is_urgent else "📢 CHAMADO DA DIRETORIA"
+    clean_msg = (message or "").strip()
+    if clean_msg:
+        tts_text = f"Atenção {tech_name}. Mensagem da diretoria: {clean_msg}."
+    else:
+        tts_text = f"Atenção {tech_name}. Favor comparecer à sala da diretoria."
+
+    _announce({
+        "type": "director_call",
+        "title": title,
+        "tech_name": tech_name or "Oficina",
+        "reason": clean_msg or "Comparecer à Sala da Diretoria",
+        "is_urgent": bool(is_urgent),
+        "tts_text": tts_text,
+        "audio_base64": audio_base64,
+        "sender": sender
+    })
+
+
 def announce_bench_support(tech_name, os_number):
     _announce({
         "type": "support_alert",

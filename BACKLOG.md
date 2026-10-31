@@ -301,3 +301,26 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
     - O bloco de acionamento de estufa e teste (15 min, 30 min e 60 min) foi transferido para a **Etapa 2 (Folha Digital de Orçamento)**, integrado à seção 6 de Serviços e Testes Funcionais.
     - Removido da tela de pós-aprovação (Finalização).
     - Adicionado suporte a feedback de contagem regressiva em tempo real no próprio celular do técnico com botão de cancelamento imediato (/api/timer/cancel).
+
+---
+
+## 📌 Item 21: Painel Intercom da Sala da Diretoria (/diretoria) com Chamada em Botões, Gravação de Áudio e Mute da TV
+
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Diretoria / Chefe
+* **Telas & Arquivos Impactados:**
+  - 	emplates/diretoria.html (Nova tela web autônoma responsiva no IP local)
+  - kanban/routes/pages.py (Rotas /diretoria e /chamado)
+  - kanban/routes/cards.py (Endpoint REST /api/director/call)
+  - kanban/sockets.py (Evento Socket.IO director_call_tech)
+  - kanban/realtime.py (Função nnounce_director_call)
+  - 	emplates/tv.html (Tratamento visual do chamado da diretoria, reprodução de áudio real do microfone e pausa do som)
+  - pp.py (Impressão do IP da Diretoria no startup do servidor)
+* **Funcionalidades Entregues:**
+  1. **Acesso Dedicado por IP:** Rota exclusiva http://<IP_LOCAL>:5000/diretoria desenhada para o chefe utilizar diretamente em seu computador, tablet ou celular na sala dele.
+  2. **Seleção de Técnicos em Botões Táteis:** Botão de broadcast geral (TODOS OS TÉCNICOS / OFICINA TODA) e botões individuais para cada técnico do quadro Kanban.
+  3. **Composição em Duplo Modo (Texto ou Áudio):**
+     - **Texto:** Campo livre para digitar qualquer recado + chips de atalho rápido (comparecer na sala, trazer O.S., etc.). A TV lê a mensagem com voz sintetizada (TTS) de alta nitidez.
+     - **Áudio de Voz Real (Microfone):** Gravação de voz via API MediaRecorder do navegador, com cronômetro em tempo real, player para conferência e envio imediato do áudio real do chefe para ser reproduzido nas caixas da TV.
+  4. **Modo Urgente:** Botão toggle 🚨 URGENTE que ativa sirene de alerta sonoro e moldura vermelha pulsante na TV.
+  5. **Silenciamento / Pausa Automática da TV:** Qualquer chamado enviado pela diretoria (voz ou texto) aciona o motor de Audio Ducking, pausando imediatamente as músicas do YouTube e silenciando todo o som da TV até a mensagem do chefe terminar de ser reproduzida.
