@@ -285,6 +285,19 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
        - No tema Clean, o bloco "Em Orçamento com" ganha estilo exclusivo claro (`bg-[#f0f9ff]`, borda `#bae6fd`, texto `#0c4a6e`), garantindo contraste nítido e visual premium.
        - Título da TV, relógio, data e nome do cliente nos cartões agora possuem classes e regras de CSS com contraste absoluto `#0f172a` (Slate 900) e `#475569` (Slate 600) no modo Clean.
 
+---
 
+## 📌 Item 20: Migração do Cronômetro de Estufa / Testes para a Etapa de Orçamento
 
-
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Técnicos de Bancada e Oficina
+* **Telas Impactadas:**
+  - 	emplates/saida.html (Bancada Mobile: Orçamento e Finalização)
+  - kanban/routes/cards.py (Adição da rota /api/timer/cancel)
+* **Problema Identificado & Solução:**
+  - O bloco de acionamento do cronômetro de estufa (⏱️ Cronômetro de Estufa / Teste na TV) estava posicionado na Etapa 4 (Finalização após aprovação do cliente).
+  - No fluxo real da oficina, o teste de placa e a estufa térmica são necessários durante a avaliação e montagem do orçamento (quando a placa é lavada, seca ou submetida a teste térmico para identificação precisa de defeitos antes do envio do orçamento).
+  - **Solução Implementada:**
+    - O bloco de acionamento de estufa e teste (15 min, 30 min e 60 min) foi transferido para a **Etapa 2 (Folha Digital de Orçamento)**, integrado à seção 6 de Serviços e Testes Funcionais.
+    - Removido da tela de pós-aprovação (Finalização).
+    - Adicionado suporte a feedback de contagem regressiva em tempo real no próprio celular do técnico com botão de cancelamento imediato (/api/timer/cancel).

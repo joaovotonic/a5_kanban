@@ -232,7 +232,7 @@ class TestA5KanbanComplete(unittest.TestCase):
         self.assertEqual(c_appr["list_title"], "APROVADAS")
         self.assertEqual(c_appr["quote_status"], "approved")
 
-        # 10. Cronômetro de Estufa
+        # 10. Cronômetro de Estufa e cancelamento
         r_timer = self.client.post("/api/timer/start", json={
             "os_number": test_os,
             "minutes": 45,
@@ -240,6 +240,9 @@ class TestA5KanbanComplete(unittest.TestCase):
         })
         self.assertEqual(r_timer.status_code, 200)
         self.assertTrue("end_time" in r_timer.get_json())
+
+        r_cancel = self.client.post("/api/timer/cancel", json={"os_number": test_os})
+        self.assertEqual(r_cancel.status_code, 200)
 
         # 11. Finalização mobile -> BALANÇAS PRONTAS
         r_finish = self.client.post("/api/saida/finalizar", data={

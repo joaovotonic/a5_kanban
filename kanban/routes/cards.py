@@ -361,3 +361,13 @@ def start_timer():
     realtime.broadcast_board()
     realtime.notify_timer_started(os_number, card_row["client_name"], minutes, end_time, label)
     return jsonify({"success": True, "end_time": end_time})
+
+
+@bp.route("/timer/cancel", methods=["POST"])
+def cancel_timer():
+    """Cancela o cronômetro ativo de uma O.S."""
+    data = json_body()
+    os_number = get_text(data, "os_number")
+    cards_service.finish_timer(os_number)
+    board = realtime.broadcast_board()
+    return jsonify({"success": True, "board": board})

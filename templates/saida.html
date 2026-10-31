@@ -457,6 +457,40 @@
                     <span class="block text-[11px] font-bold uppercase text-slate-400">Checks de Testes (S / N):</span>
                     <div id="functionalTestsList" class="space-y-2.5"></div>
                 </div>
+
+                <!-- ACIONADOR DE ESTUFA / TESTE NA TV (DURANTE AVALIAÇÃO DO ORÇAMENTO) -->
+                <div class="surface-inner p-3.5 rounded-xl border border-sky-500/30 space-y-2.5 mt-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-black uppercase text-sky-400 flex items-center gap-1.5">
+                            <i data-lucide="timer" class="w-4 h-4 text-sky-400"></i>
+                            <span>Cronômetro de Estufa / Teste na TV:</span>
+                        </span>
+                        <span class="text-[10px] text-slate-400">Alerta sonoro na oficina</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 leading-tight">
+                        Se a placa foi lavada ou necessita de secagem/teste térmico na estufa durante a avaliação do orçamento, acione o alarme da TV:
+                    </p>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button type="button" onclick="triggerMobileTimer(15)" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 text-sky-700 dark:text-sky-300 py-2.5 rounded-xl text-xs font-bold active:scale-95 border border-slate-300 dark:border-slate-700/60 transition flex items-center justify-center gap-1">
+                            <span>⏱️ 15 min</span>
+                        </button>
+                        <button type="button" onclick="triggerMobileTimer(30)" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 text-sky-700 dark:text-sky-300 py-2.5 rounded-xl text-xs font-bold active:scale-95 border border-slate-300 dark:border-slate-700/60 transition flex items-center justify-center gap-1">
+                            <span>⏱️ 30 min</span>
+                        </button>
+                        <button type="button" onclick="triggerMobileTimer(60)" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 text-sky-700 dark:text-sky-300 py-2.5 rounded-xl text-xs font-bold active:scale-95 border border-slate-300 dark:border-slate-700/60 transition flex items-center justify-center gap-1">
+                            <span>⏱️ 60 min</span>
+                        </button>
+                    </div>
+                    <div id="quoteActiveTimerNotice" class="hidden p-2.5 rounded-xl bg-sky-500/10 border border-sky-400/30 text-sky-800 dark:text-sky-300 text-xs font-bold flex items-center justify-between">
+                        <span class="flex items-center gap-1.5 animate-pulse">
+                            <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-500"></i>
+                            <span id="quoteActiveTimerText">Estufa ativa na TV</span>
+                        </span>
+                        <button type="button" onclick="cancelMobileTimer()" class="text-[10px] text-rose-500 hover:underline font-bold px-2 py-0.5 rounded bg-rose-500/10">
+                            ✕ Cancelar
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!-- 7. FOTO DA ETIQUETA ANTES -->
@@ -596,18 +630,7 @@
                     <div id="weightsFinalGrid" class="grid grid-cols-2 gap-2"></div>
                 </div>
 
-                <!-- ACIONADOR DE ESTUFA / TESTE FINAL NA TV (SOMENTE NA FINALIZAÇÃO) -->
-                <div class="surface-inner p-3 rounded-xl border border-sky-500/30 space-y-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-black uppercase text-sky-400">⏱️ Cronômetro de Estufa / Teste na TV:</span>
-                        <span class="text-[10px] text-slate-400">Alerta na TV da bancada</span>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button type="button" onclick="triggerMobileTimer(15)" class="bg-slate-800/80 hover:border-sky-500 text-sky-300 py-2 rounded-xl text-xs font-bold active:scale-95 border border-slate-700/60 transition">⏱️ 15 min</button>
-                        <button type="button" onclick="triggerMobileTimer(30)" class="bg-slate-800/80 hover:border-sky-500 text-sky-300 py-2 rounded-xl text-xs font-bold active:scale-95 border border-slate-700/60 transition">⏱️ 30 min</button>
-                        <button type="button" onclick="triggerMobileTimer(60)" class="bg-slate-800/80 hover:border-sky-500 text-sky-300 py-2 rounded-xl text-xs font-bold active:scale-95 border border-slate-700/60 transition">⏱️ 60 min</button>
-                    </div>
-                </div>
+
 
                 <!-- CHECKLIST POP OBRIGATÓRIO -->
                 <div class="space-y-2.5 surface-inner p-3.5 rounded-xl">
@@ -1036,9 +1059,13 @@
             if (board && Array.isArray(board.lists)) {
                 for (const lst of board.lists) {
                     const found = (lst.cards || []).find(c => String(c.os_number) === String(currentOs));
-                    if (found && found.mobile_stage !== currentCard.mobile_stage) {
-                        loadOsData(true);
-                        break;
+                    if (found) {
+                        currentCard.timer_end_at = found.timer_end_at;
+                        checkQuoteTimerStatus(currentCard);
+                        if (found.mobile_stage !== currentCard.mobile_stage) {
+                            loadOsData(true);
+                            break;
+                        }
                     }
                 }
             }
@@ -1354,6 +1381,7 @@
                     savedQBox.classList.add("hidden");
                 }
             }
+            checkQuoteTimerStatus(card);
             document.getElementById("stageQuoteForm").classList.remove("hidden");
         }
 
@@ -1820,14 +1848,69 @@
             renderPhotoPreviews(bucket);
         }
 
+        function checkQuoteTimerStatus(card) {
+            const notice = document.getElementById("quoteActiveTimerNotice");
+            const txt = document.getElementById("quoteActiveTimerText");
+            if (!notice || !txt) return;
+            const timerEnd = card?.timer_end_at || currentCard?.timer_end_at;
+            if (timerEnd) {
+                const endMs = new Date(timerEnd).getTime();
+                const diffSec = Math.max(0, Math.floor((endMs - Date.now()) / 1000));
+                if (diffSec > 0) {
+                    const mins = Math.floor(diffSec / 60);
+                    const secs = String(diffSec % 60).padStart(2, "0");
+                    txt.textContent = `Estufa/Teste ativa na TV (${mins}m ${secs}s restantes)`;
+                    notice.classList.remove("hidden");
+                    return;
+                }
+            }
+            notice.classList.add("hidden");
+        }
+
+        setInterval(() => {
+            if (currentCard?.timer_end_at) {
+                checkQuoteTimerStatus(currentCard);
+            }
+        }, 1000);
+
         async function triggerMobileTimer(minutes) {
             if (!currentOs) return;
-            await fetch("/api/timer/start", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ os_number: currentOs, minutes, label: "Estufa de Placa" })
-            });
-            alert(`⏱️ Cronômetro de ${minutes} minutos ativado na TV da oficina!`);
+            try {
+                const res = await fetch("/api/timer/start", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ os_number: currentOs, minutes, label: "Estufa de Placa" })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    if (currentCard) currentCard.timer_end_at = data.end_time;
+                    checkQuoteTimerStatus(currentCard);
+                    alert(`⏱️ Cronômetro de Estufa de ${minutes} minutos iniciado na TV da Oficina!`);
+                } else {
+                    alert(data.error || "Erro ao acionar cronômetro.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Erro ao acionar cronômetro de estufa.");
+            }
+        }
+
+        async function cancelMobileTimer() {
+            if (!currentOs) return;
+            if (!confirm("Deseja cancelar o cronômetro da TV para esta O.S.?")) return;
+            try {
+                const res = await fetch("/api/timer/cancel", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ os_number: currentOs })
+                });
+                if (res.ok) {
+                    if (currentCard) currentCard.timer_end_at = null;
+                    checkQuoteTimerStatus(currentCard);
+                }
+            } catch (err) {
+                console.error(err);
+            }
         }
 
         function requestSupport() {
