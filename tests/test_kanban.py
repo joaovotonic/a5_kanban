@@ -172,12 +172,12 @@ class TestA5KanbanComplete(unittest.TestCase):
         # 5. Técnico assume no celular
         r_claim = self.client.post("/api/saida/assumir", json={
             "os_number": test_os,
-            "tech_name": "TEC. ENZO PIRES",
+            "tech_name": "TEC. Enzo Gabriel",
             "phase": "quote",
         })
         self.assertEqual(r_claim.status_code, 200)
         claimed_card = r_claim.get_json()["card"]
-        self.assertEqual(claimed_card["evaluator_tech"], "TEC. ENZO PIRES")
+        self.assertEqual(claimed_card["evaluator_tech"], "TEC. Enzo Gabriel")
         self.assertEqual(claimed_card["quote_status"], "in_progress")
 
         # 6. Técnico preenche Orçamento Digital
@@ -192,7 +192,7 @@ class TestA5KanbanComplete(unittest.TestCase):
         }
         r_quote = self.client.post("/api/saida/orcamento", data={
             "os_number": test_os,
-            "tech_name": "TEC. ENZO PIRES",
+            "tech_name": "TEC. Enzo Gabriel",
             "finalize": "1",
             "quote_data_json": json.dumps(quote_payload),
             "label_before_photos": [(io.BytesIO(b"fake_label_before"), "label_before.jpg")],
@@ -203,7 +203,7 @@ class TestA5KanbanComplete(unittest.TestCase):
         self.assertEqual(q_card["quote_status"], "done")
 
         # 7. Reabertura
-        r_req_reopen = self.client.post(f"/api/cards/{card_id}/request-reopen", json={"actor": "TEC. ENZO PIRES"})
+        r_req_reopen = self.client.post(f"/api/cards/{card_id}/request-reopen", json={"actor": "TEC. Enzo Gabriel"})
         self.assertEqual(r_req_reopen.status_code, 200)
         self.assertEqual(r_req_reopen.get_json()["card"]["reopen_requested"], 1)
 
@@ -214,7 +214,7 @@ class TestA5KanbanComplete(unittest.TestCase):
         # Re-conclui
         self.client.post("/api/saida/orcamento", data={
             "os_number": test_os,
-            "tech_name": "TEC. ENZO PIRES",
+            "tech_name": "TEC. Enzo Gabriel",
             "finalize": "1",
             "quote_data_json": json.dumps(quote_payload),
         })
@@ -247,7 +247,7 @@ class TestA5KanbanComplete(unittest.TestCase):
         # 11. Finalização mobile -> BALANÇAS PRONTAS
         r_finish = self.client.post("/api/saida/finalizar", data={
             "os_number": test_os,
-            "tech_name": "TEC. ENZO PIRES",
+            "tech_name": "TEC. Enzo Gabriel",
             "pop_calibration": "1",
             "pop_cleaning": "1",
             "inmetro_seal": "00.999.888-1",
@@ -306,8 +306,8 @@ class TestA5KanbanComplete(unittest.TestCase):
 
     def test_07_websocket_events(self):
         """Testa eventos de WebSocket da TV e chamadas de bancada."""
-        self.sio.emit("call_tech_reception", {"tech_name": "TEC. ENZO PIRES", "reason": "Dúvida no orçamento"})
-        self.sio.emit("request_bench_support", {"tech_name": "TEC. GUILHERME PIRES", "os_number": "026736"})
+        self.sio.emit("call_tech_reception", {"tech_name": "TEC. Enzo Gabriel", "reason": "Dúvida no orçamento"})
+        self.sio.emit("request_bench_support", {"tech_name": "TEC. Guilherme", "os_number": "026736"})
         self.sio.emit("panic_silence_tv", {"muted": True})
 
         recv = self.sio.get_received()
