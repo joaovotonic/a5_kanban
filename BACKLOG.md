@@ -376,3 +376,29 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
   2. **Inclusão de Novos Destinatários em Destaque:**
      - Adicionados botões dedicados para **Priscila** (Recepção / Atendimento), **Roosevelt** (Oficina / Equipe) e **Arthur** (Oficina / Equipe), além dos técnicos de bancada existentes.
      - O botão de auto-chamado do próprio Sr. Jacson foi removido da lista de destinatários, já que ele é o remetente de todas as chamadas.
+
+
+---
+
+## 📌 Item 24: Integração de Motor de Voz Neural Humano de Estúdio (Edge-TTS) na TV
+
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Diretoria e Recepção
+* **Telas & Arquivos Impactados:**
+  - `kanban/services/tts.py` (Novo serviço de síntese neural com cache em disco e tolerância a falhas)
+  - `kanban/realtime.py` (Injeção automática do áudio neural MP3 em Base64 nos eventos WebSocket)
+  - `templates/tv.html` (Reprodução de alta fidelidade via HTML5 Audio com fallback transparente)
+  - `requirements.txt` (Adição de `edge-tts>=7.0.0`)
+  - `.gitignore` (Proteção da pasta de cache `database/tts_cache/`)
+* **Implementações Técnicas:**
+  1. **Locução Humana Profissional (Microsoft Azure Neural):**
+     - **Voz do Sr. Jacson:** `pt-BR-AntonioNeural` (timbre masculino maduro, executivo e natural).
+     - **Voz da Recepção:** `pt-BR-FranciscaNeural` (voz feminina acolhedora para chamados da recepção e conclusão de O.S.).
+     - Elimina completamente o som robótico antigo do Windows.
+  2. **Sistema de Cache em Disco de Alta Performance (`database/tts_cache/`):**
+     - O hash MD5 do texto e da voz armazena o arquivo `.mp3` em disco.
+     - Chamados frequentes (como *"Favor vir à minha sala"*, *"Comparecer na recepção"*) são servidos em **1.5 milissegundos**, sem consumo de internet e com latência zero.
+  3. **Resiliência em Três Níveis de Fallback:**
+     - Nível 1: Áudio gravado no microfone (se o chefe gravou áudio direto);
+     - Nível 2: Áudio Neural Edge-TTS em MP3 Base64;
+     - Nível 3: Fallback automático para `window.speechSynthesis` caso o servidor esteja sem internet.

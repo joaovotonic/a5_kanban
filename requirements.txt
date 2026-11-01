@@ -3,3 +3,4 @@ Flask-SocketIO==5.3.6
 simple-websocket==1.0.0
 Werkzeug==3.0.3
 yt-dlp>=2026.10.26
+edge-tts>=7.0.0

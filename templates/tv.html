@@ -1588,8 +1588,8 @@
                 title.className = "text-5xl md:text-6xl font-black uppercase tracking-tight mb-3 text-white break-words drop-shadow-md";
                 subtitle.textContent = payload.reason || "Comparecer à Sala do Sr. Jacson";
                 subtitle.className = `text-2xl md:text-3xl font-extrabold ${isUrg ? 'text-rose-400' : 'text-amber-400'} uppercase mb-4 break-words`;
-                extra.innerHTML = payload.audio_base64
-                    ? `<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-sm font-bold text-amber-300 animate-pulse"><i data-lucide="mic" class="w-4 h-4"></i><span>Reproduzindo áudio de voz do Sr. Jacson...</span></div>`
+                extra.innerHTML = payload.is_voice_record
+                    ? `<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-sm font-bold text-amber-300 animate-pulse"><i data-lucide="mic" class="w-4 h-4"></i><span>Reproduzindo áudio gravado no microfone...</span></div>`
                     : `<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-semibold text-zinc-300"><i data-lucide="user-check" class="w-3.5 h-3.5 text-amber-400"></i><span>${esc(payload.sender || 'Sr. Jacson')}</span></div>`;
 
                 playSynthesizedSound(isUrg ? "urgent" : "bell", true);

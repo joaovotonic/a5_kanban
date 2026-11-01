@@ -4,6 +4,7 @@ anúncios sonoros/visuais da TV da oficina (os textos falados ficam todos aqui).
 """
 from .extensions import socketio
 from .services.board import get_full_board
+from .services.tts import get_neural_audio_base64, VOICE_JACSON, VOICE_RECEPTION, VOICE_OFICINA
 
 
 def broadcast_board():
@@ -13,7 +14,18 @@ def broadcast_board():
     return board
 
 
-def _announce(payload):
+def _announce(payload, voice=None):
+    """
+    Emite anúncio para a TV. Se o payload não tiver gravação de microfone (audio_base64),
+    sintetiza fala neural humana de estúdio (Edge-TTS) para reprodução cristalina.
+    """
+    if not payload.get("audio_base64") and payload.get("tts_text"):
+        chosen_voice = voice or (VOICE_JACSON if payload.get("type") == "director_call" else VOICE_RECEPTION)
+        neural_audio = get_neural_audio_base64(payload["tts_text"], voice=chosen_voice)
+        if neural_audio:
+            payload["audio_base64"] = neural_audio
+            payload["is_neural_audio"] = True
+
     socketio.emit("tv_announcement", payload)
 
 
@@ -95,6 +107,8 @@ def announce_director_call(tech_name, message="", is_urgent=False, audio_base64=
     else:
         tts_text = f"Atenção, {speech_name}. Por favor, comparecer à sala do Senhor Jacson."
 
+    is_voice_rec = bool(audio_base64)
+
     _announce({
         "type": "director_call",
         "title": title,
@@ -103,8 +117,9 @@ def announce_director_call(tech_name, message="", is_urgent=False, audio_base64=
         "is_urgent": bool(is_urgent),
         "tts_text": tts_text,
         "audio_base64": audio_base64,
+        "is_voice_record": is_voice_rec,
         "sender": sender or "Sr. Jacson"
-    })
+    }, voice=VOICE_JACSON)
 
 
 def announce_bench_support(tech_name, os_number):
