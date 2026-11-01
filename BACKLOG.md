@@ -485,3 +485,24 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
      - "Balanças e Sistemas" em ciano `#2aa6c8` / sky blue.
   2. **Eliminação de Fundo Branco:**
      - Remoção de qualquer contêiner branco que envolvia a logo, garantindo integração nativa transparente e limpa aos cabeçalhos de todas as telas do sistema.
+
+---
+
+## 📌 Item 29: Correção Operacional da Estufa Térmica (PCI/Célula no Orçamento) e Selagem Exclusiva pela Priscila
+
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Diretoria / Sr. Jacson
+* **Telas & Arquivos Impactados:**
+  - `templates/apresentacao.html` (Ajuste do Slide 3, botões e detalhamento das Etapas 2, 4, 5 e 6 do fluxograma dinâmico)
+  - `templates/saida.html` (Instrução textual da estufa na bancada técnica mobile)
+* **Principais Entregas:**
+  1. **Correção do Fluxo da Estufa Térmica:**
+     - **O que vai para a estufa:** A balança inteira NUNCA vai para a estufa. Apenas componentes eletrônicos específicos com suspeita de falha térmica (uma **PCI - Placa de Circuito Impresso** ou uma **Célula de Carga**).
+     - **Momento da Estufa:** Ocorre estritamente na fase de **Orçamento / Diagnóstico (Etapa 2)** para identificar desvios térmicos antes de precificar o laudo. Não ocorre no reparo e nem na finalização.
+  2. **Substituição da Estufa por Bateria de Testes no Reparo (Etapa 4):**
+     - A etapa 4 é focada na substituição de peças originais Toledo Prix, remontagem, limpeza e bateria completa de **testes operacionais** (display, teclado, fonte e estabilidade eletrônica).
+  3. **Técnico Só Lacra (Etapa 5):**
+     - A balança não sai da estufa na etapa 5. Ela é submetida aos testes de calibração oficial com pesos-padrão (tolerância oficial de oficina de até ±2e).
+     - O técnico **SÓ LACRA** a balança: insere o Lacre Físico Numerado (IPEM A5) no parafuso de ajuste/calibração mecânica e digita o número no celular (`/saida`). O técnico não sela.
+  4. **Quem Sela a Balança é a Priscila (Etapa 6):**
+     - Quem **SELA** a balança é exclusivamente a **Priscila** no balcão de saída! Ela aplica o adesivo oficial do **Selo Reparado (IPEM)** na carcaça da balança pronta, copia o número do lacre com 1 clique para o Teorema ERP, imprime a O.S. física oficial do Teorema, cola o canhoto do Selo Reparado e colhe a assinatura física do cliente.
