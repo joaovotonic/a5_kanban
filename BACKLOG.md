@@ -506,3 +506,19 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
      - O técnico **SÓ LACRA** a balança: insere o Lacre Físico Numerado (IPEM A5) no parafuso de ajuste/calibração mecânica e digita o número no celular (`/saida`). O técnico não sela.
   4. **Quem Sela a Balança é a Priscila (Etapa 6):**
      - Quem **SELA** a balança é exclusivamente a **Priscila** no balcão de saída! Ela aplica o adesivo oficial do **Selo Reparado (IPEM)** na carcaça da balança pronta, copia o número do lacre com 1 clique para o Teorema ERP, imprime a O.S. física oficial do Teorema, cola o canhoto do Selo Reparado e colhe a assinatura física do cliente.
+
+---
+
+## 📌 Item 30: Redimensionamento e Centralização Refinada do Emblema A5 e Padronização Tipográfica da TV
+
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Gerência Operacional
+* **Telas & Arquivos Impactados:**
+  - `templates/tv.html` (Redimensionamento do badge A5 para proporção equilibrada e padronização do título "Painel TV da Oficina" com a mesma fonte e cor da Consulta Rápida)
+  - `templates/consulta.html`, `templates/diretoria.html`, `templates/admin.html`, `templates/saida.html`, `templates/gerencia.html`, `templates/recepcao_fotos.html`, `templates/apresentacao.html`, `static/img/logo_a5.svg`
+* **Principais Entregas:**
+  1. **Redução e Centralização Precisa do Texto "A5":**
+     - O texto "A5" ocupava quase toda a altura interna do emblema azul, aparentando desproporcional. Reduzido o tamanho da fonte interna para proporção áurea com margem de 47% de respiro (`viewBox="0 0 48 32"` com `font-size="17"` e centro geométrico `y="16.5"`).
+     - Fixadas as dimensões externas para `w-[38px] h-[26px]`, eliminando quebras causadas por classes utilitárias indefinidas.
+  2. **Padronização Visual da TV Idêntica à Consulta Rápida:**
+     - Título da TV formatado com a mesma tipografia e cores aprovadas na Consulta Rápida: `font-bold text-sm text-[#254a93] dark:text-white` com ícone `text-sky-400` e subtítulo `A5 Tecnologia • Balanças e Sistemas` em `text-[10px] font-semibold text-[#2aa6c8] dark:text-sky-400`.
