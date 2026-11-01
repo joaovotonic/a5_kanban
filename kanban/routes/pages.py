@@ -55,7 +55,7 @@ def gerencia_page():
 @bp.route("/diretoria")
 @bp.route("/chamado")
 def diretoria_page():
-    """6. Rota Sala da Diretoria (Intercom para o chefe chamar técnicos na TV com áudio e voz)."""
+    """6. Rota Intercom do Sr. Jacson (Para o Sr. Jacson chamar a equipe na TV com áudio e voz)."""
     return render_template("diretoria.html", local_ip=get_local_ip(), port=PORT)
 
 

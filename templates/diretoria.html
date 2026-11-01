@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Intercom Diretoria - A5 Tecnologia</title>
+    <title>Intercom - Sr. Jacson - A5 Tecnologia</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -108,11 +108,11 @@
     <header class="px-5 py-3.5 bg-zinc-950/90 border-b border-zinc-800/80 sticky top-0 z-30 backdrop-blur-md flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
             <span class="bg-amber-500 text-slate-950 font-mono font-black px-2.5 py-1 rounded-xl text-sm shrink-0 shadow-sm">
-                DIRETORIA
+                SALA DO SR. JACSON
             </span>
             <div>
                 <h1 class="text-sm font-black uppercase tracking-tight flex items-center gap-2">
-                    <span>Intercom da Sala</span>
+                    <span>Intercom do Sr. Jacson</span>
                     <span id="socketStatusDot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Conectado à TV da Oficina"></span>
                 </h1>
                 <p class="text-[11px] text-slate-400">Chamados em tempo real na TV da oficina com pausa automática de música</p>
@@ -133,12 +133,12 @@
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="max-w-2xl w-full mx-auto p-4 sm:p-6 space-y-5 flex-1">
 
-        <!-- 1. SELEÇÃO DO TÉCNICO EM BOTÕES TÁTEIS -->
+        <!-- 1. SELEÇÃO DA PESSOA / TÉCNICO EM BOTÕES TÁTEIS -->
         <div class="surface-card rounded-2xl p-4 sm:p-5 space-y-3.5">
             <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/5 pb-2.5">
                 <label class="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-2">
                     <i data-lucide="users" class="w-4 h-4"></i>
-                    <span>1. Selecione o Técnico:</span>
+                    <span>1. Selecione a Pessoa ou Equipe:</span>
                 </label>
                 <div class="text-[11px] font-bold text-slate-400">
                     Destinatário: <strong id="selectedTechLabel" class="text-sky-400">TODOS (OFICINA TODA)</strong>
@@ -150,12 +150,12 @@
                 class="tech-btn active w-full py-3 px-4 rounded-xl text-xs sm:text-sm font-black flex items-center justify-between gap-2 shadow-sm">
                 <span class="flex items-center gap-2.5">
                     <span class="text-base">📢</span>
-                    <span>TODOS OS TÉCNICOS (OFICINA TODA)</span>
+                    <span>TODOS (OFICINA TODA)</span>
                 </span>
                 <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded-md bg-sky-500/20 text-sky-300 font-bold">Geral</span>
             </button>
 
-            <!-- Grid de Botões dos Técnicos -->
+            <!-- Grid de Botões dos Técnicos e Pessoas -->
             <div id="techButtonsGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1">
                 <!-- Preenchido dinamicamente via JS com fallback -->
             </div>
@@ -201,15 +201,11 @@
                 <div>
                     <span class="text-[10px] font-bold uppercase text-slate-400 block mb-1.5">Sugestões Rápidas:</span>
                     <div class="flex flex-wrap gap-1.5">
-                        <button type="button" onclick="setQuickMessage('Favor comparecer à sala da diretoria agora.')"
+                        <button type="button" onclick="setQuickMessage('Favor vir até a minha sala.')"
                             class="surface-inner hover:border-sky-500/50 text-[11px] font-bold px-2.5 py-1 rounded-lg text-slate-300">
-                            📍 Comparecer na Diretoria
+                            📍 Vir à minha sala
                         </button>
-                        <button type="button" onclick="setQuickMessage('Por favor, venha até a recepção para atendimento.')"
-                            class="surface-inner hover:border-sky-500/50 text-[11px] font-bold px-2.5 py-1 rounded-lg text-slate-300">
-                            🏢 Comparecer na Recepção
-                        </button>
-                        <button type="button" onclick="setQuickMessage('Favor trazer a O.S. na minha sala.')"
+                        <button type="button" onclick="setQuickMessage('Favor trazer a O.S. aqui na minha sala.')"
                             class="surface-inner hover:border-sky-500/50 text-[11px] font-bold px-2.5 py-1 rounded-lg text-slate-300">
                             📋 Trazer a O.S.
                         </button>
@@ -217,9 +213,9 @@
                             class="surface-inner hover:border-sky-500/50 text-[11px] font-bold px-2.5 py-1 rounded-lg text-slate-300">
                             ⚠️ Falar Urgente
                         </button>
-                        <button type="button" onclick="setQuickMessage('Pausa para o café e alinhamento geral da oficina.')"
+                        <button type="button" onclick="setQuickMessage('Favor comparecer para alinhamento.')"
                             class="surface-inner hover:border-sky-500/50 text-[11px] font-bold px-2.5 py-1 rounded-lg text-slate-300">
-                            ☕ Alinhamento / Café
+                            🤝 Alinhamento
                         </button>
                     </div>
                 </div>
@@ -228,7 +224,7 @@
                 <div>
                     <label class="block text-xs font-bold uppercase text-slate-300 mb-1">Mensagem para a TV:</label>
                     <textarea id="customMessageInput" rows="3"
-                        placeholder="Escreva qualquer mensagem que você queira que a TV fale para o técnico..."
+                        placeholder="Escreva qualquer mensagem que você queira que a TV fale para a equipe..."
                         class="w-full min-w-0 surface-inner rounded-xl p-3 text-sm focus:outline-none focus:border-sky-500 text-white"></textarea>
                 </div>
 
@@ -240,7 +236,7 @@
                 </button>
             </div>
 
-            <!-- PAINEL 2: GRAVAÇÃO DE VOZ PELO MICROFONE DO CHEFE -->
+            <!-- PAINEL 2: GRAVAÇÃO DE VOZ PELO MICROFONE DO SR. JACSON -->
             <div id="composePanel_audio" class="hidden space-y-4">
                 <p class="text-xs text-slate-400">
                     Grave um recado com sua voz pelo microfone. O som da TV será pausado e seu áudio real tocará nas caixas de som da oficina:
@@ -321,9 +317,11 @@
         let recSeconds = 0;
         let sentCalls = [];
 
-        // Lista padrão caso demore a buscar do backend
+        // Lista padrão de pessoas e técnicos
         const DEFAULT_TECHS = [
-            "SR. JACSON",
+            "PRISCILA",
+            "ROOSEVELT",
+            "ARTHUR",
             "TEC. JOÃO OTONI PIRES",
             "TEC. ENZO PIRES",
             "TEC. GUILHERME PIRES",
@@ -342,28 +340,44 @@
         });
 
         async function loadTechButtons() {
-            let techs = DEFAULT_TECHS;
+            let techs = [...DEFAULT_TECHS];
             try {
                 const res = await fetch("/api/board");
                 if (res.ok) {
                     const data = await res.json();
-                    const techLists = (data.lists || []).filter(l => l.is_tech === 1 || l.role === "tech" || l.title.toUpperCase().startsWith("TEC.") || l.title.toUpperCase().startsWith("SR."));
-                    if (techLists.length > 0) {
-                        techs = techLists.map(l => l.title);
+                    const boardTechs = (data.lists || [])
+                        .filter(l => (l.is_tech === 1 || l.role === "tech" || l.title.toUpperCase().startsWith("TEC.")) && !l.title.toUpperCase().includes("JACSON"))
+                        .map(l => l.title);
+
+                    const basePeople = ["PRISCILA", "ROOSEVELT", "ARTHUR"];
+                    const combined = [...basePeople];
+                    boardTechs.forEach(t => {
+                        if (!combined.some(c => c.toUpperCase() === t.toUpperCase())) {
+                            combined.push(t);
+                        }
+                    });
+                    if (combined.length > 0) {
+                        techs = combined;
                     }
                 }
             } catch (e) {
-                console.log("Usando técnicos padrão");
+                console.log("Usando lista padrão");
             }
 
             const grid = document.getElementById("techButtonsGrid");
             grid.innerHTML = techs.map(t => {
                 const safeId = "techBtn_" + t.replace(/[^a-zA-Z0-9]/g, "_");
+                let roleLabel = "Bancada";
+                const up = t.toUpperCase();
+                if (up.includes("PRISCILA")) roleLabel = "Recepção";
+                else if (up.includes("ROOSEVELT") || up.includes("ARTHUR")) roleLabel = "Equipe";
+                else if (up.startsWith("TEC.")) roleLabel = "Bancada";
+
                 return `
                     <button type="button" onclick="selectTech('${t.replace(/'/g, "\\'")}')" id="${safeId}"
                         class="tech-btn p-3 rounded-xl text-left flex flex-col justify-between gap-1 shadow-sm">
                         <span class="text-xs font-black truncate">${t}</span>
-                        <span class="text-[10px] uppercase font-mono text-slate-500">Bancada</span>
+                        <span class="text-[10px] uppercase font-mono text-slate-500">${roleLabel}</span>
                     </button>
                 `;
             }).join("");
@@ -442,7 +456,7 @@
                 tech_name: selectedTech,
                 message: msg,
                 is_urgent: isUrgent,
-                sender: "Sala da Diretoria"
+                sender: "Sr. Jacson"
             };
 
             // Emite via Socket.IO e via REST para redundância absoluta
@@ -538,10 +552,10 @@
 
             const payload = {
                 tech_name: selectedTech,
-                message: "Mensagem de voz enviada pelo chefe",
+                message: "Mensagem de voz enviada pelo Sr. Jacson",
                 audio_base64: base64Audio,
                 is_urgent: isUrgent,
-                sender: "Sala da Diretoria"
+                sender: "Sr. Jacson"
             };
 
             socket.emit("director_call_tech", payload);
@@ -552,7 +566,7 @@
             }).catch(() => {});
 
             showToast(`Áudio de voz enviado para ${selectedTech} na TV!`);
-            addRecentCall(selectedTech, "Áudio de voz do chefe", isUrgent, "Voz");
+            addRecentCall(selectedTech, "Áudio de voz do Sr. Jacson", isUrgent, "Voz");
             resetAudioRecording();
         }
 

@@ -375,13 +375,13 @@ def cancel_timer():
 
 @bp.route("/director/call", methods=["POST"])
 def director_call():
-    """Dispara chamado ou áudio de voz da sala da diretoria para a TV."""
+    """Dispara chamado ou áudio de voz do Sr. Jacson para a TV."""
     data = json_body()
     tech_name = data.get("tech_name") or "Oficina"
     message = data.get("message") or ""
     is_urgent = bool(data.get("is_urgent", False))
     audio_base64 = data.get("audio_base64")
-    sender = data.get("sender") or "Sala da Diretoria"
+    sender = data.get("sender") or "Sr. Jacson"
 
     realtime.announce_director_call(
         tech_name=tech_name,

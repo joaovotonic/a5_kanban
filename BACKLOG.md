@@ -355,3 +355,24 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
      - Em `kanban/realtime.py`, a função `_normalize_speech_name` converte automaticamente nomenclaturas de cadastro ("SR. JACSON" → "Senhor Jacson", "TEC. ENZO" → "Técnico Enzo", "TODOS" → "toda a equipe da oficina"), evitando que a voz soletre pontos ou siglas.
   5. **Watchdog contra Congelamento de Áudio do Chrome:**
      - Adicionado intervalo periódico de `resume()` a cada 5 segundos enquanto `speechSynthesis.speaking` estiver ativo, protegendo contra o bug conhecido do Chrome que interrompe vozes em mensagens com mais de 15 segundos.
+
+
+---
+
+## 📌 Item 23: Personalização do Intercom para o Sr. Jacson e Inclusão de Destinatários (Priscila, Roosevelt e Arthur)
+
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Sr. Jacson
+* **Telas & Arquivos Impactados:**
+  - `templates/diretoria.html` (Intercom do Sr. Jacson, inclusão dos botões de destinatários, exclusão de termos burocráticos)
+  - `templates/tv.html` (Modal visual na TV com "MENSAGEM DO SR. JACSON" e áudio de voz do Sr. Jacson)
+  - `kanban/realtime.py` (Voz sintetizada TTS falando naturalmente "Mensagem do Senhor Jacson")
+  - `kanban/sockets.py`, `kanban/routes/cards.py`, `kanban/routes/pages.py`, `app.py`
+* **Implementações Realizadas:**
+  1. **Substituição de Termos Institucionais ("Diretoria" → "Sr. Jacson"):**
+     - O texto "Mensagem da Diretoria" e "Chamado da Diretoria" foi substituído por **"Mensagem do Sr. Jacson"** e **"Chamado do Sr. Jacson"** em todas as interfaces.
+     - A voz sintetizada (TTS) na TV anuncia agora de forma natural e direta: `"Atenção, {nome}. Mensagem do Senhor Jacson: {mensagem}."` ou `"Atenção, {nome}. Por favor, comparecer à sala do Senhor Jacson."`.
+     - O emissor padrão (`sender`) e identificador de áudio foram padronizados como **"Sr. Jacson"**.
+  2. **Inclusão de Novos Destinatários em Destaque:**
+     - Adicionados botões dedicados para **Priscila** (Recepção / Atendimento), **Roosevelt** (Oficina / Equipe) e **Arthur** (Oficina / Equipe), além dos técnicos de bancada existentes.
+     - O botão de auto-chamado do próprio Sr. Jacson foi removido da lista de destinatários, já que ele é o remetente de todas as chamadas.

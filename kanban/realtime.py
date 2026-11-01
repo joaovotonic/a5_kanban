@@ -84,26 +84,26 @@ def announce_call_tech(tech_name, reason):
     })
 
 
-def announce_director_call(tech_name, message="", is_urgent=False, audio_base64=None, sender="Sala da Diretoria"):
-    """Chamado ou áudio enviado pelo chefe / sala da diretoria para a TV da oficina."""
-    title = "🚨 CHAMADO URGENTE DA DIRETORIA" if is_urgent else "📢 CHAMADO DA DIRETORIA"
+def announce_director_call(tech_name, message="", is_urgent=False, audio_base64=None, sender="Sr. Jacson"):
+    """Chamado ou áudio enviado pelo Sr. Jacson para a TV da oficina."""
+    title = "🚨 CHAMADO URGENTE DO SR. JACSON" if is_urgent else "📢 MENSAGEM DO SR. JACSON"
     clean_msg = (message or "").strip()
     speech_name = _normalize_speech_name(tech_name)
 
     if clean_msg:
-        tts_text = f"Atenção, {speech_name}. Mensagem da diretoria: {clean_msg}."
+        tts_text = f"Atenção, {speech_name}. Mensagem do Senhor Jacson: {clean_msg}."
     else:
-        tts_text = f"Atenção, {speech_name}. Por favor, comparecer à sala da diretoria."
+        tts_text = f"Atenção, {speech_name}. Por favor, comparecer à sala do Senhor Jacson."
 
     _announce({
         "type": "director_call",
         "title": title,
         "tech_name": tech_name or "Oficina",
-        "reason": clean_msg or "Comparecer à Sala da Diretoria",
+        "reason": clean_msg or "Comparecer à Sala do Sr. Jacson",
         "is_urgent": bool(is_urgent),
         "tts_text": tts_text,
         "audio_base64": audio_base64,
-        "sender": sender
+        "sender": sender or "Sr. Jacson"
     })
 
 

@@ -1582,15 +1582,15 @@
                 const borderCls = isUrg ? "border-rose-500 shadow-[0_0_90px_rgba(244,63,94,0.5)]" : "border-amber-500 shadow-[0_0_80px_rgba(245,158,11,0.35)]";
                 box.className = `max-w-4xl w-full rounded-3xl p-8 md:p-12 text-center border-4 ${borderCls} bg-zinc-950/95 overflow-hidden relative`;
                 icon.innerHTML = `<div class="w-20 h-20 mx-auto rounded-2xl ${isUrg ? 'bg-rose-500/20 border-2 border-rose-500/40 text-rose-400' : 'bg-amber-500/20 border-2 border-amber-500/40 text-amber-400'} flex items-center justify-center mb-2 ${isUrg ? 'animate-bounce' : 'animate-pulse'}"><i data-lucide="${isUrg ? 'alert-octagon' : 'volume-2'}" class="w-12 h-12"></i></div>`;
-                badge.textContent = isUrg ? "🚨 CHAMADO URGENTE DA DIRETORIA" : "📢 MENSAGEM DA DIRETORIA";
+                badge.textContent = isUrg ? "🚨 CHAMADO URGENTE DO SR. JACSON" : "📢 MENSAGEM DO SR. JACSON";
                 badge.className = `inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-mono font-black uppercase tracking-widest mb-3 ${isUrg ? 'bg-rose-500 text-slate-950 shadow-lg shadow-rose-500/30 animate-pulse' : 'bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/30'}`;
                 title.textContent = payload.tech_name;
                 title.className = "text-5xl md:text-6xl font-black uppercase tracking-tight mb-3 text-white break-words drop-shadow-md";
-                subtitle.textContent = payload.reason || "Comparecer à Sala da Diretoria";
+                subtitle.textContent = payload.reason || "Comparecer à Sala do Sr. Jacson";
                 subtitle.className = `text-2xl md:text-3xl font-extrabold ${isUrg ? 'text-rose-400' : 'text-amber-400'} uppercase mb-4 break-words`;
                 extra.innerHTML = payload.audio_base64
-                    ? `<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-sm font-bold text-amber-300 animate-pulse"><i data-lucide="mic" class="w-4 h-4"></i><span>Reproduzindo áudio de voz do chefe...</span></div>`
-                    : `<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-semibold text-zinc-300"><i data-lucide="building" class="w-3.5 h-3.5 text-amber-400"></i><span>${esc(payload.sender || 'Sala da Diretoria')}</span></div>`;
+                    ? `<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-amber-500/20 border border-amber-500/40 text-sm font-bold text-amber-300 animate-pulse"><i data-lucide="mic" class="w-4 h-4"></i><span>Reproduzindo áudio de voz do Sr. Jacson...</span></div>`
+                    : `<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-semibold text-zinc-300"><i data-lucide="user-check" class="w-3.5 h-3.5 text-amber-400"></i><span>${esc(payload.sender || 'Sr. Jacson')}</span></div>`;
 
                 playSynthesizedSound(isUrg ? "urgent" : "bell", true);
             } else if (payload.type === "call_alert") {
