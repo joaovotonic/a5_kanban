@@ -451,20 +451,37 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
 
 ---
 
-## 📌 Item 27: Distinção Metrológica Lacre vs Selo Reparado, Remoção de Imagens IA e Fluxograma Interativo
+## 📌 Item 27: Distinção Metrológica Lacre vs Selo Reparado e Fluxograma Dinâmico 100% Digital
 
 * **Status:** ✅ **Implementado e Homologado em Produção**
 * **Solicitante:** Diretoria / Sr. Jacson
 * **Telas & Arquivos Impactados:**
-  - `templates/apresentacao.html` (Substituição de imagens por Fluxograma Dinâmico de 6 etapas e clarificação técnica de Lacre vs Selo Reparado)
-  - `templates/folha.html` (Inclusão de campo formal tracejado: "COLAR O CANHOTO DO SELO REPARADO AQUI")
+  - `templates/apresentacao.html` (Fluxograma Dinâmico de 6 etapas, eliminação de menções a "Inmetro", distinção Lacre IPEM A5 vs Selo Reparado e integração com Teorema ERP)
+  - `templates/folha.html` (Preservação da folha técnica interna sem caixas de canhoto)
 * **Principais Entregas:**
   1. **Distinção Técnica & Regulatória Oficial:**
-     - **O Lacre:** Trava física/mecânica numerada colocada pelo técnico no parafuso de ajuste da balança para impedir violação (número registrado digitalmente na O.S.).
-     - **O Selo Reparado (IPEM):** Selo adesivo oficial de reparo colado na carcaça da balança finalizada. O seu **canhoto** destacável é colado na folha física de O.S.
-     - **Momento da Impressão:** A O.S. só é impressa no momento em que o cliente retira a balança, servindo para colagem do canhoto do Selo Reparado e colheita da assinatura do cliente.
+     - **O Lacre:** Trava física/mecânica numerada colocada pelo técnico no parafuso de ajuste da balança para impedir violação (número digitado no celular `/saida`).
+     - **O Selo Reparado (IPEM):** Selo adesivo oficial de reparo colado na carcaça da balança finalizada. O seu **canhoto** destacável é colado exclusivamente na **O.S. física impressa do Teorema**.
+     - **O Kanban A5 é 100% Digital:** O projeto Kanban não imprime papel durante todo o ciclo. Na retirada do cliente, a Priscila copia o Lacre com 1 clique para o **Teorema**, imprime a O.S. oficial do Teorema ERP, cola o canhoto do Selo Reparado nela e colhe a assinatura do cliente.
   2. **Fluxograma Dinâmico do Ciclo da Balança na A5:**
-     - Pipeline interativo navegável de 6 fases conectadas: Recepção ➔ Bancada Mobile ➔ TV & Jacson ➔ Reparo & Estufa ➔ Lacração & Selo IPEM ➔ Balcão de Entrega.
-     - Painel dinâmico com detalhamento de papéis, automação, ganho de minutos e tecla de atalho rápida (teclas 1 a 6).
-  3. **Remoção de Imagens Artificiais:**
+     - Pipeline interativo navegável de 6 fases conectadas: Recepção ➔ Bancada Mobile ➔ TV & Jacson ➔ Reparo & Estufa ➔ Lacração & Selo IPEM ➔ O.S. Teorema (Selo & Assinatura).
+     - Painel dinâmico com detalhamento de papéis, automação, ganho de minutos e teclas de atalho (teclas 1 a 6).
+  3. **Remoção de Imagens Sintéticas de IA:**
      - Eliminação de fotos sintéticas, privilegiando diagramação técnica limpa, executiva e de alta densidade informativa.
+
+---
+
+## 📌 Item 28: Vetorização Fiel do Emblema Oficial A5 e Padronização Visual Global
+
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Gerência Operacional
+* **Telas & Arquivos Impactados:**
+  - `static/img/logo_a5.svg` (Vetor SVG com geometria exata da marca oficial)
+  - `templates/admin.html`, `templates/tv.html`, `templates/apresentacao.html`, `templates/consulta.html`, `templates/diretoria.html`, `templates/gerencia.html`, `templates/saida.html`, `templates/recepcao_fotos.html`
+* **Principais Entregas:**
+  1. **Tipografia e Geometria Fiel à Marca Oficial:**
+     - Emblema retangular azul `#254a93` com cantos arredondados e texto "A5" em fonte serifada romana clássica (`'Times New Roman', Georgia, serif`), centralizado matematicamente via SVG (`dominant-baseline="central"` e `text-anchor="middle"`), eliminando distorções de baseline no Windows.
+     - "Tecnologia" em Title Case (caixa mista, sem `uppercase` forçado) na cor azul corporativa `#254a93` no tema clean e branco no tema escuro.
+     - "Balanças e Sistemas" em ciano `#2aa6c8` / sky blue.
+  2. **Eliminação de Fundo Branco:**
+     - Remoção de qualquer contêiner branco que envolvia a logo, garantindo integração nativa transparente e limpa aos cabeçalhos de todas as telas do sistema.
