@@ -9,7 +9,7 @@ from .board import normalize_quote_data
 CSV_HEADER = [
     "Nº O.S.", "Cliente", "Equipamento", "Modelo", "Nº de Série", "Coluna Atual",
     "Técnico Responsável", "Técnico Avaliador", "Técnico Finalizador",
-    "Serviço Feito Anteriormente", "Lacre Inmetro/IPEM", "Peças Utilizadas",
+    "Serviço Feito Anteriormente", "Lacre Inpem A5", "Peças Utilizadas",
     "Laudo Técnico / Causa", "Solução Executada", "Data Entrada", "Data Finalização"
 ]
 

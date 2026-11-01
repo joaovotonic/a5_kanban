@@ -124,9 +124,7 @@
     <!-- TOP NAVBAR (Design System Linear/SaaS) -->
     <header class="a5-header px-5 py-2.5 flex flex-wrap items-center justify-between gap-3 z-20">
         <div class="flex items-center gap-3">
-            <div class="flex items-center justify-center bg-sky-500 text-slate-950 font-extrabold w-8 h-8 rounded-lg text-sm tracking-wider shadow-sm">
-                A5
-            </div>
+            <img src="/static/img/logo_a5.png" alt="A5 Tecnologia" class="h-9 w-auto object-contain rounded-lg shadow-sm bg-white/10 dark:bg-white/5 p-0.5">
             <div>
                 <div class="flex items-center gap-2">
                     <h1 class="font-extrabold text-sm tracking-tight leading-none text-slate-900 dark:text-white">A5 TECNOLOGIA</h1>
@@ -631,7 +629,7 @@
                 ${isReady ? `
                     <div class="flex items-center justify-between gap-2 rounded-xl bg-zinc-900/90 text-white p-2.5 border border-emerald-500/30">
                         <div class="min-w-0">
-                            <div class="text-[9px] font-bold uppercase tracking-wider text-emerald-400">Lacre Inmetro Lacrado</div>
+                            <div class="text-[9px] font-bold uppercase tracking-wider text-emerald-400">Lacre Inpem A5</div>
                             <div class="text-base font-bold font-mono tracking-widest text-emerald-300 break-all">${esc(notif.inmetro_seal || 'NÃO INFORMADO')}</div>
                         </div>
                         ${notif.inmetro_seal ? `<button type="button" onclick="copySealNumber('${esc(notif.inmetro_seal)}')" class="shrink-0 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-2.5 py-1 rounded-lg text-xs transition flex items-center gap-1 shadow-sm"><i data-lucide="copy" class="w-3.5 h-3.5"></i> Copiar</button>` : ''}
@@ -1021,7 +1019,7 @@
                              onclick="event.stopPropagation(); copySealNumber(this.dataset.seal)" data-seal="${esc(card.inmetro_seal)}"
                              title="Clique para copiar o lacre">
                             <div class="min-w-0">
-                                <div class="text-[9px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Lacre Colocado</div>
+                                <div class="text-[9px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Lacre Inpem A5</div>
                                 <div class="text-xs font-bold font-mono tracking-wide text-slate-900 dark:text-white truncate">${esc(card.inmetro_seal)}</div>
                             </div>
                             <i data-lucide="copy" class="w-3.5 h-3.5 text-emerald-500 shrink-0"></i>
@@ -1607,13 +1605,13 @@
                     </p>
                 </div>
 
-                <!-- 3. LACRE INMETRO -->
+                <!-- 3. LACRE INPEM A5 -->
                 ${card.inmetro_seal ? `
                     <div class="mb-4 px-4 py-2.5 rounded-xl border border-emerald-500/30 bg-emerald-500/5 dark:bg-emerald-950/20 flex flex-wrap items-center justify-between gap-2">
                         <div class="flex items-center gap-3">
                             <span class="text-xs font-bold uppercase tracking-wider text-emerald-500 flex items-center gap-1.5">
                                 <i data-lucide="shield-check" class="w-4 h-4"></i>
-                                Lacre Colocado:
+                                Lacre Inpem A5:
                             </span>
                             <span class="text-base font-bold font-mono tracking-wider text-slate-900 dark:text-white bg-white dark:bg-zinc-900 px-3 py-0.5 rounded-md border border-emerald-500/30">
                                 ${esc(card.inmetro_seal)}

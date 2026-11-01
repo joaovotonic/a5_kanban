@@ -132,7 +132,7 @@
     <!-- HEADER FIXO -->
     <header class="bg-zinc-950/90 border-b border-zinc-800 px-4 py-3 sticky top-0 z-30 backdrop-blur-md flex items-center justify-between gap-2">
         <div class="flex items-center gap-2.5 min-w-0">
-            <span class="bg-sky-500 text-slate-950 font-mono font-black px-2.5 py-1 rounded-lg text-sm shrink-0">A5</span>
+            <img src="/static/img/logo_a5.png" alt="A5 Tecnologia" class="h-8 w-auto object-contain rounded-lg shadow-sm bg-white/10 dark:bg-white/5 p-0.5 shrink-0">
             <div class="min-w-0">
                 <h1 class="font-bold text-sm leading-tight truncate text-slate-900 dark:text-zinc-100">BANCADA TÉCNICA DIGITAL</h1>
                 <p id="headerSub" class="text-[11px] text-sky-600 dark:text-sky-400 font-semibold truncate">Orçamento & Finalização via QR Code</p>
@@ -608,11 +608,11 @@
                         class="w-full min-w-0 surface-inner rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-sky-500"></textarea>
                 </div>
 
-                <!-- LACRE COLOCADO E PRATELEIRA -->
+                <!-- LACRE INPEM A5 E PRATELEIRA -->
                 <div class="grid grid-cols-2 gap-3">
                     <div class="min-w-0">
-                        <label class="block text-xs font-bold uppercase text-slate-300 mb-1 truncate">Lacre Colocado *</label>
-                        <input type="text" inputmode="numeric" pattern="[0-9]*" name="inmetro_seal" id="inmetroSealInput" required placeholder="Nº do Lacre novo"
+                        <label class="block text-xs font-bold uppercase text-slate-300 mb-1 truncate">Lacre Inpem A5 *</label>
+                        <input type="text" inputmode="numeric" pattern="[0-9]*" name="inmetro_seal" id="inmetroSealInput" required placeholder="Nº Lacre Inpem A5"
                             class="w-full min-w-0 surface-inner rounded-xl px-3 py-2.5 font-bold text-sky-300 focus:outline-none focus:border-sky-500">
                     </div>
                     <div class="min-w-0">
@@ -1728,7 +1728,7 @@
                                 <span>Téc: <strong>${esc(card.finisher_tech || card.tech_name || '-')}</strong></span>
                             </div>
                             <div class="text-xs text-white font-bold leading-relaxed">${esc(qd.solution || card.tech_notes || '-')}</div>
-                            <div class="text-xs text-emerald-400 font-mono font-black pt-1">🛡️ Lacre: ${esc(card.inmetro_seal || '-')}</div>
+                            <div class="text-xs text-emerald-400 font-mono font-black pt-1">🛡️ Lacre Inpem A5: ${esc(card.inmetro_seal || '-')}</div>
                         </div>
                     ` : ''}
 

@@ -3,28 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apresentação Executiva - A5 Tecnologia | Kanban Inteligente</title>
+    <title>Apresentação Operacional • A5 Tecnologia | Eficiência & Organização</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { darkMode: 'class' };
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
+                    }
+                }
+            }
+        };
     </script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        :root {
+            --bg-body: #06080d;
+            --text-main: #f1f5f9;
+            --card-bg: #0e131f;
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-bg: rgba(9, 12, 20, 0.85);
+        }
+
+        html.clean-mode {
+            --bg-body: #f8fafc;
+            --text-main: #0f172a;
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --header-bg: rgba(255, 255, 255, 0.92);
+        }
+
         body {
-            background-color: #06080d;
-            color: #f1f5f9;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
 
         .slide {
             display: none;
             opacity: 0;
-            transform: translateY(18px) scale(0.99);
+            transform: translateY(16px) scale(0.99);
             transition: opacity 0.35s ease-out, transform 0.35s ease-out;
         }
         .slide.active {
@@ -33,332 +59,491 @@
             transform: translateY(0) scale(1);
         }
 
-        /* Efeito de Desenho Antigo Monocromático (Passado) */
-        .sketch-card {
-            background: #1c1b18;
-            border: 2px dashed #78716c;
-            color: #d6d3d1;
-            filter: grayscale(100%) contrast(110%);
-            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.7);
+        /* Estilo do Passado (Analógico / Manual) */
+        .pain-card {
+            background: #181512;
+            border: 2px dashed #78350f;
+            color: #fef3c7;
+            box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.6);
+        }
+        html.clean-mode .pain-card {
+            background: #fffbeb;
+            border: 2px dashed #d97706;
+            color: #78350f;
+            box-shadow: 0 4px 14px rgba(217, 119, 6, 0.08);
         }
 
-        /* Efeito de Tecnologia Colorida Vibrante (Presente A5) */
+        /* Estilo da Tecnologia A5 (Moderno & Eficiente) */
         .tech-card {
-            background: linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%), #0e131f;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.06) 0%, rgba(16, 185, 129, 0.06) 100%), var(--card-bg);
             border: 1px solid rgba(14, 165, 233, 0.3);
-            box-shadow: 0 0 35px rgba(14, 165, 233, 0.15);
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.08);
+        }
+        html.clean-mode .tech-card {
+            background: #ffffff;
+            border: 1px solid #38bdf8;
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.08);
+        }
+
+        /* Modal de visualização de foto ampliada */
+        .img-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .img-modal.active {
+            display: flex;
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between select-none">
 
-    <!-- TOPBAR EXECUTIVA -->
-    <header class="px-6 py-4 border-b border-white/10 bg-zinc-950/80 backdrop-blur-md flex items-center justify-between sticky top-0 z-50">
+    <!-- TOPBAR EXECUTIVA COM LOGO OFICIAL E MODO CLEAN -->
+    <header class="px-5 py-3 border-b border-white/10 dark:border-white/10 clean:border-slate-200 bg-[var(--header-bg)] backdrop-blur-md flex items-center justify-between sticky top-0 z-40 transition-colors">
         <div class="flex items-center gap-3">
-            <span class="bg-gradient-to-r from-sky-500 to-emerald-400 text-slate-950 font-mono font-black px-3 py-1 rounded-xl text-sm shadow-md">
-                A5 TECNOLOGIA
-            </span>
+            <img src="/static/img/logo_a5.png" alt="A5 Tecnologia" class="h-9 sm:h-10 w-auto object-contain rounded-lg bg-white/10 dark:bg-white/5 p-1 shadow-sm">
             <div>
-                <span class="text-xs font-black uppercase tracking-wider text-slate-200">Apresentação Operacional & Estratégica</span>
-                <span class="text-[11px] text-slate-400 hidden sm:inline">• Oficina 4.0 Toledo Prix</span>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-900 dark:text-white">A5 TECNOLOGIA</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
+                        Toledo Prix 4.0
+                    </span>
+                </div>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 hidden sm:block">Apresentação Operacional • Foco em Organização & Tempo</p>
             </div>
         </div>
 
-        <!-- Barra de Progresso e Controles -->
-        <div class="flex items-center gap-4">
+        <!-- Barra de Progresso e Botões de Controle -->
+        <div class="flex items-center gap-3">
+            <!-- Alternador Modo Clean / Dark -->
+            <button onclick="toggleCleanMode()" id="cleanModeToggleBtn"
+                class="px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-zinc-700 shadow-sm"
+                title="Alternar Tema Claro / Escuro (Atalho: C)">
+                <i data-lucide="sun" class="w-4 h-4 text-amber-500 dark:hidden"></i>
+                <i data-lucide="moon" class="w-4 h-4 text-sky-400 hidden dark:inline"></i>
+                <span id="cleanModeLabel">Modo Clean</span>
+            </button>
+
+            <!-- Contador de Slide e Barra -->
             <div class="flex items-center gap-2">
-                <span id="slideCounter" class="font-mono text-xs font-bold text-sky-400">1 / 7</span>
-                <div class="w-24 sm:w-36 h-2 bg-zinc-800 rounded-full overflow-hidden">
-                    <div id="progressBar" class="h-full bg-gradient-to-r from-sky-500 to-emerald-400 transition-all duration-300" style="width: 14%;"></div>
+                <span id="slideCounter" class="font-mono text-xs font-bold text-sky-500 dark:text-sky-400">1 / 6</span>
+                <div class="w-20 sm:w-28 h-2 bg-slate-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                    <div id="progressBar" class="h-full bg-gradient-to-r from-sky-500 to-emerald-500 transition-all duration-300" style="width: 16.6%;"></div>
                 </div>
             </div>
 
-            <button onclick="toggleFullscreen()" class="p-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-sky-500 text-slate-300 transition" title="Tela Cheia (F)">
+            <!-- Tela Cheia -->
+            <button onclick="toggleFullscreen()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-slate-200 transition" title="Tela Cheia (F)">
                 <i data-lucide="maximize" class="w-4 h-4"></i>
             </button>
         </div>
     </header>
 
     <!-- CONTAINER DOS SLIDES -->
-    <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-8 flex items-center justify-center">
+    <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex items-center justify-center">
 
-        <!-- SLIDE 1: CAPA COMERCIAL -->
+        <!-- =================================================================== -->
+        <!-- SLIDE 1: CAPA EXECUTIVA                                             -->
+        <!-- =================================================================== -->
         <section id="slide-1" class="slide active flex-col items-center text-center space-y-6 my-auto">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs font-bold tracking-widest uppercase">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-600 dark:text-sky-400 text-xs font-bold tracking-widest uppercase">
                 <i data-lucide="sparkles" class="w-4 h-4"></i>
-                <span>Transformação Digital de Oficina Técnica</span>
+                <span>Apresentação Executiva para o Sr. Jacson</span>
             </div>
 
-            <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white max-w-3xl leading-tight">
-                A Revolução da Operação na <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">A5 Tecnologia</span>
+            <div class="flex justify-center">
+                <img src="/static/img/logo_a5.png" alt="A5 Tecnologia" class="h-20 sm:h-24 w-auto object-contain rounded-2xl bg-white/10 dark:bg-white/5 p-2 shadow-xl border border-sky-500/20">
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white max-w-3xl leading-tight">
+                Menos Papelada. <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-emerald-500">Mais Organização & Agilidade</span> na A5
             </h1>
 
-            <p class="text-base sm:text-lg text-slate-400 max-w-2xl font-medium">
-                Da ordem de serviço manual em papel para um ecossistema sem fio, integrado em tempo real entre <strong class="text-white">Recepção</strong>, <strong class="text-white">Bancadas</strong>, <strong class="text-white">TV</strong> e a <strong class="text-white">Sala do Sr. Jacson</strong>.
+            <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl font-medium leading-relaxed">
+                Um sistema construído para <strong>eliminar o tempo perdido procurando papéis</strong> e <strong>levar ordens de serviço de um lado para o outro</strong>. Um fluxo 100% digital entre Recepção, Bancadas, TV da Oficina e Sala da Diretoria.
             </p>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 w-full max-w-3xl">
-                <div class="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800/80">
-                    <i data-lucide="zap" class="w-6 h-6 text-amber-400 mx-auto mb-2"></i>
-                    <span class="block text-xl font-mono font-bold text-white">Zero Papel</span>
-                    <span class="text-[11px] text-slate-400">Fluxo 100% digital</span>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 w-full max-w-3xl">
+                <div class="p-4 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm">
+                    <i data-lucide="clock" class="w-6 h-6 text-amber-500 mx-auto mb-2"></i>
+                    <span class="block text-lg font-mono font-bold text-slate-900 dark:text-white">Tempo Recuperado</span>
+                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Zero caça a papéis</span>
                 </div>
-                <div class="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800/80">
-                    <i data-lucide="qr-code" class="w-6 h-6 text-sky-400 mx-auto mb-2"></i>
-                    <span class="block text-xl font-mono font-bold text-white">QR Code</span>
-                    <span class="text-[11px] text-slate-400">Bancada no celular</span>
+                <div class="p-4 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm">
+                    <i data-lucide="qr-code" class="w-6 h-6 text-sky-500 mx-auto mb-2"></i>
+                    <span class="block text-lg font-mono font-bold text-slate-900 dark:text-white">Bancada no Celular</span>
+                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Bipou, orçou, salvou</span>
                 </div>
-                <div class="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800/80">
-                    <i data-lucide="tv" class="w-6 h-6 text-emerald-400 mx-auto mb-2"></i>
-                    <span class="block text-xl font-mono font-bold text-white">Painel TV</span>
-                    <span class="text-[11px] text-slate-400">Placar & música</span>
+                <div class="p-4 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm">
+                    <i data-lucide="tv" class="w-6 h-6 text-emerald-500 mx-auto mb-2"></i>
+                    <span class="block text-lg font-mono font-bold text-slate-900 dark:text-white">Painel da TV</span>
+                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Oficina sincronizada</span>
                 </div>
-                <div class="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800/80">
-                    <i data-lucide="mic" class="w-6 h-6 text-rose-400 mx-auto mb-2"></i>
-                    <span class="block text-xl font-mono font-bold text-white">Voz Neural</span>
-                    <span class="text-[11px] text-slate-400">Intercom inteligente</span>
+                <div class="p-4 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-indigo-500 mx-auto mb-2"></i>
+                    <span class="block text-lg font-mono font-bold text-slate-900 dark:text-white">Lacre Inpem A5</span>
+                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Canhoto na entrega</span>
                 </div>
             </div>
         </section>
 
-        <!-- SLIDE 2: O CONTRASTE - PASSADO (MANUAL) VS PRESENTE (TECNOLOGIA A5) -->
-        <section id="slide-2" class="slide flex-col space-y-6 w-full">
-            <div class="text-center space-y-2">
-                <span class="text-xs font-mono font-bold text-amber-400 uppercase tracking-widest">O Choque de Realidade</span>
-                <h2 class="text-3xl sm:text-4xl font-black text-white">O Passado Analógico vs O Presente Conectado</h2>
+        <!-- =================================================================== -->
+        <!-- SLIDE 2: O PROBLEMA REAL DO PASSADO (A CAÇA AO PAPEL)               -->
+        <!-- =================================================================== -->
+        <section id="slide-2" class="slide flex-col space-y-5 w-full">
+            <div class="text-center space-y-1.5">
+                <span class="text-xs font-mono font-bold text-amber-600 dark:text-amber-400 uppercase tracking-widest">O Choque de Realidade</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white">Por Que Criamos Este Sistema?</h2>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
+                    O maior ladrão de tempo na nossa empresa não era a solda ou a calibração: <strong>era a papelada manual</strong>.
+                </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                <!-- PASSADO MONOCROMÁTICO / ESBOÇO -->
-                <div class="sketch-card rounded-3xl p-6 sm:p-7 space-y-4 relative">
-                    <div class="flex items-center justify-between border-b border-stone-600 pb-3">
-                        <span class="text-xs font-mono font-black uppercase text-stone-400">❌ O Passado Manual</span>
-                        <span class="text-xs font-bold text-stone-400">Lentidão & Gargalos</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
+                <!-- PASSADO MANUAL -->
+                <div class="pain-card rounded-3xl p-5 sm:p-6 space-y-3.5 relative">
+                    <div class="flex items-center justify-between border-b border-amber-900/30 dark:border-stone-700 pb-2.5">
+                        <span class="text-xs font-mono font-black uppercase text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
+                            <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                            Como Era Antes (Manual em Papel)
+                        </span>
+                        <span class="text-xs font-bold text-amber-700 dark:text-stone-400">Desperdício de Horas</span>
                     </div>
-                    <ul class="space-y-3 text-xs sm:text-sm text-stone-300">
+                    <ul class="space-y-3 text-xs sm:text-sm">
                         <li class="flex items-start gap-2.5">
-                            <span class="text-stone-500 font-bold">✕</span>
-                            <span><strong>Montanhas de papel:</strong> Folhas de O.S. rabiscadas, rasuradas ou que se perdiam pela bancada.</span>
+                            <span class="text-rose-500 font-bold text-base leading-none">✕</span>
+                            <span><strong>Caça à O.S. no meio da pilha:</strong> Minutos preciosos revirando pastas, gavetas e bancadas para saber onde estava a folha de uma balança.</span>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <span class="text-stone-500 font-bold">✕</span>
-                            <span><strong>Falta de comunicação:</strong> Alguém precisava atravessar a oficina ou gritar para saber se o orçamento foi aprovado.</span>
+                            <span class="text-rose-500 font-bold text-base leading-none">✕</span>
+                            <span><strong>O "Leva e Traz" de papéis:</strong> Ter que levantar da mesa para levar a folha até a bancada do técnico, depois levar a folha na sala do Sr. Jacson para aprovar, depois voltar para a recepção.</span>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <span class="text-stone-500 font-bold">✕</span>
-                            <span><strong>Preços em planilhas/tabelas soltas:</strong> Consulta demorada de código e preço de peças Toledo Prix.</span>
+                            <span class="text-rose-500 font-bold text-base leading-none">✕</span>
+                            <span><strong>Interrupções Constantes:</strong> A Priscila precisava atravessar a oficina para perguntar se uma balança já tinha orçamento pronto para responder ao cliente.</span>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <span class="text-stone-500 font-bold">✕</span>
-                            <span><strong>Diretoria no escuro:</strong> Para o Sr. Jacson falar com alguém, tinha que interromper suas reuniões e caminhar até a oficina.</span>
+                            <span class="text-rose-500 font-bold text-base leading-none">✕</span>
+                            <span><strong>Folhas rabiscadas e sujas:</strong> Papelada com óleo, rasuras, peças anotadas sem código oficial e risco constante de sumiço.</span>
                         </li>
                     </ul>
                 </div>
 
-                <!-- PRESENTE COLORIDO E VIBRANTE -->
-                <div class="tech-card rounded-3xl p-6 sm:p-7 space-y-4 relative overflow-hidden">
-                    <div class="flex items-center justify-between border-b border-sky-500/20 pb-3">
-                        <span class="text-xs font-mono font-black uppercase text-emerald-400">✅ A Era Digital A5</span>
-                        <span class="text-xs font-mono font-bold text-sky-400">Eficiência 4.0</span>
+                <!-- PRESENTE DIGITAL A5 -->
+                <div class="tech-card rounded-3xl p-5 sm:p-6 space-y-3.5 relative overflow-hidden">
+                    <div class="flex items-center justify-between border-b border-sky-500/20 pb-2.5">
+                        <span class="text-xs font-mono font-black uppercase text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                            Como Ficou Agora (A5 Tecnologia 4.0)
+                        </span>
+                        <span class="text-xs font-mono font-bold text-sky-600 dark:text-sky-400">Organização Total</span>
                     </div>
-                    <ul class="space-y-3 text-xs sm:text-sm text-slate-200">
+                    <ul class="space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-200">
                         <li class="flex items-start gap-2.5">
-                            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
-                            <span><strong>QR Code & Folha Digital:</strong> O técnico apenas aponta o celular para a balança e tudo abre na tela na hora.</span>
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5 font-bold"></i>
+                            <span><strong>Localização em 1 Segundo:</strong> A Priscila digita o número da O.S. ou cliente e já vê na hora: qual bancada está, com qual técnico e o que foi feito.</span>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
-                            <span><strong>Sincronização em Milissegundos:</strong> A Priscila aprova na recepção, a bancada destrava no mesmo instante.</span>
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5 font-bold"></i>
+                            <span><strong>Zero "Leva e Traz":</strong> O técnico aponta o celular para o QR Code colado no chassi da balança. O orçamento entra no sistema no mesmo instante.</span>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
-                            <span><strong>Catálogo Oficial Toledo Integrado:</strong> Busca instantânea com cálculo de margem e tolerância metrológica (±2e).</span>
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5 font-bold"></i>
+                            <span><strong>Sincronia Automática:</strong> Se o cliente aprova na recepção, a bancada do técnico destrava na hora e a TV da oficina atualiza sem ninguém precisar dar um passo.</span>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
-                            <span><strong>Intercom do Sr. Jacson:</strong> Voz neural humana de estúdio avisa qualquer técnico direto nas caixas da TV.</span>
+                            <i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5 font-bold"></i>
+                            <span><strong>Intercom do Sr. Jacson:</strong> Quando o Sr. Jacson precisa falar com Priscila, Roosevelt, Arthur ou técnicos, basta apertar 1 botão na sala dele.</span>
                         </li>
                     </ul>
                 </div>
             </div>
         </section>
 
-        <!-- SLIDE 3: O PAPEL DA RECEPÇÃO (PRISCILA) -->
-        <section id="slide-3" class="slide flex-col space-y-6 w-full">
-            <div class="text-center space-y-2">
-                <span class="text-xs font-mono font-bold text-sky-400 uppercase tracking-widest">Pilar 1 • Entrada & Controle</span>
-                <h2 class="text-3xl sm:text-4xl font-black text-white">Recepção Ágil & Inteligente (Priscila)</h2>
+        <!-- =================================================================== -->
+        <!-- SLIDE 3: A REGRA DE OURO DA A5 (ONDE O PAPEL ENTRA)                 -->
+        <!-- =================================================================== -->
+        <section id="slide-3" class="slide flex-col space-y-5 w-full">
+            <div class="text-center space-y-1.5">
+                <span class="text-xs font-mono font-bold text-sky-600 dark:text-sky-400 uppercase tracking-widest">A Regra Fundamental</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white">Zero Papel na Oficina. Impressão Apenas na Entrega!</h2>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                    Entenda como funciona o novo padrão: durante o conserto ninguém gasta folha de papel. A folha só é impressa para o cliente assinar e colar o <strong>Lacre Inpem A5</strong>.
+                </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
-                <div class="p-6 rounded-3xl bg-zinc-900 border border-zinc-800 space-y-3">
-                    <div class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-400 flex items-center justify-center">
-                        <i data-lucide="camera" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-white">Fotos no Celular antes da O.S.</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Priscila tira fotos do equipamento na chegada pelo celular em <code>/recepcao-fotos</code>. Ao cadastrar no Teorema, as fotos já estão anexadas com segurança jurídica.
-                    </p>
-                </div>
-
-                <div class="p-6 rounded-3xl bg-zinc-900 border border-zinc-800 space-y-3">
-                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-                        <i data-lucide="printer" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-white">Etiqueta Térmica com QR Code</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Impressão imediata de 60x40mm com QR Code de rastreio colada no chassi da balança. O técnico não digita nada: é só bipar.
-                    </p>
-                </div>
-
-                <div class="p-6 rounded-3xl bg-zinc-900 border border-zinc-800 space-y-3">
-                    <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
-                        <i data-lucide="shield-check" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-white">Auditoria & Lacre Inmetro</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Controle rígido da coluna <code>BALANÇAS PRONTAS</code> antes de finalizar, garantindo validação de lacre do Inmetro e conferência administrativa.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- SLIDE 4: A BANCADA TÉCNICA DIGITAL (TÉCNICOS) -->
-        <section id="slide-4" class="slide flex-col space-y-6 w-full">
-            <div class="text-center space-y-2">
-                <span class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-widest">Pilar 2 • Produtividade de Oficina</span>
-                <h2 class="text-3xl sm:text-4xl font-black text-white">Bancada Mobile dos Técnicos (/saida)</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
-                <div class="p-6 rounded-3xl bg-zinc-900 border border-zinc-800 space-y-3">
-                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-                        <i data-lucide="smartphone" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-white">Folha Digital de Orçamento</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Cada técnico acessa sua bancada no celular. Preenche serviços, seleciona peças da Toledo Prix com busca inteligente e anexa fotos de peças danificadas.
-                    </p>
-                </div>
-
-                <div class="p-6 rounded-3xl bg-zinc-900 border border-zinc-800 space-y-3">
-                    <div class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-400 flex items-center justify-center">
-                        <i data-lucide="scale" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-white">Tolerância Metrológica ±2e</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        O sistema calcula automaticamente o Erro Máximo Admissível (EMA) de calibração segundo as normas do Inmetro, evitando erros de pesagem.
-                    </p>
-                </div>
-
-                <div class="p-6 rounded-3xl bg-zinc-900 border border-zinc-800 space-y-3">
-                    <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
-                        <i data-lucide="timer" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-white">Estufa Térmica Conectada</h3>
-                    <p class="text-xs text-slate-400 leading-relaxed">
-                        Cronômetros de teste de placa (15, 30 e 60 min) ativados no momento do orçamento com contagem regressiva em tempo real na TV e aviso sonoro de retirada.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- SLIDE 5: PAINEL TV & INTERCOM DO SR. JACSON -->
-        <section id="slide-5" class="slide flex-col space-y-6 w-full">
-            <div class="text-center space-y-2">
-                <span class="text-xs font-mono font-bold text-rose-400 uppercase tracking-widest">Pilar 3 & 4 • Gestão Visual & Comando</span>
-                <h2 class="text-3xl sm:text-4xl font-black text-white">Painel da TV da Oficina & Sala do Sr. Jacson</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                <div class="p-6 rounded-3xl bg-zinc-900 border border-zinc-800 space-y-4">
+            <!-- CICLO DE VIDA COMPARATIVO -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+                <div class="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 space-y-4 shadow-sm">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-                            <i data-lucide="tv" class="w-5 h-5"></i>
+                        <div class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-500 flex items-center justify-center shrink-0">
+                            <i data-lucide="smartphone" class="w-6 h-6"></i>
                         </div>
-                        <h3 class="text-base font-bold text-white">Smart TV Operacional (/painel-tv)</h3>
+                        <div>
+                            <span class="text-[10px] font-mono font-bold uppercase text-sky-500">Etapa 1 a 4 • 100% Digital</span>
+                            <h3 class="text-base font-bold text-slate-900 dark:text-white">Durante o Conserto na Oficina</h3>
+                        </div>
                     </div>
-                    <ul class="text-xs text-slate-300 space-y-2.5 leading-relaxed">
-                        <li>• <strong>Placar de Produtividade:</strong> Contagem diária de balanças finalizadas na oficina.</li>
-                        <li>• <strong>Música de Fundo com Audio Ducking:</strong> Toca playlists do YouTube e corta o volume automaticamente quando surge um chamado.</li>
-                        <li>• <strong>Locução Neural Humana (Edge-TTS):</strong> A TV anuncia em voz alta com entonação de estúdio quando novas balanças chegam ou são concluídas.</li>
-                    </ul>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Nenhum papel é impresso enquanto a balança está na oficina. O técnico não carrega pranchetas nem perde folhas rabiscadas.
+                    </p>
+                    <div class="space-y-2 text-xs font-medium text-slate-700 dark:text-slate-300">
+                        <div class="flex items-center gap-2 p-2 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+                            <span class="w-5 h-5 rounded-full bg-sky-500/20 text-sky-500 flex items-center justify-center text-[10px] font-bold">1</span>
+                            <span>Fotos da balança na chegada feitas direto no celular da recepção.</span>
+                        </div>
+                        <div class="flex items-center gap-2 p-2 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+                            <span class="w-5 h-5 rounded-full bg-sky-500/20 text-sky-500 flex items-center justify-center text-[10px] font-bold">2</span>
+                            <span>Etiqueta térmica adesiva de 60x40mm com QR Code colada no chassi.</span>
+                        </div>
+                        <div class="flex items-center gap-2 p-2 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800">
+                            <span class="w-5 h-5 rounded-full bg-sky-500/20 text-sky-500 flex items-center justify-center text-[10px] font-bold">3</span>
+                            <span>Orçamento, fotos de peças estragadas e testes salvos pelo celular do técnico.</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="p-6 rounded-3xl bg-zinc-900 border border-zinc-800 space-y-4">
+                <div class="p-6 rounded-3xl bg-white dark:bg-zinc-900 border-2 border-emerald-500/40 space-y-4 shadow-sm relative overflow-hidden">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
-                            <i data-lucide="radio" class="w-5 h-5"></i>
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0">
+                            <i data-lucide="printer" class="w-6 h-6"></i>
                         </div>
-                        <h3 class="text-base font-bold text-white">Intercom do Sr. Jacson (/diretoria)</h3>
+                        <div>
+                            <span class="text-[10px] font-mono font-bold uppercase text-emerald-500">Etapa Final • Única Impressão</span>
+                            <h3 class="text-base font-bold text-slate-900 dark:text-white">Na Entrega ao Cliente no Balcão</h3>
+                        </div>
                     </div>
-                    <ul class="text-xs text-slate-300 space-y-2.5 leading-relaxed">
-                        <li>• <strong>Comando Direto da Sala:</strong> O Sr. Jacson chama qualquer técnico, Priscila, Roosevelt ou Arthur com 1 toque no celular ou PC.</li>
-                        <li>• <strong>Texto ou Áudio Real:</strong> Pode escrever o recado para a voz neural falar, ou gravar a sua própria voz no microfone.</li>
-                        <li>• <strong>Botão de Emergência:</strong> O botão URGENTE aciona sirene e moldura vermelha na oficina.</li>
-                    </ul>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                        A folha física de O.S. só sai da impressora no momento exato em que a balança está pronta e o cliente chega para retirar.
+                    </p>
+                    <div class="space-y-3 pt-1">
+                        <div class="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 space-y-1">
+                            <div class="flex items-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                                <i data-lucide="pen-tool" class="w-4 h-4"></i>
+                                <span>1. Assinatura do Cliente</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600 dark:text-slate-300">
+                                Formalização jurídica da entrega da balança, garantia de serviços e peças originais Toledo.
+                            </p>
+                        </div>
+                        <div class="p-3.5 rounded-2xl bg-sky-500/10 border border-sky-500/30 space-y-1">
+                            <div class="flex items-center gap-2 text-xs font-bold text-sky-600 dark:text-sky-400">
+                                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                                <span>2. Colagem do Canhoto do Lacre Inpem A5</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600 dark:text-slate-300">
+                                Colagem obrigatória do comprovante do <strong>Lacre Inpem A5</strong> colocado na carcaça da balança calibrada.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- SLIDE 6: RESULTADOS & IMPACTO FINANCEIRO (ROI) -->
-        <section id="slide-6" class="slide flex-col space-y-6 w-full">
-            <div class="text-center space-y-2">
-                <span class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-widest">Retorno do Investimento</span>
-                <h2 class="text-3xl sm:text-4xl font-black text-white">Ganhos Operacionais & Financeiros para a A5</h2>
+        <!-- =================================================================== -->
+        <!-- SLIDE 4: O PROCESSO EM FOTOS E TELAS REAIS DO PROJETO               -->
+        <!-- =================================================================== -->
+        <section id="slide-4" class="slide flex-col space-y-4 w-full">
+            <div class="text-center space-y-1">
+                <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Processo Visual Passo a Passo</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">Telas e Fotos Reais da Nossa Operação</h2>
+                <p class="text-xs text-slate-600 dark:text-slate-400">
+                    Clique em qualquer foto ou tela para ampliar e ver os detalhes:
+                </p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-2">
-                <div class="p-6 rounded-3xl bg-zinc-900 border border-zinc-800 text-center space-y-2">
-                    <span class="text-4xl sm:text-5xl font-mono font-black text-emerald-400 block">+35%</span>
-                    <h3 class="text-sm font-bold text-white">Agilidade nas Balanças</h3>
-                    <p class="text-xs text-slate-400">Redução de tempo morto entre a aprovação do cliente e o início do conserto pelo técnico.</p>
+            <!-- GRID COM 6 CARTÕES DE TELAS/FOTOS REAIS -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3.5 pt-1">
+                <!-- FOTO 1: ENTRADA NA RECEPÇÃO -->
+                <div onclick="openImgModal('/static/img/screens/balanca_entrada.jpg', 'Recepção (Priscila) • Foto de Chegada da Balança')"
+                     class="cursor-pointer group p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-sky-500 transition shadow-sm space-y-2">
+                    <div class="aspect-video w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-950 relative border border-slate-200 dark:border-zinc-800">
+                        <img src="/static/img/screens/balanca_entrada.jpg" alt="Entrada na Recepção" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <span class="absolute bottom-1.5 left-1.5 text-[9px] font-mono font-bold bg-slate-950/80 text-white px-2 py-0.5 rounded-md backdrop-blur-sm">
+                            1. Entrada / Recepção
+                        </span>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">1. Fotos no Celular</h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">Priscila fotografa a balança na chegada pelo celular em <code>/recepcao-fotos</code> sem imprimir folha.</p>
+                    </div>
                 </div>
 
-                <div class="p-6 rounded-3xl bg-zinc-900 border border-zinc-800 text-center space-y-2">
-                    <span class="text-4xl sm:text-5xl font-mono font-black text-sky-400 block">100%</span>
-                    <h3 class="text-sm font-bold text-white">Rastreabilidade Inmetro</h3>
-                    <p class="text-xs text-slate-400">Histórico completo de cada balança, técnico responsável, lacre e calibração arquivados.</p>
+                <!-- FOTO 2: BANCADA TÉCNICA MOBILE -->
+                <div onclick="openImgModal('/static/img/screens/bancada_mobile.png', 'Bancada Mobile do Técnico (/saida) • Ficha de Orçamento no Celular')"
+                     class="cursor-pointer group p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-sky-500 transition shadow-sm space-y-2">
+                    <div class="aspect-video w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-950 relative border border-slate-200 dark:border-zinc-800">
+                        <img src="/static/img/screens/bancada_mobile.png" alt="Bancada Mobile" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <span class="absolute bottom-1.5 left-1.5 text-[9px] font-mono font-bold bg-sky-600 text-white px-2 py-0.5 rounded-md backdrop-blur-sm">
+                            2. Bancada Celular
+                        </span>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">2. Bipou com o Celular</h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">O técnico aponta a câmera para a etiqueta e preenche a ficha de orçamento direto no celular.</p>
+                    </div>
                 </div>
 
-                <div class="p-6 rounded-3xl bg-zinc-900 border border-zinc-800 text-center space-y-2">
-                    <span class="text-4xl sm:text-5xl font-mono font-black text-amber-400 block">Zero</span>
-                    <h3 class="text-sm font-bold text-white">Custo de Servidor / Mensalidade</h3>
-                    <p class="text-xs text-slate-400">Sistema 100% local, autônomo, sem mensalidades em dólar, rodando na rede interna da A5.</p>
+                <!-- FOTO 3: LAUDO FOTOGRÁFICO DE PEÇAS -->
+                <div onclick="openImgModal('/static/img/screens/laudo_pecas.jpg', 'Laudo Fotográfico • Fotos de Peças Danificadas Toledo')"
+                     class="cursor-pointer group p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-sky-500 transition shadow-sm space-y-2">
+                    <div class="aspect-video w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-950 relative border border-slate-200 dark:border-zinc-800">
+                        <img src="/static/img/screens/laudo_pecas.jpg" alt="Laudo de Peças" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <span class="absolute bottom-1.5 left-1.5 text-[9px] font-mono font-bold bg-amber-600 text-white px-2 py-0.5 rounded-md backdrop-blur-sm">
+                            3. Peças Toledo
+                        </span>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">3. Peças & Margem</h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">Busca oficial de peças Prix, cálculo automático de preço e fotos anexadas para mostrar ao cliente.</p>
+                    </div>
+                </div>
+
+                <!-- FOTO 4: PAINEL DA TV DA OFICINA -->
+                <div onclick="openImgModal('/static/img/screens/painel_tv.png', 'Painel TV da Oficina (/painel-tv) • Placar, Estufas e Status em Tempo Real')"
+                     class="cursor-pointer group p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-sky-500 transition shadow-sm space-y-2">
+                    <div class="aspect-video w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-950 relative border border-slate-200 dark:border-zinc-800">
+                        <img src="/static/img/screens/painel_tv.png" alt="Painel TV" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <span class="absolute bottom-1.5 left-1.5 text-[9px] font-mono font-bold bg-emerald-600 text-white px-2 py-0.5 rounded-md backdrop-blur-sm">
+                            4. Smart TV Oficina
+                        </span>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">4. Painel TV ao Vivo</h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">Cronômetro de estufa, placar diário de balanças concluídas e música com áudio ducking.</p>
+                    </div>
+                </div>
+
+                <!-- FOTO 5: INTERCOM SALA DO SR. JACSON -->
+                <div onclick="openImgModal('/static/img/screens/chamar_recepcao.png', 'Intercom Sala do Sr. Jacson (/diretoria) • Chamada Instantânea para TV sem Sair da Sala')"
+                     class="cursor-pointer group p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-sky-500 transition shadow-sm space-y-2">
+                    <div class="aspect-video w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-950 relative border border-slate-200 dark:border-zinc-800">
+                        <img src="/static/img/screens/chamar_recepcao.png" alt="Intercom Sala Jacson" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <span class="absolute bottom-1.5 left-1.5 text-[9px] font-mono font-bold bg-rose-600 text-white px-2 py-0.5 rounded-md backdrop-blur-sm">
+                            5. Sala do Sr. Jacson
+                        </span>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">5. Intercom do Sr. Jacson</h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">Chama Priscila, Roosevelt, Arthur ou técnicos direto nas caixas de som da oficina com 1 toque.</p>
+                    </div>
+                </div>
+
+                <!-- FOTO 6: BALANÇA CONCLUÍDA & LACRE INPEM A5 -->
+                <div onclick="openImgModal('/static/img/screens/balanca_saida.jpg', 'Balança Concluída e Lacrada com Lacre Inpem A5 • Impressão Final para Assinatura e Canhoto')"
+                     class="cursor-pointer group p-3 rounded-2xl bg-white dark:bg-zinc-900 border-2 border-emerald-500/50 hover:border-emerald-400 transition shadow-sm space-y-2">
+                    <div class="aspect-video w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-950 relative border border-slate-200 dark:border-zinc-800">
+                        <img src="/static/img/screens/balanca_saida.jpg" alt="Balança Lacrada Inpem A5" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <span class="absolute bottom-1.5 left-1.5 text-[9px] font-mono font-bold bg-emerald-500 text-slate-950 px-2 py-0.5 rounded-md font-bold">
+                            6. Lacre Inpem A5
+                        </span>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-emerald-600 dark:text-emerald-400 truncate">6. Entrega com Lacre</h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">Balança lacrada, O.S. impressa no balcão para assinatura e colagem do canhoto do Lacre Inpem A5.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- SLIDE 7: CONCLUSÃO E DEMONSTRAÇÃO AO VIVO -->
-        <section id="slide-7" class="slide flex-col items-center text-center space-y-6 my-auto">
-            <div class="w-16 h-16 rounded-3xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+        <!-- =================================================================== -->
+        <!-- SLIDE 5: ANTES VS AGORA (O IMPACTO NA ROTINA DA A5)                -->
+        <!-- =================================================================== -->
+        <section id="slide-5" class="slide flex-col space-y-5 w-full">
+            <div class="text-center space-y-1.5">
+                <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Impacto Direto na Operação</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white">Comparativo: O Fim do Desperdício de Tempo</h2>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
+                    Veja na prática quanto tempo e estresse o novo fluxo economiza na A5 todos os dias:
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-1">
+                <div class="p-5 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 space-y-2 shadow-sm text-center">
+                    <span class="text-xs font-mono font-bold text-amber-500 uppercase tracking-wider block">Achar uma O.S.</span>
+                    <div class="py-2">
+                        <div class="text-xs text-rose-500 line-through font-bold">Antes: 5 a 15 min</div>
+                        <div class="text-2xl font-mono font-black text-emerald-500">Agora: 1 segundo</div>
+                    </div>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400">Busca instantânea por número, cliente, modelo ou número do lacre.</p>
+                </div>
+
+                <div class="p-5 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 space-y-2 shadow-sm text-center">
+                    <span class="text-xs font-mono font-bold text-sky-500 uppercase tracking-wider block">Levar O.S. pro Sr. Jacson</span>
+                    <div class="py-2">
+                        <div class="text-xs text-rose-500 line-through font-bold">Antes: Andar até a sala</div>
+                        <div class="text-2xl font-mono font-black text-sky-500">Agora: Zero passos</div>
+                    </div>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400">O Sr. Jacson tem o painel na tela dele e o intercom com voz de estúdio.</p>
+                </div>
+
+                <div class="p-5 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 space-y-2 shadow-sm text-center">
+                    <span class="text-xs font-mono font-bold text-emerald-500 uppercase tracking-wider block">Saber Status da Balança</span>
+                    <div class="py-2">
+                        <div class="text-xs text-rose-500 line-through font-bold">Antes: Ir perguntar</div>
+                        <div class="text-2xl font-mono font-black text-emerald-500">Agora: Visível na TV</div>
+                    </div>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400">Painel ao vivo mostra balanças em orçamento, na estufa e prontas.</p>
+                </div>
+
+                <div class="p-5 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 space-y-2 shadow-sm text-center">
+                    <span class="text-xs font-mono font-bold text-indigo-500 uppercase tracking-wider block">Papelada Impressa</span>
+                    <div class="py-2">
+                        <div class="text-xs text-rose-500 line-through font-bold">Antes: Várias vias</div>
+                        <div class="text-2xl font-mono font-black text-indigo-500">Agora: 1 só no final</div>
+                    </div>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400">Impressão unicamente para assinatura e canhoto do Lacre Inpem A5.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- SLIDE 6: DEMONSTRAÇÃO AO VIVO COM 1 CLIQUE                          -->
+        <!-- =================================================================== -->
+        <section id="slide-6" class="slide flex-col items-center text-center space-y-6 my-auto">
+            <div class="w-16 h-16 rounded-3xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
                 <i data-lucide="check-check" class="w-8 h-8"></i>
             </div>
 
-            <h2 class="text-3xl sm:text-5xl font-black text-white max-w-2xl">
-                Pronto para Ver o Sistema em Ação ao Vivo?
+            <h2 class="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white max-w-2xl leading-tight">
+                Pronto para Ver na Prática Funcionando?
             </h2>
 
-            <p class="text-sm sm:text-base text-slate-400 max-w-xl font-medium">
-                Selecione qualquer módulo abaixo para abrir e demonstrar em tempo real:
+            <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-xl font-medium">
+                Sr. Jacson, clique em qualquer módulo abaixo para testar ao vivo na rede da A5:
             </p>
 
-            <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-                <a href="/admin" target="_blank" class="px-5 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-lg">
+            <div class="flex flex-wrap items-center justify-center gap-3 pt-2 max-w-3xl">
+                <a href="/admin" target="_blank" class="px-5 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-md">
                     <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                     <span>Painel Recepção (Priscila)</span>
                 </a>
-                <a href="/painel-tv" target="_blank" class="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-lg">
+                <a href="/painel-tv" target="_blank" class="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-md">
                     <i data-lucide="tv" class="w-4 h-4"></i>
                     <span>Painel TV Oficina</span>
                 </a>
-                <a href="/diretoria" target="_blank" class="px-5 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-lg">
+                <a href="/saida" target="_blank" class="px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-md">
+                    <i data-lucide="smartphone" class="w-4 h-4"></i>
+                    <span>Bancada Celular (/saida)</span>
+                </a>
+                <a href="/diretoria" target="_blank" class="px-5 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-md">
                     <i data-lucide="radio" class="w-4 h-4"></i>
                     <span>Intercom Sala do Sr. Jacson</span>
                 </a>
-                <a href="/gerencia" target="_blank" class="px-5 py-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-bold text-xs flex items-center gap-2 transition">
+                <a href="/consulta" target="_blank" class="px-5 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs flex items-center gap-2 transition">
+                    <i data-lucide="search" class="w-4 h-4"></i>
+                    <span>Consulta Balcão</span>
+                </a>
+                <a href="/gerencia" target="_blank" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center gap-2 transition">
                     <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
-                    <span>Métricas & Auditoria</span>
+                    <span>Métricas & Exportar CSV</span>
                 </a>
             </div>
         </section>
@@ -366,17 +551,17 @@
     </main>
 
     <!-- RODAPÉ DE NAVEGAÇÃO DOS SLIDES -->
-    <footer class="px-6 py-4 border-t border-white/10 bg-zinc-950/80 backdrop-blur-md flex items-center justify-between">
-        <div class="flex items-center gap-2 text-xs text-slate-400">
-            <span class="hidden sm:inline">Use as teclas</span>
-            <kbd class="px-2 py-1 rounded bg-zinc-800 border border-zinc-700 font-mono text-[10px]">←</kbd>
-            <kbd class="px-2 py-1 rounded bg-zinc-800 border border-zinc-700 font-mono text-[10px]">→</kbd>
-            <kbd class="px-2 py-1 rounded bg-zinc-800 border border-zinc-700 font-mono text-[10px] hidden sm:inline">Espaço</kbd>
-            <span class="hidden sm:inline">para navegar</span>
+    <footer class="px-5 py-3 border-t border-white/10 dark:border-white/10 clean:border-slate-200 bg-[var(--header-bg)] backdrop-blur-md flex items-center justify-between transition-colors">
+        <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+            <span class="hidden sm:inline">Navegue com:</span>
+            <kbd class="px-2 py-1 rounded bg-slate-200 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 font-mono text-[10px]">←</kbd>
+            <kbd class="px-2 py-1 rounded bg-slate-200 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 font-mono text-[10px]">→</kbd>
+            <kbd class="px-2 py-1 rounded bg-slate-200 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 font-mono text-[10px] hidden sm:inline">Espaço</kbd>
+            <span class="hidden md:inline">• Atalho Modo Clean: <kbd class="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-zinc-800 border font-mono text-[10px]">C</kbd></span>
         </div>
 
         <div class="flex items-center gap-2">
-            <button onclick="prevSlide()" id="prevBtn" class="px-4 py-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-sky-500 text-slate-300 font-bold text-xs flex items-center gap-1.5 transition disabled:opacity-30 disabled:pointer-events-none">
+            <button onclick="prevSlide()" id="prevBtn" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-slate-300 dark:border-zinc-800 text-slate-800 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition disabled:opacity-30 disabled:pointer-events-none">
                 <i data-lucide="chevron-left" class="w-4 h-4"></i>
                 <span>Anterior</span>
             </button>
@@ -387,9 +572,24 @@
         </div>
     </footer>
 
+    <!-- MODAL DE VISUALIZAÇÃO AMPLIADA DE IMAGEM -->
+    <div id="imageModal" class="img-modal" onclick="closeImgModal(event)">
+        <div class="relative max-w-4xl w-full max-h-[90vh] bg-slate-900 rounded-3xl p-4 border border-white/20 shadow-2xl flex flex-col items-center">
+            <div class="w-full flex justify-between items-center pb-3 border-b border-white/10">
+                <span id="modalImgTitle" class="text-sm font-bold text-white"></span>
+                <button onclick="closeImgModalDirect()" class="text-slate-400 hover:text-white p-1 rounded-xl hover:bg-white/10 transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="flex-1 w-full flex items-center justify-center p-2 overflow-hidden">
+                <img id="modalImgTag" src="" alt="Ampliação" class="max-h-[75vh] w-auto max-w-full rounded-xl object-contain shadow-2xl">
+            </div>
+        </div>
+    </div>
+
     <script>
         let curSlide = 1;
-        const totalSlides = 7;
+        const totalSlides = 6;
 
         function updateSlideUI() {
             document.querySelectorAll(".slide").forEach((s, idx) => {
@@ -434,7 +634,49 @@
             }
         }
 
+        // MODO CLEAN
+        function toggleCleanMode() {
+            const html = document.documentElement;
+            const isClean = html.classList.toggle("clean-mode");
+            if (isClean) {
+                html.classList.remove("dark");
+                document.getElementById("cleanModeLabel").textContent = "Modo Escuro";
+                localStorage.setItem("a5_apresentacao_theme", "clean");
+            } else {
+                html.classList.add("dark");
+                document.getElementById("cleanModeLabel").textContent = "Modo Clean";
+                localStorage.setItem("a5_apresentacao_theme", "dark");
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // MODAL DE IMAGEM
+        function openImgModal(src, title) {
+            document.getElementById("modalImgTag").src = src;
+            document.getElementById("modalImgTitle").textContent = title || "Visualização";
+            document.getElementById("imageModal").classList.add("active");
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function closeImgModal(e) {
+            if (e.target.id === "imageModal") {
+                document.getElementById("imageModal").classList.remove("active");
+            }
+        }
+
+        function closeImgModalDirect() {
+            document.getElementById("imageModal").classList.remove("active");
+        }
+
+        // ATALHOS DE TECLADO
         window.addEventListener("keydown", (e) => {
+            if (document.getElementById("imageModal").classList.contains("active")) {
+                if (e.key === "Escape") {
+                    closeImgModalDirect();
+                }
+                return;
+            }
+
             if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
                 e.preventDefault();
                 nextSlide();
@@ -443,10 +685,23 @@
                 prevSlide();
             } else if (e.key.toLowerCase() === "f") {
                 toggleFullscreen();
+            } else if (e.key.toLowerCase() === "c") {
+                toggleCleanMode();
             }
         });
 
+        // INICIALIZAÇÃO
         document.addEventListener("DOMContentLoaded", () => {
+            const savedTheme = localStorage.getItem("a5_apresentacao_theme");
+            if (savedTheme === "clean") {
+                document.documentElement.classList.add("clean-mode");
+                document.documentElement.classList.remove("dark");
+                document.getElementById("cleanModeLabel").textContent = "Modo Escuro";
+            } else {
+                document.documentElement.classList.add("dark");
+                document.documentElement.classList.remove("clean-mode");
+                document.getElementById("cleanModeLabel").textContent = "Modo Clean";
+            }
             updateSlideUI();
         });
     </script>
