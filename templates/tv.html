@@ -1419,98 +1419,12 @@
         }
 
         function speakText(text, forcePriority = false) {
-            if (!("speechSynthesis" in window)) {
-                activeTts = false;
-                checkEndAudioDucking();
-                return;
+            // Desativado: o sistema utiliza exclusivamente Edge-TTS Neural em alta definição
+            if ("speechSynthesis" in window) {
+                try { window.speechSynthesis.cancel(); } catch (e) {}
             }
-
-            // Chamados da diretoria, apoio ou emergência ignoram o mudo ambiente da TV
-            if (tvMuted && !forcePriority) {
-                activeTts = false;
-                checkEndAudioDucking();
-                return;
-            }
-
-            const cleanText = (text || "").trim();
-            if (!cleanText) {
-                activeTts = false;
-                checkEndAudioDucking();
-                return;
-            }
-
-            activeTts = true;
-            setAudioDucking(true);
-
-            try {
-                window.speechSynthesis.cancel();
-                window.speechSynthesis.resume();
-            } catch (e) {}
-
-            const utter = new SpeechSynthesisUtterance(cleanText);
-            activeTtsUtterance = utter; // Evita garbage collection prematura no Chromium
-            window._activeTtsUtterance = utter;
-
-            utter.lang = "pt-BR";
-            utter.rate = 1.0;
-            utter.pitch = 1.0;
-            utter.volume = 1.0;
-
-            const voices = cachedVoices.length ? cachedVoices : (window.speechSynthesis.getVoices() || []);
-            const ptVoice = voices.find(v => v.lang && (v.lang.toLowerCase().includes("pt-br") || v.lang.toLowerCase().includes("pt_br") || v.lang.toLowerCase().startsWith("pt")));
-            if (ptVoice) {
-                utter.voice = ptVoice;
-                utter.lang = ptVoice.lang;
-            }
-
-            let resumeInterval = setInterval(() => {
-                if (!window.speechSynthesis.speaking) {
-                    clearInterval(resumeInterval);
-                } else {
-                    window.speechSynthesis.pause();
-                    window.speechSynthesis.resume();
-                }
-            }, 5000);
-
-            utter.onstart = () => {
-                activeTts = true;
-                setAudioDucking(true);
-            };
-
-            utter.onend = () => {
-                clearInterval(resumeInterval);
-                if (window._activeTtsUtterance === utter) {
-                    activeTts = false;
-                    activeTtsUtterance = null;
-                    window._activeTtsUtterance = null;
-                    checkEndAudioDucking();
-                }
-            };
-
-            utter.onerror = (err) => {
-                clearInterval(resumeInterval);
-                if (err && err.error === "canceled") return;
-                console.warn("TTS Error:", err);
-                if (window._activeTtsUtterance === utter) {
-                    activeTts = false;
-                    activeTtsUtterance = null;
-                    window._activeTtsUtterance = null;
-                    checkEndAudioDucking();
-                }
-            };
-
-            setTimeout(() => {
-                try {
-                    window.speechSynthesis.resume();
-                    window.speechSynthesis.speak(utter);
-                    window.speechSynthesis.resume();
-                } catch (err) {
-                    console.error("Erro ao chamar speak():", err);
-                    clearInterval(resumeInterval);
-                    activeTts = false;
-                    checkEndAudioDucking();
-                }
-            }, 350);
+            activeTts = false;
+            checkEndAudioDucking();
         }
 
         function triggerTvAnnouncement(payload) {
@@ -1627,7 +1541,16 @@
 
             if (payload.audio_base64) {
                 try {
+                    if (window.currentVoiceAudio) {
+                        try {
+                            window.currentVoiceAudio.pause();
+                            window.currentVoiceAudio.currentTime = 0;
+                        } catch (e) {}
+                    }
+
                     const voiceAudio = new Audio(payload.audio_base64);
+                    window.currentVoiceAudio = voiceAudio;
+
                     voiceAudio.onloadedmetadata = () => {
                         const dur = (voiceAudio.duration || 4) * 1000;
                         autoCloseMs = Math.max(9500, dur + 2000);
@@ -1636,22 +1559,24 @@
                         setTimeout(() => {
                             modal.classList.replace("flex", "hidden");
                             activeAnnouncement = false;
+                            window.currentVoiceAudio = null;
                             checkEndAudioDucking();
                         }, 1000);
                     };
-                    voiceAudio.onerror = () => {
-                        if (payload.tts_text) speakText(payload.tts_text, isPriorityAnnouncement);
+                    voiceAudio.onerror = (err) => {
+                        console.error("Erro na reprodução do áudio Edge-TTS:", err);
+                        activeAnnouncement = false;
+                        window.currentVoiceAudio = null;
+                        checkEndAudioDucking();
                     };
                     setTimeout(() => {
-                        voiceAudio.play().catch(() => {
-                            if (payload.tts_text) speakText(payload.tts_text, isPriorityAnnouncement);
+                        voiceAudio.play().catch((err) => {
+                            console.error("Erro ao iniciar áudio Edge-TTS:", err);
                         });
-                    }, 650);
+                    }, 500);
                 } catch (e) {
-                    if (payload.tts_text) speakText(payload.tts_text, isPriorityAnnouncement);
+                    console.error("Exceção ao criar áudio Edge-TTS:", e);
                 }
-            } else if (payload.tts_text) {
-                speakText(payload.tts_text, isPriorityAnnouncement);
             }
 
             setTimeout(() => {

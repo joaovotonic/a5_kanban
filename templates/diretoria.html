@@ -459,13 +459,16 @@
                 sender: "Sr. Jacson"
             };
 
-            // Emite via Socket.IO e via REST para redundância absoluta
-            socket.emit("director_call_tech", payload);
-            fetch("/api/director/call", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            }).catch(() => {});
+            // Disparo único via WebSocket (ou REST se desconectado)
+            if (socket && socket.connected) {
+                socket.emit("director_call_tech", payload);
+            } else {
+                fetch("/api/director/call", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                }).catch(() => {});
+            }
 
             showToast(`Chamado enviado para ${selectedTech} na TV!`);
             addRecentCall(selectedTech, msg, isUrgent, "Texto");
@@ -558,12 +561,16 @@
                 sender: "Sr. Jacson"
             };
 
-            socket.emit("director_call_tech", payload);
-            fetch("/api/director/call", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            }).catch(() => {});
+            // Disparo único via WebSocket (ou REST se desconectado)
+            if (socket && socket.connected) {
+                socket.emit("director_call_tech", payload);
+            } else {
+                fetch("/api/director/call", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                }).catch(() => {});
+            }
 
             showToast(`Áudio de voz enviado para ${selectedTech} na TV!`);
             addRecentCall(selectedTech, "Áudio de voz do Sr. Jacson", isUrgent, "Voz");
