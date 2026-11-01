@@ -434,6 +434,16 @@
                 <strong>Término Data/Hora:</strong> {{ card.finished_at[:16].replace('T', ' ') if card.finished_at else '____/____/____   ____:____' }}
             </div>
         </div>
+        <!-- Espaço Oficial para Colagem do Canhoto do Selo Reparado IPEM -->
+        <div class="row">
+            <div class="cell" style="width: 50%; min-height: 44px; display:flex; align-items:center; justify-content:center; border: 1.5px dashed #0284c7; background: #f0f9ff; font-size: 10px; font-weight: bold; color: #0369a1; text-align: center;">
+                🏷️ COLAR O CANHOTO DO SELO REPARADO AQUI
+            </div>
+            <div class="cell" style="width: 50%; padding: 5px 8px; font-size: 10px;">
+                <div>Lacre Físico Colocado: <strong style="font-family: monospace; font-size: 12px; color: #0f172a;">{{ card.inmetro_seal or 'NÃO INFORMADO' }}</strong></div>
+                <div style="font-size: 9px; color: #64748b; margin-top: 2px;">Balança lacrada e selada com Selo Reparado oficial IPEM.</div>
+            </div>
+        </div>
         <div class="row">
             <div class="cell accent-text" style="width: 45%; padding: 10px 7px; background:#F8FAFC;">
                 Assinatura do Cliente:

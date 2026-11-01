@@ -448,3 +448,23 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
      - Botão e atalho de teclado (`C`) para alternar entre tema executivo escuro e tema limpo de alto contraste (ideal para TVs e projetores claros).
   4. **Padronização Visual da Marca A5 (Vetor SVG Nítido):**
      - Logo reconstruído com badge azul "A5", "Tecnologia" e "Balanças e Sistemas", nítido em qualquer resolução e aplicado em cápsulas corporativas brancas de alto contraste.
+
+---
+
+## 📌 Item 27: Distinção Metrológica Lacre vs Selo Reparado, Remoção de Imagens IA e Fluxograma Interativo
+
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Diretoria / Sr. Jacson
+* **Telas & Arquivos Impactados:**
+  - `templates/apresentacao.html` (Substituição de imagens por Fluxograma Dinâmico de 6 etapas e clarificação técnica de Lacre vs Selo Reparado)
+  - `templates/folha.html` (Inclusão de campo formal tracejado: "COLAR O CANHOTO DO SELO REPARADO AQUI")
+* **Principais Entregas:**
+  1. **Distinção Técnica & Regulatória Oficial:**
+     - **O Lacre:** Trava física/mecânica numerada colocada pelo técnico no parafuso de ajuste da balança para impedir violação (número registrado digitalmente na O.S.).
+     - **O Selo Reparado (IPEM):** Selo adesivo oficial de reparo colado na carcaça da balança finalizada. O seu **canhoto** destacável é colado na folha física de O.S.
+     - **Momento da Impressão:** A O.S. só é impressa no momento em que o cliente retira a balança, servindo para colagem do canhoto do Selo Reparado e colheita da assinatura do cliente.
+  2. **Fluxograma Dinâmico do Ciclo da Balança na A5:**
+     - Pipeline interativo navegável de 6 fases conectadas: Recepção ➔ Bancada Mobile ➔ TV & Jacson ➔ Reparo & Estufa ➔ Lacração & Selo IPEM ➔ Balcão de Entrega.
+     - Painel dinâmico com detalhamento de papéis, automação, ganho de minutos e tecla de atalho rápida (teclas 1 a 6).
+  3. **Remoção de Imagens Artificiais:**
+     - Eliminação de fotos sintéticas, privilegiando diagramação técnica limpa, executiva e de alta densidade informativa.
