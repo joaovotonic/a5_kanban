@@ -419,7 +419,7 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
   1. **Visual Dual (Antes vs Hoje):** Bloco de contraste com estilo de desenho/esboço manual antigo (papéis, lentidão, falta de rastreabilidade) se transformando no design tecnológico colorido da A5.
   2. **Navegação Interativa:** Navegação por setas do teclado, barra de progresso em tempo real, suporte a tela cheia (`F`) e botões táteis.
   3. **Pilha Tecnológica Demonstrada:**
-     - Recepção da Priscila (Fotos pré-O.S., catálogo oficial Toledo Prix Julho 2026, lacres Inpem A5);
+     - Recepção da Priscila (Fotos pré-O.S., catálogo oficial Toledo Prix Julho 2026, lacres IPEM A5);
      - Bancada Técnica Mobile (QR Code, Folha Digital, tolerância metrológica ±2e, estufa térmica);
      - Painel TV (Placar em tempo real, YouTube com Audio Ducking, alertas sonoros e visuais);
      - Intercom do Sr. Jacson (Chamada direta por texto com voz neural ou gravação de microfone);
@@ -428,23 +428,23 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
 
 ---
 
-## 📌 Item 26: Narrativa Real de Organização, Lacre Inpem A5, Modo Clean e Digitalização do Logo Oficial A5
+## 📌 Item 26: Narrativa Real de Organização, Lacre IPEM A5, Modo Clean e Logo Oficial A5 Vetorizado
 
 * **Status:** ✅ **Implementado e Homologado em Produção**
 * **Solicitante:** Gerência Operacional e Sr. Jacson
 * **Telas & Arquivos Impactados:**
-  - `templates/apresentacao.html` (Reestruturação didática completa dos slides com fotos reais e Modo Clean)
-  - `static/img/logo_a5.png` (Digitalização do logo oficial A5 Tecnologia Balanças e Sistemas)
-  - `static/img/screens/*` (Imagens reais da entrada, celular do técnico, laudo de peças, TV, intercom e balança finalizada)
-  - `templates/admin.html`, `templates/tv.html`, `templates/diretoria.html`, `templates/saida.html`, `templates/consulta.html`, `templates/gerencia.html`, `templates/folha.html` (Logo oficial nos headers e terminologia "Lacre Inpem A5")
-  - `kanban/services/reports.py` (Exportação CSV atualizada com coluna "Lacre Inpem A5")
+  - `templates/apresentacao.html` (Reestruturação didática completa dos slides com imagens conceituais e Modo Clean)
+  - `static/img/logo_a5.svg` (Vetorização nítida do logo oficial A5 Tecnologia Balanças e Sistemas)
+  - `static/img/screens/*` (Imagens conceituais de alta resolução geradas para recepção, bancada técnica, laudo Toledo, TV da oficina, intercom da diretoria e balança finalizada com lacre IPEM A5)
+  - `templates/admin.html`, `templates/tv.html`, `templates/diretoria.html`, `templates/saida.html`, `templates/consulta.html`, `templates/gerencia.html`, `templates/folha.html` (Logo oficial SVG nos headers e terminologia "Lacre IPEM A5")
+  - `kanban/services/reports.py` (Exportação CSV atualizada com coluna "Lacre IPEM A5")
 * **Principais Entregas:**
   1. **Narrativa Didática Focada na Dor Real (Tempo e Organização):**
      - O sistema existe para eliminar a caça diária a papéis e o "leva e traz" de folhas entre recepção, bancada e sala do Sr. Jacson.
-     - **Regra de Ouro da A5:** Zero papel durante a oficina. A O.S. só é impressa no final para a assinatura do cliente e colagem do canhoto do **Lacre Inpem A5**.
-  2. **Imagens Reais do Processo com Modal de Zoom:**
-     - Fotos reais da entrada da balança, bancada mobile com QR code, peças defeituosas Toledo, painel da TV, intercom da diretoria e balança concluída lacrada.
+     - **Regra de Ouro da A5:** Zero papel durante a oficina. A O.S. só é impressa no final para a assinatura do cliente e colagem do canhoto do **Lacre IPEM A5**.
+  2. **Imagens Conceituais de Alta Definição com Modal de Zoom:**
+     - Substituição de fotos de teste por imagens conceituais realistas e modernas da recepção sem papelada, bancada técnica equipada, laudo digital de peças Toledo, TV operacional, sala executiva do Sr. Jacson e balança calibrada com selo oficial IPEM A5.
   3. **Modo Clean na Apresentação:**
      - Botão e atalho de teclado (`C`) para alternar entre tema executivo escuro e tema limpo de alto contraste (ideal para TVs e projetores claros).
-  4. **Padronização Visual da Marca A5:**
-     - Logo oficial vetorizado/digitalizado em todas as telas principais do sistema.
+  4. **Padronização Visual da Marca A5 (Vetor SVG Nítido):**
+     - Logo reconstruído com badge azul "A5", "Tecnologia" e "Balanças e Sistemas", nítido em qualquer resolução e aplicado em cápsulas corporativas brancas de alto contraste.

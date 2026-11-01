@@ -107,7 +107,9 @@
     <!-- TOPBAR EXECUTIVA COM LOGO OFICIAL E MODO CLEAN -->
     <header class="px-5 py-3 border-b border-white/10 dark:border-white/10 clean:border-slate-200 bg-[var(--header-bg)] backdrop-blur-md flex items-center justify-between sticky top-0 z-40 transition-colors">
         <div class="flex items-center gap-3">
-            <img src="/static/img/logo_a5.png" alt="A5 Tecnologia" class="h-9 sm:h-10 w-auto object-contain rounded-lg bg-white/10 dark:bg-white/5 p-1 shadow-sm">
+            <div class="bg-white px-2.5 py-1 rounded-xl shadow-sm border border-slate-200 dark:border-white/10 flex items-center shrink-0">
+                <img src="/static/img/logo_a5.svg" alt="A5 Tecnologia" class="h-7 w-auto object-contain">
+            </div>
             <div>
                 <div class="flex items-center gap-2">
                     <span class="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-900 dark:text-white">A5 TECNOLOGIA</span>
@@ -158,7 +160,9 @@
             </div>
 
             <div class="flex justify-center">
-                <img src="/static/img/logo_a5.png" alt="A5 Tecnologia" class="h-20 sm:h-24 w-auto object-contain rounded-2xl bg-white/10 dark:bg-white/5 p-2 shadow-xl border border-sky-500/20">
+                <div class="bg-white px-6 py-3 rounded-2xl shadow-xl border border-slate-200 dark:border-white/10 inline-flex items-center">
+                    <img src="/static/img/logo_a5.svg" alt="A5 Tecnologia" class="h-14 sm:h-16 w-auto object-contain">
+                </div>
             </div>
 
             <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white max-w-3xl leading-tight">
@@ -188,7 +192,7 @@
                 </div>
                 <div class="p-4 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm">
                     <i data-lucide="shield-check" class="w-6 h-6 text-indigo-500 mx-auto mb-2"></i>
-                    <span class="block text-lg font-mono font-bold text-slate-900 dark:text-white">Lacre Inpem A5</span>
+                    <span class="block text-lg font-mono font-bold text-slate-900 dark:text-white">Lacre IPEM A5</span>
                     <span class="text-[11px] text-slate-500 dark:text-slate-400">Canhoto na entrega</span>
                 </div>
             </div>
@@ -275,7 +279,7 @@
                 <span class="text-xs font-mono font-bold text-sky-600 dark:text-sky-400 uppercase tracking-widest">A Regra Fundamental</span>
                 <h2 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white">Zero Papel na Oficina. Impressão Apenas na Entrega!</h2>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                    Entenda como funciona o novo padrão: durante o conserto ninguém gasta folha de papel. A folha só é impressa para o cliente assinar e colar o <strong>Lacre Inpem A5</strong>.
+                    Entenda como funciona o novo padrão: durante o conserto ninguém gasta folha de papel. A folha só é impressa para o cliente assinar e colar o <strong>Lacre IPEM A5</strong>.
                 </p>
             </div>
 
@@ -336,10 +340,10 @@
                         <div class="p-3.5 rounded-2xl bg-sky-500/10 border border-sky-500/30 space-y-1">
                             <div class="flex items-center gap-2 text-xs font-bold text-sky-600 dark:text-sky-400">
                                 <i data-lucide="shield-check" class="w-4 h-4"></i>
-                                <span>2. Colagem do Canhoto do Lacre Inpem A5</span>
+                                <span>2. Colagem do Canhoto do Lacre IPEM A5</span>
                             </div>
                             <p class="text-[11px] text-slate-600 dark:text-slate-300">
-                                Colagem obrigatória do comprovante do <strong>Lacre Inpem A5</strong> colocado na carcaça da balança calibrada.
+                                Colagem obrigatória do comprovante do <strong>Lacre IPEM A5</strong> colocado na carcaça da balança calibrada.
                             </p>
                         </div>
                     </div>
@@ -348,106 +352,106 @@
         </section>
 
         <!-- =================================================================== -->
-        <!-- SLIDE 4: O PROCESSO EM FOTOS E TELAS REAIS DO PROJETO               -->
+        <!-- SLIDE 4: O PROCESSO EM FOTOS E CONCEITO VISUAL DA OPERAÇÃO          -->
         <!-- =================================================================== -->
         <section id="slide-4" class="slide flex-col space-y-4 w-full">
             <div class="text-center space-y-1">
                 <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Processo Visual Passo a Passo</span>
-                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">Telas e Fotos Reais da Nossa Operação</h2>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">O Novo Padrão de Trabalho da A5 Tecnologia</h2>
                 <p class="text-xs text-slate-600 dark:text-slate-400">
-                    Clique em qualquer foto ou tela para ampliar e ver os detalhes:
+                    Clique em qualquer foto para ampliar e ver em alta definição:
                 </p>
             </div>
 
-            <!-- GRID COM 6 CARTÕES DE TELAS/FOTOS REAIS -->
+            <!-- GRID COM 6 CARTÕES CONCEITUAIS EM ALTA DEFINIÇÃO -->
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3.5 pt-1">
                 <!-- FOTO 1: ENTRADA NA RECEPÇÃO -->
-                <div onclick="openImgModal('/static/img/screens/balanca_entrada.jpg', 'Recepção (Priscila) • Foto de Chegada da Balança')"
+                <div onclick="openImgModal('/static/img/screens/recepcao_moderna.jpg', 'Recepção Moderna da A5 • Registro no Celular e Etiqueta QR Code')"
                      class="cursor-pointer group p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-sky-500 transition shadow-sm space-y-2">
                     <div class="aspect-video w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-950 relative border border-slate-200 dark:border-zinc-800">
-                        <img src="/static/img/screens/balanca_entrada.jpg" alt="Entrada na Recepção" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <img src="/static/img/screens/recepcao_moderna.jpg" alt="Recepção Moderna A5" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         <span class="absolute bottom-1.5 left-1.5 text-[9px] font-mono font-bold bg-slate-950/80 text-white px-2 py-0.5 rounded-md backdrop-blur-sm">
                             1. Entrada / Recepção
                         </span>
                     </div>
                     <div>
-                        <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">1. Fotos no Celular</h4>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">Priscila fotografa a balança na chegada pelo celular em <code>/recepcao-fotos</code> sem imprimir folha.</p>
+                        <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">1. Recepção Ágil (Priscila)</h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">Balança fotografada pelo celular na chegada e etiqueta térmica QR Code colada no chassi. Zero papelada.</p>
                     </div>
                 </div>
 
                 <!-- FOTO 2: BANCADA TÉCNICA MOBILE -->
-                <div onclick="openImgModal('/static/img/screens/bancada_mobile.png', 'Bancada Mobile do Técnico (/saida) • Ficha de Orçamento no Celular')"
+                <div onclick="openImgModal('/static/img/screens/bancada_tecnico.jpg', 'Bancada do Técnico • Ficha Digital de Diagnóstico sem Papéis')"
                      class="cursor-pointer group p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-sky-500 transition shadow-sm space-y-2">
                     <div class="aspect-video w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-950 relative border border-slate-200 dark:border-zinc-800">
-                        <img src="/static/img/screens/bancada_mobile.png" alt="Bancada Mobile" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <img src="/static/img/screens/bancada_tecnico.jpg" alt="Bancada Técnica A5" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         <span class="absolute bottom-1.5 left-1.5 text-[9px] font-mono font-bold bg-sky-600 text-white px-2 py-0.5 rounded-md backdrop-blur-sm">
-                            2. Bancada Celular
+                            2. Bancada Mobile
                         </span>
                     </div>
                     <div>
-                        <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">2. Bipou com o Celular</h4>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">O técnico aponta a câmera para a etiqueta e preenche a ficha de orçamento direto no celular.</p>
+                        <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">2. Bancada no Celular</h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">O técnico aponta a câmera para a balança e preenche a ficha de orçamento direto no celular/tablet.</p>
                     </div>
                 </div>
 
-                <!-- FOTO 3: LAUDO FOTOGRÁFICO DE PEÇAS -->
-                <div onclick="openImgModal('/static/img/screens/laudo_pecas.jpg', 'Laudo Fotográfico • Fotos de Peças Danificadas Toledo')"
+                <!-- FOTO 3: LAUDO FOTOGRÁFICO DE PEÇAS TOLEDO -->
+                <div onclick="openImgModal('/static/img/screens/laudo_digital_pecas.jpg', 'Catálogo Toledo Prix e Laudo Digital de Peças A5')"
                      class="cursor-pointer group p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-sky-500 transition shadow-sm space-y-2">
                     <div class="aspect-video w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-950 relative border border-slate-200 dark:border-zinc-800">
-                        <img src="/static/img/screens/laudo_pecas.jpg" alt="Laudo de Peças" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <img src="/static/img/screens/laudo_digital_pecas.jpg" alt="Laudo Digital de Peças" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         <span class="absolute bottom-1.5 left-1.5 text-[9px] font-mono font-bold bg-amber-600 text-white px-2 py-0.5 rounded-md backdrop-blur-sm">
-                            3. Peças Toledo
+                            3. Peças Toledo Prix
                         </span>
                     </div>
                     <div>
                         <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">3. Peças & Margem</h4>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">Busca oficial de peças Prix, cálculo automático de preço e fotos anexadas para mostrar ao cliente.</p>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">Busca de peças originais Prix com fotos, preços em R$ e cálculo automático de margem para o cliente.</p>
                     </div>
                 </div>
 
                 <!-- FOTO 4: PAINEL DA TV DA OFICINA -->
-                <div onclick="openImgModal('/static/img/screens/painel_tv.png', 'Painel TV da Oficina (/painel-tv) • Placar, Estufas e Status em Tempo Real')"
+                <div onclick="openImgModal('/static/img/screens/painel_tv_oficina.jpg', 'Painel TV da Oficina • Kanban, Placar e Estufas Térmicas')"
                      class="cursor-pointer group p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-sky-500 transition shadow-sm space-y-2">
                     <div class="aspect-video w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-950 relative border border-slate-200 dark:border-zinc-800">
-                        <img src="/static/img/screens/painel_tv.png" alt="Painel TV" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <img src="/static/img/screens/painel_tv_oficina.jpg" alt="Smart TV Oficina" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         <span class="absolute bottom-1.5 left-1.5 text-[9px] font-mono font-bold bg-emerald-600 text-white px-2 py-0.5 rounded-md backdrop-blur-sm">
                             4. Smart TV Oficina
                         </span>
                     </div>
                     <div>
                         <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">4. Painel TV ao Vivo</h4>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">Cronômetro de estufa, placar diário de balanças concluídas e música com áudio ducking.</p>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">Cronômetro de estufa, placar diário de balanças concluídas e música com corte automático para recados.</p>
                     </div>
                 </div>
 
                 <!-- FOTO 5: INTERCOM SALA DO SR. JACSON -->
-                <div onclick="openImgModal('/static/img/screens/chamar_recepcao.png', 'Intercom Sala do Sr. Jacson (/diretoria) • Chamada Instantânea para TV sem Sair da Sala')"
+                <div onclick="openImgModal('/static/img/screens/intercom_diretoria.jpg', 'Intercom Sala da Diretoria • Chamada Direta para a Oficina')"
                      class="cursor-pointer group p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-sky-500 transition shadow-sm space-y-2">
                     <div class="aspect-video w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-950 relative border border-slate-200 dark:border-zinc-800">
-                        <img src="/static/img/screens/chamar_recepcao.png" alt="Intercom Sala Jacson" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <img src="/static/img/screens/intercom_diretoria.jpg" alt="Intercom Sala Jacson" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         <span class="absolute bottom-1.5 left-1.5 text-[9px] font-mono font-bold bg-rose-600 text-white px-2 py-0.5 rounded-md backdrop-blur-sm">
                             5. Sala do Sr. Jacson
                         </span>
                     </div>
                     <div>
                         <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">5. Intercom do Sr. Jacson</h4>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">Chama Priscila, Roosevelt, Arthur ou técnicos direto nas caixas de som da oficina com 1 toque.</p>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">Chama Priscila, Roosevelt, Arthur ou técnicos direto nas caixas de som da oficina sem sair da mesa.</p>
                     </div>
                 </div>
 
-                <!-- FOTO 6: BALANÇA CONCLUÍDA & LACRE INPEM A5 -->
-                <div onclick="openImgModal('/static/img/screens/balanca_saida.jpg', 'Balança Concluída e Lacrada com Lacre Inpem A5 • Impressão Final para Assinatura e Canhoto')"
+                <!-- FOTO 6: BALANÇA CONCLUÍDA & LACRE IPEM A5 -->
+                <div onclick="openImgModal('/static/img/screens/balanca_ipem_a5.jpg', 'Balança Concluída e Calibrada • Lacre IPEM A5 e Certificado na Entrega')"
                      class="cursor-pointer group p-3 rounded-2xl bg-white dark:bg-zinc-900 border-2 border-emerald-500/50 hover:border-emerald-400 transition shadow-sm space-y-2">
                     <div class="aspect-video w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-zinc-950 relative border border-slate-200 dark:border-zinc-800">
-                        <img src="/static/img/screens/balanca_saida.jpg" alt="Balança Lacrada Inpem A5" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <img src="/static/img/screens/balanca_ipem_a5.jpg" alt="Balança Lacrada IPEM A5" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         <span class="absolute bottom-1.5 left-1.5 text-[9px] font-mono font-bold bg-emerald-500 text-slate-950 px-2 py-0.5 rounded-md font-bold">
-                            6. Lacre Inpem A5
+                            6. Lacre IPEM A5
                         </span>
                     </div>
                     <div>
                         <h4 class="text-xs font-bold text-emerald-600 dark:text-emerald-400 truncate">6. Entrega com Lacre</h4>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">Balança lacrada, O.S. impressa no balcão para assinatura e colagem do canhoto do Lacre Inpem A5.</p>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">Balança lacrada, O.S. impressa no balcão para assinatura e colagem do canhoto do Lacre IPEM A5.</p>
                     </div>
                 </div>
             </div>
@@ -499,7 +503,7 @@
                         <div class="text-xs text-rose-500 line-through font-bold">Antes: Várias vias</div>
                         <div class="text-2xl font-mono font-black text-indigo-500">Agora: 1 só no final</div>
                     </div>
-                    <p class="text-[11px] text-slate-500 dark:text-slate-400">Impressão unicamente para assinatura e canhoto do Lacre Inpem A5.</p>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400">Impressão unicamente para assinatura e canhoto do Lacre IPEM A5.</p>
                 </div>
             </div>
         </section>
