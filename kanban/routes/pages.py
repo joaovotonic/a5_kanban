@@ -59,6 +59,12 @@ def diretoria_page():
     return render_template("diretoria.html", local_ip=get_local_ip(), port=PORT)
 
 
+@bp.route("/apresentacao")
+def apresentacao_page():
+    """7. Apresentação Executiva Comercial do Sistema A5 Kanban para o Sr. Jacson."""
+    return render_template("apresentacao.html", local_ip=get_local_ip(), port=PORT)
+
+
 @bp.route("/etiqueta/<path:os_number>")
 def etiqueta_page(os_number):
     """Gera a visualização de impressão térmica 60x40mm com QR Code da O.S."""

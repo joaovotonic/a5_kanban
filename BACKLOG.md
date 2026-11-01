@@ -402,3 +402,26 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
      - Nível 1: Áudio gravado no microfone (se o chefe gravou áudio direto);
      - Nível 2: Áudio Neural Edge-TTS em MP3 Base64;
      - Nível 3: Fallback automático para `window.speechSynthesis` caso o servidor esteja sem internet.
+
+
+---
+
+## 📌 Item 25: Tela de Apresentação Executiva para o Sr. Jacson (/apresentacao) e Roteiro de Transição Comercial
+
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Gerência Operacional (Apresentação para o Sr. Jacson)
+* **Telas & Arquivos Impactados:**
+  - `templates/apresentacao.html` (Nova tela interativa de slide deck executivo para apresentação comercial)
+  - `kanban/routes/pages.py` (Rota `/apresentacao`)
+  - `app.py` (Exibição da URL no log de inicialização)
+  - `tests/test_kanban.py` (Cobertura na suíte de testes HTTP)
+* **Conteúdo e Recursos da Apresentação:**
+  1. **Visual Dual (Antes vs Hoje):** Bloco de contraste com estilo de desenho/esboço manual antigo (papéis, lentidão, falta de rastreabilidade) se transformando no design tecnológico colorido da A5.
+  2. **Navegação Interativa:** Navegação por setas do teclado, barra de progresso em tempo real, suporte a tela cheia (`F`) e botões táteis.
+  3. **Pilha Tecnológica Demonstrada:**
+     - Recepção da Priscila (Fotos pré-O.S., catálogo oficial Toledo Prix Julho 2026, lacres Inmetro);
+     - Bancada Técnica Mobile (QR Code, Folha Digital, tolerância metrológica ±2e, estufa térmica);
+     - Painel TV (Placar em tempo real, YouTube com Audio Ducking, alertas sonoros e visuais);
+     - Intercom do Sr. Jacson (Chamada direta por texto com voz neural ou gravação de microfone);
+     - Retorno sobre Investimento (+35% de produtividade e custo zero de mensalidade).
+  4. **Links de Demonstração Ao Vivo:** Botões integrados para abrir cada módulo em tempo real durante a reunião.

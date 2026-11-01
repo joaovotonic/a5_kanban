@@ -52,6 +52,7 @@ class TestA5KanbanComplete(unittest.TestCase):
             "/recepcao-fotos",
             "/diretoria",
             "/chamado",
+            "/apresentacao",
         ]
         for p in pages:
             res = self.client.get(p)
