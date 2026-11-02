@@ -644,3 +644,8 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
      - CSS isolado com @page { size: 60mm 40mm; margin: 0; } ou @page { size: 60mm 55mm; margin: 0; } com print-color-adjust exact para impressão direta em impressoras térmicas (Zebra, Elgin, Argox, Bematech).
   4. **Seletor de Modelo Preferido:**
      - Botão Escolher Este Modelo que salva a preferência no localStorage do navegador e sinaliza visualmente a escolha feita.
+
+### Atualização: O.S. Grande ao Lado do Nome do Cliente
+- **Ajuste:** Posicionamento do número da O.S. em caixa preta maciça com tipografia gigante (16px monoespaçada) exatamente ao lado do nome do cliente (12.5px font-black).
+- **Prateleira no Topo:** A indicação de Prateleira (PRAT: B-04) foi movida para o cabeçalho superior direito.
+- **Sincronização:** Atualizadas as páginas templates/etiquetas_catalogo.html e templates/etiqueta.html.

@@ -159,12 +159,12 @@
             <div>
                 <h1 class="text-sm font-bold text-[#254a93] dark:text-white flex items-center gap-1.5 leading-none">
                     <i data-lucide="tag" class="w-4 h-4 text-sky-400"></i>
-                    <span>Layout de Etiqueta Térmica Selecionado (60x40mm)</span>
+                    <span>Etiqueta Térmica Oficial A5 (60x40mm)</span>
                     <span class="inline-flex items-center gap-1 text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-400/25 px-2 py-0.5 rounded-full ml-1">
-                        Versão Otimizada
+                        O.S. ao Lado do Cliente
                     </span>
                 </h1>
-                <p class="text-[10px] font-semibold text-[#2aa6c8] dark:text-sky-400 tracking-wide mt-0.5 leading-tight">Cliente Ampliado • O.S. em Alto Contraste • Mega QR Code de Bancada • Grade 2x2 de Acessórios</p>
+                <p class="text-[10px] font-semibold text-[#2aa6c8] dark:text-sky-400 tracking-wide mt-0.5 leading-tight">Cliente Grande • O.S. Grande ao Lado • Prateleira Topo • Mega QR Code 22mm • Grade 2x2 Acessórios</p>
             </div>
         </div>
 
@@ -234,28 +234,42 @@
                 </div>
             </div>
 
-            <!-- Linha 2: Acessórios Recebidos -->
-            <div class="flex flex-wrap items-center gap-4 pt-2 border-t border-slate-200 dark:border-zinc-800 text-xs">
-                <span class="font-bold text-slate-600 dark:text-slate-400 text-[11px] flex items-center gap-1">
-                    <i data-lucide="check-square" class="w-3.5 h-3.5 text-emerald-500"></i>
-                    Acessórios Recebidos:
-                </span>
-                <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
-                    <input type="checkbox" id="chkPrato" checked onchange="updateLabel()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
-                    <span class="font-semibold text-slate-800 dark:text-slate-200">Prato Inox</span>
-                </label>
-                <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
-                    <input type="checkbox" id="chkFonte" onchange="updateLabel()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
-                    <span class="font-semibold text-slate-800 dark:text-slate-200">Fonte Alim.</span>
-                </label>
-                <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
-                    <input type="checkbox" id="chkCabo" onchange="updateLabel()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
-                    <span class="font-semibold text-slate-800 dark:text-slate-200">Cabo Força</span>
-                </label>
-                <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
-                    <input type="checkbox" id="chkBateria" onchange="updateLabel()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
-                    <span class="font-semibold text-slate-800 dark:text-slate-200">Bateria Interna</span>
-                </label>
+            <!-- Linha 2: Acessórios e Variação de Posição da O.S. -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-200 dark:border-zinc-800 text-xs">
+                <!-- Checkboxes de Acessórios -->
+                <div class="flex flex-wrap items-center gap-3">
+                    <span class="font-bold text-slate-600 dark:text-slate-400 text-[11px] flex items-center gap-1">
+                        <i data-lucide="check-square" class="w-3.5 h-3.5 text-emerald-500"></i>
+                        Acessórios Recebidos:
+                    </span>
+                    <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
+                        <input type="checkbox" id="chkPrato" checked onchange="updateLabel()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
+                        <span class="font-semibold text-slate-800 dark:text-slate-200">Prato Inox</span>
+                    </label>
+                    <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
+                        <input type="checkbox" id="chkFonte" onchange="updateLabel()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
+                        <span class="font-semibold text-slate-800 dark:text-slate-200">Fonte Alim.</span>
+                    </label>
+                    <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
+                        <input type="checkbox" id="chkCabo" onchange="updateLabel()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
+                        <span class="font-semibold text-slate-800 dark:text-slate-200">Cabo Força</span>
+                    </label>
+                    <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
+                        <input type="checkbox" id="chkBateria" onchange="updateLabel()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
+                        <span class="font-semibold text-slate-800 dark:text-slate-200">Bateria Interna</span>
+                    </label>
+                </div>
+
+                <!-- Seletor de Posição da O.S. ao lado do Cliente -->
+                <div class="flex items-center gap-1 bg-slate-100 dark:bg-zinc-800 p-1 rounded-xl border border-slate-200 dark:border-zinc-700">
+                    <span class="text-[10px] font-bold text-slate-500 px-1 uppercase">Posição da O.S.:</span>
+                    <button type="button" onclick="setOsPosition('right')" id="btnPosRight" class="px-2.5 py-0.5 rounded-lg text-xs font-bold bg-sky-500 text-slate-950 transition">
+                        À Direita do Cliente
+                    </button>
+                    <button type="button" onclick="setOsPosition('left')" id="btnPosLeft" class="px-2.5 py-0.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-white transition">
+                        À Esquerda do Cliente
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -273,15 +287,15 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-sky-500/10 text-sky-400 border border-sky-400/25">
-                            Formato Padrão: 60 x 40 mm
+                            Padrão Oficial: 60 x 40 mm
                         </span>
                         <span class="text-xs font-semibold text-emerald-400 flex items-center gap-1">
-                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                            Modelo Aprimorado
+                            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                            O.S. Grande ao Lado do Cliente
                         </span>
                     </div>
                     <h2 class="text-lg font-bold text-slate-900 dark:text-white mt-1">
-                        Etiqueta Oficial A5 • Edição Otimizada para Bancada
+                        Etiqueta Oficial A5 • Cliente & O.S. Lado a Lado
                     </h2>
                 </div>
 
@@ -301,7 +315,7 @@
                 <!-- ======================================================= -->
                 <div id="optimizedLabel" class="thermal-label-wrap size-60x40 flex flex-col justify-between">
                     
-                    <!-- LINHA 1: CABEÇALHO COM LOGO A5 E NÚMERO DA O.S. BEM GRANDE -->
+                    <!-- LINHA 1: CABEÇALHO COM LOGO A5 E PRATELEIRA EM DESTAQUE NO TOPO -->
                     <div class="flex items-center justify-between border-b-2 border-black pb-1">
                         <div class="flex items-center gap-1.5">
                             <svg viewBox="0 0 48 32" class="w-[26px] h-[18px] shrink-0" xmlns="http://www.w3.org/2000/svg">
@@ -310,27 +324,38 @@
                             </svg>
                             <span class="text-[10px] font-extrabold tracking-tight">A5 TECNOLOGIA</span>
                         </div>
-                        <!-- NÚMERO DA O.S. AUMENTADO E EM ALTO CONTRASTE -->
-                        <div class="bg-black text-white px-2 py-0.5 text-[14px] font-mono font-black tracking-tight rounded-sm leading-none flex items-center gap-1">
-                            <span class="text-[9px] font-bold text-zinc-300">O.S.</span>
-                            <span id="labelOS" class="val-os">1024</span>
+                        <!-- PRATELEIRA NO TOPO DIREITO -->
+                        <div class="flex items-center gap-1 font-mono font-bold text-[9px]">
+                            <span class="text-zinc-600 text-[8px] uppercase">PRAT:</span>
+                            <span id="labelPrat" class="val-prat bg-black text-white px-1.5 py-0.5 rounded-sm text-[10px] font-black">B-04</span>
                         </div>
                     </div>
 
-                    <!-- LINHA 2: CLIENTE BEM GRANDE E MODELO DA BALANÇA -->
-                    <div class="my-1 leading-tight">
-                        <!-- NOME DO CLIENTE AUMENTADO COM MÁXIMA LEITURA -->
-                        <div class="truncate text-[12px] font-black tracking-tight text-black flex items-baseline gap-1">
-                            <span class="text-[9px] font-bold uppercase text-zinc-700 shrink-0">CLI:</span>
-                            <span id="labelCliente" class="val-cliente uppercase">Supermercado Alvorada</span>
+                    <!-- LINHA 2: CLIENTE GRANDE COM NÚMERO DA O.S. GRANDE DO LADO -->
+                    <div id="clientOsRow" class="my-1 flex items-center justify-between gap-1.5 leading-tight">
+                        
+                        <!-- BLOCO DO CLIENTE + EQUIPAMENTO -->
+                        <div id="clientBlock" class="truncate flex-1 min-w-0">
+                            <!-- NOME DO CLIENTE BEM GRANDE -->
+                            <div class="truncate text-[12.5px] font-black tracking-tight text-black flex items-baseline gap-1">
+                                <span class="text-[8.5px] font-bold uppercase text-zinc-600 shrink-0">CLI:</span>
+                                <span id="labelCliente" class="val-cliente uppercase truncate">Supermercado Alvorada</span>
+                            </div>
+                            <div class="truncate text-[9.5px] font-bold text-zinc-700 flex items-baseline gap-1 mt-0.5">
+                                <span class="text-[8px] font-extrabold uppercase text-zinc-500 shrink-0">EQP:</span>
+                                <span id="labelModelo" class="val-modelo truncate">Toledo Prix 4 Uno</span>
+                            </div>
                         </div>
-                        <div class="truncate text-[9.5px] font-bold text-zinc-800 flex items-baseline gap-1 mt-0.5">
-                            <span class="text-[8px] font-extrabold uppercase text-zinc-600 shrink-0">EQP:</span>
-                            <span id="labelModelo" class="val-modelo">Toledo Prix 4 Uno</span>
+
+                        <!-- BLOCO DA O.S. GRANDE DO LADO DO CLIENTE -->
+                        <div id="osBlock" class="shrink-0 bg-black text-white px-2 py-1 rounded-sm text-center leading-none shadow-sm">
+                            <div class="text-[7.5px] font-bold text-zinc-300 uppercase tracking-wider mb-0.5">O.S.</div>
+                            <div id="labelOS" class="val-os text-[16px] font-mono font-black tracking-tight leading-none">1024</div>
                         </div>
+
                     </div>
 
-                    <!-- LINHA 3: ACESSÓRIOS 2x2 + QR CODE EXPANDIDO (BEM MAIOR) -->
+                    <!-- LINHA 3: ACESSÓRIOS 2x2 + MEGA QR CODE EXPANDIDO (~22mm físicos) -->
                     <div class="flex items-center justify-between border-t-2 border-b-2 border-black py-1">
                         <!-- Grade 2x2 de Acessórios com Caixas Nítidas -->
                         <div class="text-[9px] leading-snug space-y-1 pr-2">
@@ -355,19 +380,18 @@
                             </div>
                         </div>
 
-                        <!-- MEGA QR CODE EXPANDIDO DE BANCADA (~22mm físicos) -->
+                        <!-- MEGA QR CODE EXPANDIDO DE BANCADA -->
                         <div class="shrink-0 pl-2 border-l border-black flex items-center justify-center">
                             <div id="labelQRCode" class="flex justify-center items-center"></div>
                         </div>
                     </div>
 
-                    <!-- LINHA 4: RODAPÉ COM PRATELEIRA E DATA/HORA -->
-                    <div class="flex items-center justify-between text-[8.5px] pt-1 font-mono font-bold">
-                        <div class="flex items-center gap-1">
-                            <span>PRAT:</span>
-                            <span id="labelPrat" class="val-prat bg-black text-white px-1.5 py-0.5 rounded-sm">B-04</span>
+                    <!-- LINHA 4: RODAPÉ COM IDENTIFICAÇÃO E DATA/HORA -->
+                    <div class="flex items-center justify-between text-[8px] pt-1 font-mono font-bold">
+                        <div class="text-zinc-700 tracking-tight">
+                            <span>A5 BALANÇAS & SISTEMAS</span>
                         </div>
-                        <div class="text-zinc-800 text-[8px] tracking-tight">
+                        <div class="text-zinc-800 tracking-tight">
                             <span id="labelData">01/11/26 14:30</span>
                         </div>
                     </div>
@@ -380,21 +404,21 @@
             <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-3 mt-6 pt-6 border-t border-white/10 dark:border-white/10 text-xs">
                 <div class="bg-slate-50 dark:bg-zinc-800/60 p-3 rounded-2xl border border-slate-200 dark:border-zinc-700/60 flex items-start gap-2.5">
                     <div class="w-7 h-7 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center shrink-0 mt-0.5">
-                        <i data-lucide="type" class="w-4 h-4"></i>
+                        <i data-lucide="hash" class="w-4 h-4"></i>
                     </div>
                     <div>
-                        <h4 class="font-bold text-slate-900 dark:text-white">Nome do Cliente Ampliado</h4>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Tipografia em 12px negrito para leitura instantânea a distância na prateleira de entrada.</p>
+                        <h4 class="font-bold text-slate-900 dark:text-white">O.S. em 16px ao Lado do Cliente</h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Número da O.S. gigante em caixa preta maciça colada visualmente ao nome do cliente.</p>
                     </div>
                 </div>
 
                 <div class="bg-slate-50 dark:bg-zinc-800/60 p-3 rounded-2xl border border-slate-200 dark:border-zinc-700/60 flex items-start gap-2.5">
                     <div class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
-                        <i data-lucide="hash" class="w-4 h-4"></i>
+                        <i data-lucide="type" class="w-4 h-4"></i>
                     </div>
                     <div>
-                        <h4 class="font-bold text-slate-900 dark:text-white">O.S. em Caixa Alta Invertida</h4>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Número da O.S. ampliado para 14px em bloco preto maciço, evitando confusão de balança.</p>
+                        <h4 class="font-bold text-slate-900 dark:text-white">Nome do Cliente em 12.5px</h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Tipografia ampliada em caixa alta com alto contraste e legibilidade imediata.</p>
                     </div>
                 </div>
 
@@ -404,7 +428,7 @@
                     </div>
                     <div>
                         <h4 class="font-bold text-slate-900 dark:text-white">Mega QR Code (22 mm)</h4>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Tamanho aumentado em +45% para leitura rápida em qualquer smartphone de técnico sem erro de foco.</p>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Leitura rápida por qualquer smartphone na bancada técnica `/saida`.</p>
                     </div>
                 </div>
             </div>
@@ -413,7 +437,7 @@
             <div class="w-full mt-6 flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-white/10 dark:border-white/10">
                 <div class="text-xs text-slate-400 flex items-center gap-1.5">
                     <i data-lucide="info" class="w-4 h-4 text-sky-400"></i>
-                    <span>Tudo pronto para teste. Imprima agora na bobina 60x40mm para avaliar em mãos.</span>
+                    <span>Tudo pronto. Imprima agora na bobina física 60x40mm para conferir o resultado.</span>
                 </div>
 
                 <div class="flex items-center gap-2">
@@ -438,6 +462,26 @@
     <!-- SCRIPTS DINÂMICOS                                                   -->
     <!-- =================================================================== -->
     <script>
+        let currentOsPosition = "right";
+
+        // Alternar posição da O.S. (Direita vs Esquerda do Cliente)
+        function setOsPosition(pos) {
+            currentOsPosition = pos;
+            const row = document.getElementById("clientOsRow");
+            const clientBlock = document.getElementById("clientBlock");
+            const osBlock = document.getElementById("osBlock");
+
+            if (pos === "left") {
+                row.insertBefore(osBlock, clientBlock);
+                document.getElementById("btnPosLeft").className = "px-2.5 py-0.5 rounded-lg text-xs font-bold bg-sky-500 text-slate-950 transition";
+                document.getElementById("btnPosRight").className = "px-2.5 py-0.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-white transition";
+            } else {
+                row.appendChild(osBlock);
+                document.getElementById("btnPosRight").className = "px-2.5 py-0.5 rounded-lg text-xs font-bold bg-sky-500 text-slate-950 transition";
+                document.getElementById("btnPosLeft").className = "px-2.5 py-0.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-white transition";
+            }
+        }
+
         // Atualiza campos e QR Code
         function updateLabel() {
             const os = document.getElementById("inputOS").value || "1024";
@@ -461,7 +505,7 @@
             setBox("boxCabo", temCabo);
             setBox("boxBateria", temBateria);
 
-            // Re-renderiza o Mega QR Code com tamanho ampliado (70px na tela = ~22mm físico)
+            // Re-renderiza o Mega QR Code com tamanho ampliado (70px = ~22mm físico)
             renderQRCode(os);
         }
 
@@ -488,7 +532,7 @@
                 container.innerHTML = "";
                 new QRCode(container, {
                     text: url,
-                    width: 70, // Tamanho aumentado significativamente!
+                    width: 70,
                     height: 70,
                     colorDark: "#000000",
                     colorLight: "#ffffff",
@@ -534,8 +578,8 @@
 
         // Aprovação Oficial
         function confirmAsOfficial() {
-            localStorage.setItem("a5_chosen_label_layout", "Oficial A5 Otimizada (60x40mm) - Acessórios 2x2");
-            alert("✅ Modelo Oficial Definido com Sucesso!\n\nLayout 'Oficial A5 Otimizada 60x40mm' configurado.");
+            localStorage.setItem("a5_chosen_label_layout", "Oficial A5 60x40mm (O.S. ao lado do Cliente + Acessórios)");
+            alert("✅ Modelo Oficial Definido com Sucesso!\n\nLayout 'Oficial A5 60x40mm (O.S. ao lado do Cliente)' configurado.");
         }
 
         // Modo Clean / Dark
