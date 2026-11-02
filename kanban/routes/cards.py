@@ -29,6 +29,33 @@ def api_search_scales():
 
 
 
+from ..services import clients as clients_service
+
+
+@bp.route("/cnpj/<path:cnpj>", methods=["GET"])
+def lookup_cnpj(cnpj):
+    """Consulta CNPJ em tempo real na Receita Federal (via BrasilAPI) com cache no banco local."""
+    data = clients_service.fetch_cnpj_info(cnpj)
+    if "error" in data:
+        return jsonify({"success": False, "error": data["error"]}), 400
+    return jsonify({"success": True, "source": data.get("source"), "client": data.get("data")})
+
+
+@bp.route("/clients/search", methods=["GET"])
+def search_clients():
+    """Autocompletar de clientes cadastrados por Nome, Fantasia, CNPJ ou Telefone."""
+    q = request.args.get("q", "").strip()
+    return jsonify({"clients": clients_service.search_clients(q)})
+
+
+@bp.route("/clients", methods=["POST"])
+def save_client():
+    """Salva ou atualiza os dados de um cliente manualmente."""
+    payload = request.get_json(silent=True) or request.form.to_dict()
+    client = clients_service.save_or_update_client(payload)
+    return jsonify({"success": True, "client": client})
+
+
 @bp.route("/pending-entries", methods=["GET"])
 def get_pending_entries():
     """Lista as pré-entradas de fotos tiradas na recepção aguardando geração de O.S. no Teorema."""
@@ -37,11 +64,18 @@ def get_pending_entries():
 
 @bp.route("/pending-entries", methods=["POST"])
 def create_pending_entry():
-    """Salva fotos tiradas pela Priscila no celular (/recepcao-fotos) apenas com o Nome do Cliente."""
+    """Salva fotos tiradas pela Priscila no celular (/recepcao-fotos) com os dados de CNPJ, Cliente e Acessórios."""
     form = request.form
     fields = {
         "entry_id": form.get("entry_id"),
         "client_name": get_text(form, "client_name").upper(),
+        "cnpj_cpf": get_text(form, "cnpj_cpf"),
+        "trade_name": get_text(form, "trade_name").upper(),
+        "phone": get_text(form, "phone"),
+        "email": get_text(form, "email"),
+        "address": get_text(form, "address"),
+        "city_state": get_text(form, "city_state"),
+        "accessories_json": form.get("accessories_json", "[]"),
         "equipment_type": get_text(form, "equipment_type", DEFAULT_EQUIPMENT_TYPE),
         "equipment_model": get_text(form, "equipment_model"),
         "serial_number": get_text(form, "serial_number"),
@@ -72,6 +106,13 @@ def create_card():
     fields = {
         "os_number": get_text(form, "os_number"),
         "client_name": get_text(form, "client_name").upper(),
+        "cnpj_cpf": get_text(form, "cnpj_cpf"),
+        "trade_name": get_text(form, "trade_name").upper(),
+        "phone": get_text(form, "phone"),
+        "email": get_text(form, "email"),
+        "address": get_text(form, "address"),
+        "city_state": get_text(form, "city_state"),
+        "accessories_json": form.get("accessories_json", "[]"),
         "equipment_type": get_text(form, "equipment_type", DEFAULT_EQUIPMENT_TYPE),
         "equipment_model": get_text(form, "equipment_model"),
         "serial_number": get_text(form, "serial_number"),

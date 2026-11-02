@@ -258,10 +258,35 @@ def _ensure_cards_columns(cursor):
         ("reopen_requested", "INTEGER DEFAULT 0"),
         ("reopen_requested_by", "TEXT DEFAULT ''"),
         ("reopen_requested_at", "TEXT DEFAULT NULL"),
+        ("cnpj_cpf", "TEXT DEFAULT ''"),
+        ("trade_name", "TEXT DEFAULT ''"),
+        ("phone", "TEXT DEFAULT ''"),
+        ("email", "TEXT DEFAULT ''"),
+        ("address", "TEXT DEFAULT ''"),
+        ("city_state", "TEXT DEFAULT ''"),
+        ("accessories_json", "TEXT DEFAULT '[]'"),
     ]
     for col_name, col_def in new_columns:
         if col_name not in existing:
             cursor.execute(f"ALTER TABLE cards ADD COLUMN {col_name} {col_def}")
+
+    # Garante a criação da tabela de clientes locais para histórico e autocompletar
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS clients (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            cnpj_cpf TEXT DEFAULT '',
+            client_name TEXT NOT NULL,
+            trade_name TEXT DEFAULT '',
+            phone TEXT DEFAULT '',
+            email TEXT DEFAULT '',
+            address TEXT DEFAULT '',
+            city_state TEXT DEFAULT '',
+            created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL
+        )
+    """)
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_clients_cnpj ON clients (cnpj_cpf)")
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_clients_name ON clients (client_name)")
 
     # Garante a criação da lista "BALANÇAS PRONTAS" antes de "FINALIZADAS" em bancos existentes
     has_lists = cursor.execute(
@@ -303,6 +328,20 @@ def _ensure_cards_columns(cursor):
             created_at TEXT NOT NULL
         )
     """)
+
+    pending_existing = {row["name"] for row in cursor.execute("PRAGMA table_info(pending_entries)").fetchall()}
+    for col_name, col_def in [
+        ("cnpj_cpf", "TEXT DEFAULT ''"),
+        ("trade_name", "TEXT DEFAULT ''"),
+        ("phone", "TEXT DEFAULT ''"),
+        ("email", "TEXT DEFAULT ''"),
+        ("address", "TEXT DEFAULT ''"),
+        ("city_state", "TEXT DEFAULT ''"),
+        ("accessories_json", "TEXT DEFAULT '[]'"),
+        ("entry_protocol", "TEXT DEFAULT ''"),
+    ]:
+        if col_name not in pending_existing:
+            cursor.execute(f"ALTER TABLE pending_entries ADD COLUMN {col_name} {col_def}")
 
 
 def _ensure_scale_models(cursor):

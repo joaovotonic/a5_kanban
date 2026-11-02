@@ -101,7 +101,7 @@ def list_pending_entries():
 
 def create_pending_entry(fields, photo_files):
     """
-    Salva fotos tiradas pela Priscila na recepção apenas com o Nome do Cliente
+    Salva fotos tiradas pela Priscila na recepção com os dados do Cliente e CNPJ
     (antes de gerar o número da O.S. no Teorema). Se já existir uma pré-entrada
     para o mesmo cliente (ou se `entry_id` for informado), anexa as novas fotos nela.
     """
@@ -115,6 +115,10 @@ def create_pending_entry(fields, photo_files):
     entry_id = to_int(fields.get("entry_id"))
 
     with connect() as conn:
+        # Salva ou atualiza cliente na memória local usando a mesma conexão
+        from .clients import save_or_update_client
+        save_or_update_client(fields, conn=conn)
+
         existing = None
         if entry_id:
             existing = conn.execute("SELECT * FROM pending_entries WHERE id = ?", (entry_id,)).fetchone()
@@ -138,6 +142,13 @@ def create_pending_entry(fields, photo_files):
                     serial_number = COALESCE(NULLIF(?, ''), serial_number),
                     reported_defect = COALESCE(NULLIF(?, ''), reported_defect),
                     previous_service = COALESCE(NULLIF(?, ''), previous_service),
+                    cnpj_cpf = COALESCE(NULLIF(?, ''), cnpj_cpf),
+                    trade_name = COALESCE(NULLIF(?, ''), trade_name),
+                    phone = COALESCE(NULLIF(?, ''), phone),
+                    email = COALESCE(NULLIF(?, ''), email),
+                    address = COALESCE(NULLIF(?, ''), address),
+                    city_state = COALESCE(NULLIF(?, ''), city_state),
+                    accessories_json = COALESCE(NULLIF(?, ''), accessories_json),
                     photos_json = ?
                 WHERE id = ?
             """, (
@@ -146,6 +157,13 @@ def create_pending_entry(fields, photo_files):
                 fields.get("serial_number", ""),
                 fields.get("reported_defect", ""),
                 fields.get("previous_service", ""),
+                fields.get("cnpj_cpf", ""),
+                fields.get("trade_name", ""),
+                fields.get("phone", ""),
+                fields.get("email", ""),
+                fields.get("address", ""),
+                fields.get("city_state", ""),
+                fields.get("accessories_json", "[]"),
                 json.dumps(current_photos),
                 target_id,
             ))
@@ -153,8 +171,10 @@ def create_pending_entry(fields, photo_files):
             cursor = conn.execute("""
                 INSERT INTO pending_entries (
                     client_name, equipment_type, equipment_model, serial_number,
-                    reported_defect, previous_service, photos_json, created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, '[]', ?)
+                    reported_defect, previous_service, cnpj_cpf, trade_name,
+                    phone, email, address, city_state, accessories_json,
+                    photos_json, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '[]', ?)
             """, (
                 client_name,
                 fields.get("equipment_type") or DEFAULT_EQUIPMENT_TYPE,
@@ -162,6 +182,13 @@ def create_pending_entry(fields, photo_files):
                 fields.get("serial_number", ""),
                 fields.get("reported_defect", ""),
                 fields.get("previous_service", ""),
+                fields.get("cnpj_cpf", ""),
+                fields.get("trade_name", ""),
+                fields.get("phone", ""),
+                fields.get("email", ""),
+                fields.get("address", ""),
+                fields.get("city_state", ""),
+                fields.get("accessories_json", "[]"),
                 now_iso,
             ))
             target_id = cursor.lastrowid
@@ -178,6 +205,7 @@ def create_pending_entry(fields, photo_files):
 
     item = dict(row)
     item["photos"] = json.loads(item.get("photos_json") or "[]")
+    item["accessories"] = json.loads(item.get("accessories_json") or "[]")
     return item
 
 
@@ -237,21 +265,40 @@ def create_card(fields, list_id, labels_json, photo_files, pending_entry_id=None
 
         adopted_urls = []
         for pr in pre_rows:
-            raw_pre_urls = json.loads(pr["photos_json"] or "[]")
+            pr_dict = dict(pr)
+            raw_pre_urls = json.loads(pr_dict.get("photos_json") or "[]")
             adopted_urls.extend(adopt_pre_entry_photos(raw_pre_urls, os_number, stage="entrada"))
             # Preenche campos opcionais caso não tenham sido digitados na Nova O.S.
-            if not fields.get("equipment_model") and pr["equipment_model"]:
-                fields["equipment_model"] = pr["equipment_model"]
-            if not fields.get("serial_number") and pr["serial_number"]:
-                fields["serial_number"] = pr["serial_number"]
-            if not fields.get("reported_defect") and pr["reported_defect"]:
-                fields["reported_defect"] = pr["reported_defect"]
-            if not fields.get("previous_service") and pr["previous_service"]:
-                fields["previous_service"] = pr["previous_service"]
-            conn.execute("DELETE FROM pending_entries WHERE id = ?", (pr["id"],))
+            if not fields.get("equipment_model") and pr_dict.get("equipment_model"):
+                fields["equipment_model"] = pr_dict["equipment_model"]
+            if not fields.get("serial_number") and pr_dict.get("serial_number"):
+                fields["serial_number"] = pr_dict["serial_number"]
+            if not fields.get("reported_defect") and pr_dict.get("reported_defect"):
+                fields["reported_defect"] = pr_dict["reported_defect"]
+            if not fields.get("previous_service") and pr_dict.get("previous_service"):
+                fields["previous_service"] = pr_dict["previous_service"]
+            if not fields.get("cnpj_cpf") and pr_dict.get("cnpj_cpf"):
+                fields["cnpj_cpf"] = pr_dict["cnpj_cpf"]
+            if not fields.get("trade_name") and pr_dict.get("trade_name"):
+                fields["trade_name"] = pr_dict["trade_name"]
+            if not fields.get("phone") and pr_dict.get("phone"):
+                fields["phone"] = pr_dict["phone"]
+            if not fields.get("email") and pr_dict.get("email"):
+                fields["email"] = pr_dict["email"]
+            if not fields.get("address") and pr_dict.get("address"):
+                fields["address"] = pr_dict["address"]
+            if not fields.get("city_state") and pr_dict.get("city_state"):
+                fields["city_state"] = pr_dict["city_state"]
+            if not fields.get("accessories_json") and pr_dict.get("accessories_json"):
+                fields["accessories_json"] = pr_dict["accessories_json"]
+            conn.execute("DELETE FROM pending_entries WHERE id = ?", (pr_dict["id"],))
 
         photo_urls = adopted_urls + save_os_photos(photo_files, os_number, stage="entrada")
         now_iso = _now()
+
+        # Salva ou atualiza o cliente na base permanente
+        from .clients import save_or_update_client
+        save_or_update_client(fields, conn=conn)
 
         # Define estado inicial do fluxo conforme a coluna escolhida na abertura
         quote_status = "pending_claim"
@@ -271,14 +318,19 @@ def create_card(fields, list_id, labels_json, photo_files, pending_entry_id=None
                 INSERT INTO cards (
                     os_number, client_name, equipment_type, equipment_model,
                     serial_number, shelf_location, reported_defect, previous_service,
+                    cnpj_cpf, trade_name, phone, email, address, city_state, accessories_json,
                     quote_status, tech_name, evaluator_tech, quote_started_at,
                     list_id, position, labels_json, entry_photos_json,
                     created_at, updated_at, moved_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 os_number, fields["client_name"], fields["equipment_type"] or DEFAULT_EQUIPMENT_TYPE,
-                fields["equipment_model"], fields["serial_number"], fields["shelf_location"],
+                fields["equipment_model"], fields["serial_number"], fields.get("shelf_location", ""),
                 fields["reported_defect"], fields.get("previous_service", ""),
+                fields.get("cnpj_cpf", ""), fields.get("trade_name", ""),
+                fields.get("phone", ""), fields.get("email", ""),
+                fields.get("address", ""), fields.get("city_state", ""),
+                fields.get("accessories_json", "[]"),
                 quote_status, tech_name, evaluator_tech, quote_started_at,
                 target_list["id"], _next_position(conn, target_list["id"]),
                 labels_json, json.dumps(photo_urls), now_iso, now_iso, now_iso

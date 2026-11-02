@@ -333,6 +333,58 @@ class TestA5KanbanComplete(unittest.TestCase):
         })
         self.assertEqual(r_dir.status_code, 200)
 
+    def test_08_cnpj_and_client_intake(self):
+        """Testa busca de CNPJ, cadastro de cliente e comprovante A4 estilo Teorema."""
+        # 1. Testa endpoint de CNPJ com formato inválido
+        r_invalid = self.client.get("/api/cnpj/123")
+        self.assertEqual(r_invalid.status_code, 400)
+
+        # 2. Testa cadastro manual de cliente
+        r_client = self.client.post("/api/clients", json={
+            "cnpj_cpf": "84083807000125",
+            "client_name": "A G TAVARES - EPP",
+            "trade_name": "SUPERMERCADO BOM PRECO",
+            "phone": "(92) 3011-9537",
+            "city_state": "MANACAPURU / AM"
+        })
+        self.assertEqual(r_client.status_code, 200)
+        c_data = r_client.get_json()["client"]
+        self.assertEqual(c_data["client_name"], "A G TAVARES - EPP")
+
+        # 3. Testa busca de autocompletar
+        r_search = self.client.get("/api/clients/search?q=BOM+PRECO")
+        self.assertEqual(r_search.status_code, 200)
+        results = r_search.get_json()["clients"]
+        self.assertTrue(len(results) >= 1)
+        self.assertEqual(results[0]["trade_name"], "SUPERMERCADO BOM PRECO")
+
+        # 4. Testa criação de pré-entrada com CNPJ e acessórios
+        r_pre = self.client.post("/api/pending-entries", data={
+            "client_name": "A G TAVARES - EPP",
+            "trade_name": "SUPERMERCADO BOM PRECO",
+            "cnpj_cpf": "84083807000125",
+            "equipment_type": "Balança Toledo Prix",
+            "equipment_model": "Prix 4 Uno",
+            "reported_defect": "Não liga",
+            "accessories_json": json.dumps(["prato", "fonte"]),
+            "entry_photos": [(io.BytesIO(b"fake_pre_image"), "pre1.jpg")]
+        }, content_type="multipart/form-data")
+        self.assertEqual(r_pre.status_code, 200)
+        entry_id = r_pre.get_json()["entry"]["id"]
+
+        # 5. Testa visualização do comprovante A4
+        r_a4 = self.client.get(f"/comprovante-entrada/{entry_id}")
+        self.assertEqual(r_a4.status_code, 200)
+        html = r_a4.get_data(as_text=True)
+        self.assertIn("A G TAVARES", html)
+        self.assertIn("SUPERMERCADO BOM PRECO", html)
+        self.assertIn("PRATO INOX", html)
+
+        # 6. Testa rotas /recepcao e /recepcao-fotos
+        for route in ["/recepcao", "/recepcao-fotos"]:
+            r_page = self.client.get(route)
+            self.assertEqual(r_page.status_code, 200)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

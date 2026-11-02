@@ -1,7 +1,10 @@
 """Rotas de páginas web (telas do sistema)."""
+import json
+
 from flask import Blueprint, redirect, render_template, request, url_for
 
 from ..config import PORT
+from ..database import connect
 from ..services.board import enrich_card
 from ..services.cards import get_card_row_by_os
 from ..utils import get_local_ip
@@ -35,10 +38,35 @@ def saida_page():
     return render_template("saida.html", os_number=os_num, local_ip=get_local_ip())
 
 
+@bp.route("/recepcao")
 @bp.route("/recepcao-fotos")
 def recepcao_fotos_page():
-    """Rota Mobile da Recepção (Priscila) para tirar fotos antes de gerar a O.S. no Teorema."""
+    """Rota Mobile da Recepção (Priscila) para tirar fotos e cadastrar cliente via CNPJ antes do Teorema."""
     return render_template("recepcao_fotos.html", local_ip=get_local_ip(), port=PORT)
+
+
+@bp.route("/comprovante-entrada/<int:entry_id>")
+def comprovante_entrada_page(entry_id):
+    """Comprovante oficial de entrega em balcão (estilo O.S. Teorema em A4) para assinatura do cliente."""
+    with connect() as conn:
+        row = conn.execute("SELECT * FROM pending_entries WHERE id = ?", (entry_id,)).fetchone()
+    if not row:
+        return "Pré-entrada não encontrada.", 404
+    entry = dict(row)
+    entry["accessories"] = json.loads(entry.get("accessories_json") or "[]")
+    entry["photos"] = json.loads(entry.get("photos_json") or "[]")
+    return render_template("comprovante_entrada.html", entry=entry, is_os=False)
+
+
+@bp.route("/comprovante-os/<path:os_number>")
+def comprovante_os_page(os_number):
+    """Comprovante oficial de O.S. (estilo Teorema em A4) com o número oficial do Teorema."""
+    row = get_card_row_by_os(os_number)
+    if not row:
+        return "O.S. não encontrada.", 404
+    card = enrich_card(row)
+    card["accessories"] = json.loads(card.get("accessories_json") or "[]")
+    return render_template("comprovante_entrada.html", entry=card, is_os=True)
 
 
 @bp.route("/consulta")

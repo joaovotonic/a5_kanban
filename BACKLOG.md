@@ -667,3 +667,32 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
   1. Sistema de prateleiras completamente desativado da interface do usuário.
   2. Layout da etiqueta térmica simplificado e focado nos itens essenciais (Cliente, O.S., Acessórios e QR Code).
   3. Telas administrativas e mobile limpas, sem campos desnecessários para a equipe.
+
+
+---
+
+## 📌 Item 37: Pré-Entrada de Balcão com Busca Automática de CNPJ e Emissão de O.S. A4 Estilo Teorema
+
+* **Status:** ✅ **Implementado para Teste e Homologação**
+* **Solicitante:** Diretoria / Priscila (Recepção)
+* **Objetivo:** Otimizar radicalmente o tempo da Priscila no atendimento inicial. O cliente chega, Priscila usa o celular/tablet em /recepcao: digita o CNPJ (sistema puxa Razão Social, Fantasia, Endereço e Telefone automaticamente em <1s via BrasilAPI/Receita Federal), tira as fotos, marca os acessórios e já gera na hora a via de Ordem de Serviço A4 para o cliente assinar e levar. O equipamento não entra na TV da oficina até que a Priscila digite no PC o número real gerado no Teorema, mantendo a numeração legal sincronizada.
+* **Telas & Arquivos Impactados:**
+  - kanban/database.py (Tabela clients, novas colunas em pending_entries e cards)
+  - kanban/services/clients.py (Novo serviço com busca BrasilAPI, cache SQLite local e busca de clientes)
+  - kanban/routes/cards.py (Rotas /api/cnpj/<cnpj>, /api/clients/search, /api/clients)
+  - kanban/routes/pages.py (Rotas /recepcao, /comprovante-entrada/<id>, /comprovante-os/<os>)
+  - 	emplates/recepcao_fotos.html (Interface mobile com busca de CNPJ, checklist de acessórios e modal de impressão A4)
+  - 	emplates/comprovante_entrada.html (Novo template réplica exata do layout oficial A4 da O.S. do Teorema)
+  - 	emplates/admin.html (Adaptação da prévia de pré-entradas para herdar dados de CNPJ, Fantasia, Endereço e Acessórios ao criar a O.S.)
+  - 	ests/test_kanban.py (Testes automatizados cobrindo o fluxo completo)
+* **Principais Entregas:**
+  1. **Busca Instantânea de CNPJ via API Gratuita e Caching Local:**
+     - Digitação de 14 dígitos aciona a consulta na API da Receita Federal (BrasilAPI).
+     - Preenchimento instantâneo de Razão Social, Nome Fantasia, Telefone e Endereço.
+     - Gravação automática na tabela clients para autocompletar imediatamente clientes recorrentes.
+  2. **Impressão de O.S. Preliminar A4 com Cópia do Cliente:**
+     - Réplica idêntica ao espelho do Teorema (conforme modelo PDF enviado): Cabeçalho oficial A5 Manaus, bloco do cliente com CNPJ, dados da balança, grade de conferência de acessórios ([X] CABO, [X] FONTE, [X] PRATO, etc.), laudo/defeito relatado, termo de garantia/aceite e linhas de assinatura.
+  3. **Preservação da Autoridade de Numeração do Teorema:**
+     - A balança entra como pré-registro em 'Aguardando Teorema' (não polui a Smart TV da oficina).
+     - Priscila atende com tranquilidade: quando o cliente sai, ela cria a O.S. no Teorema e digita o número no Kanban no PC.
+     - Ao salvar no PC, a etiqueta adesiva térmica 60x40mm é gerada e o cartão é despachado em tempo real para a TV da oficina.

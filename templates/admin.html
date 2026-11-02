@@ -263,6 +263,13 @@
             </div>
             <form id="newOsForm" onsubmit="submitNewOs(event)" class="space-y-3.5">
                 <input type="hidden" name="pending_entry_id" id="newOsPendingEntryId" value="">
+                <input type="hidden" name="cnpj_cpf" id="newOsCnpjInput" value="">
+                <input type="hidden" name="trade_name" id="newOsTradeNameInput" value="">
+                <input type="hidden" name="phone" id="newOsPhoneInput" value="">
+                <input type="hidden" name="email" id="newOsEmailInput" value="">
+                <input type="hidden" name="address" id="newOsAddressInput" value="">
+                <input type="hidden" name="city_state" id="newOsCityStateInput" value="">
+                <input type="hidden" name="accessories_json" id="newOsAccessoriesInput" value="[]">
 
                 <!-- INTEGRAÇÃO FOTOS CELULAR & PRÉ-ENTRADA -->
                 <div class="p-3.5 rounded-xl border border-sky-500/30 bg-sky-500/[0.04] space-y-2.5">
@@ -1186,7 +1193,7 @@
                         return `
                             <button type="button" onclick="applyPendingEntryById(${p.id})"
                                     class="px-2.5 py-1 rounded-lg bg-white dark:bg-zinc-900 border border-sky-500/30 hover:border-sky-500 text-xs font-bold flex items-center gap-1.5 shadow-sm transition active:scale-[0.98]">
-                                <span class="uppercase text-slate-800 dark:text-zinc-200">${esc(p.client_name)}</span>
+                                <span class="uppercase text-slate-800 dark:text-zinc-200">${esc(p.trade_name || p.client_name)}</span>
                                 <span class="bg-sky-500 text-slate-950 font-mono font-bold text-[10px] px-1.5 py-0.2 rounded-full flex items-center gap-0.5">
                                     <i data-lucide="camera" class="w-2.5 h-2.5"></i>
                                     <span>${photos.length}</span>
@@ -1211,14 +1218,23 @@
                             <div class="p-3 rounded-xl border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900/60 flex flex-col gap-2">
                                 <div class="flex items-center justify-between gap-2">
                                     <div class="min-w-0">
-                                        <p class="text-sm font-bold uppercase truncate text-slate-900 dark:text-white">${esc(p.client_name)}</p>
-                                        <p class="text-xs text-sky-500 font-semibold flex items-center gap-1">
+                                        <p class="text-sm font-bold uppercase truncate text-slate-900 dark:text-white">
+                                            ${esc(p.trade_name || p.client_name)}
+                                            ${p.trade_name && p.trade_name !== p.client_name ? `<span class="text-[11px] font-normal text-slate-400 block">${esc(p.client_name)}</span>` : ''}
+                                        </p>
+                                        <p class="text-xs text-sky-500 font-semibold flex items-center gap-1 mt-0.5">
                                             <i data-lucide="camera" class="w-3.5 h-3.5"></i>
                                             <span>${photos.length} foto(s) no celular</span>
                                             ${p.equipment_model ? `<span class="text-slate-400">• ${esc(p.equipment_model)}</span>` : ''}
                                         </p>
                                     </div>
                                     <div class="flex items-center gap-2 shrink-0">
+                                        <a href="/comprovante-entrada/${p.id}" target="_blank"
+                                           class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-800 text-xs font-semibold flex items-center gap-1 transition text-slate-700 dark:text-zinc-200"
+                                           title="Imprimir Ordem A4">
+                                            <i data-lucide="printer" class="w-3.5 h-3.5 text-sky-500"></i>
+                                            <span>A4</span>
+                                        </a>
                                         <button type="button" onclick="applyPendingEntryById(${p.id})"
                                                 class="bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-lg shadow transition flex items-center gap-1">
                                             <i data-lucide="plus" class="w-3.5 h-3.5"></i>
@@ -1263,6 +1279,13 @@
             const form = document.getElementById("newOsForm");
             document.getElementById("newOsPendingEntryId").value = entry.id;
             document.getElementById("newOsClientNameInput").value = entry.client_name;
+            if (entry.cnpj_cpf) document.getElementById("newOsCnpjInput").value = entry.cnpj_cpf;
+            if (entry.trade_name) document.getElementById("newOsTradeNameInput").value = entry.trade_name;
+            if (entry.phone) document.getElementById("newOsPhoneInput").value = entry.phone;
+            if (entry.email) document.getElementById("newOsEmailInput").value = entry.email;
+            if (entry.address) document.getElementById("newOsAddressInput").value = entry.address;
+            if (entry.city_state) document.getElementById("newOsCityStateInput").value = entry.city_state;
+            if (entry.accessories_json) document.getElementById("newOsAccessoriesInput").value = typeof entry.accessories_json === 'string' ? entry.accessories_json : JSON.stringify(entry.accessories_json);
             if (entry.equipment_model && form.equipment_model) form.equipment_model.value = entry.equipment_model;
             if (entry.equipment_type && form.equipment_type) form.equipment_type.value = entry.equipment_type;
             if (entry.serial_number && form.serial_number) form.serial_number.value = entry.serial_number;
