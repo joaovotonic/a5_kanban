@@ -21,6 +21,7 @@ def admin_page():
     return render_template("admin.html", local_ip=get_local_ip(), port=PORT)
 
 
+@bp.route("/tv")
 @bp.route("/painel-tv")
 def tv_page():
     """2. Rota TV Oficina (Dashboard Visual e Sonoro Dark Mode Glassmorphism)."""
