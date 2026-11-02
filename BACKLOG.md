@@ -525,7 +525,35 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
 
 ---
 
-## 📌 Item 31: Reestruturação da Apresentação com Base no POP-TEC-001
+## 📌 Item 32: Apresentação Executiva Direta e Prática (O Que Faz, O Que Resolve de Tempo, Funcionalidades e Fluxo Real)
+
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Diretoria / Sr. Jacson
+* **Telas & Arquivos Impactados:**
+  - `templates/apresentacao.html` (Reestruturação total em 5 slides objetivos, dinâmicos e focados no valor prático do software)
+  - `templates/tv.html` (Sincronização das cores `#254a93` e `#2aa6c8` no tema claro idêntico à Consulta Rápida)
+  - `templates/diretoria.html` (Sincronização das cores do tema claro)
+* **Principais Entregas:**
+  1. **Substituição de Citações Burocráticas por Apresentação Prática de Software:**
+     - Eliminadas referências a cláusulas acadêmicas ("POP Item 6.2", "POP Item 7.3") em prol de uma linguagem ágil, executiva e focada na demonstração ao vivo para o Sr. Jacson.
+  2. **Estrutura dos 5 Slides:**
+     - **Slide 1 - O Que o Projeto Faz:** Apresentação da Oficina Digital A5 como o sistema nervoso central que interliga Recepção, Bancada Técnica Mobile, Smart TV da Oficina e Diretoria Executiva em tempo real com eliminação total de papel.
+     - **Slide 2 - O Que Ele Resolve de Tempo:** Comparativo Antes vs Agora com números claros:
+       * Localizar O.S. física: de 15 minutos para 1 segundo.
+       * Deslocamento até a sala da diretoria: de idas e vindas a zero passos (Intercom na mesa com voz neural).
+       * Checagem de status da balança: de interrupções de bancada para visualização direta na TV da oficina.
+       * Papelada na oficina: eliminação de todas as vias sujas, restando apenas a O.S. física oficial do Teorema ERP na retirada.
+     - **Slide 3 - Como Funciona na Prática em 5 Passos (Fluxograma Interativo com Teclas 1 a 5):**
+       * *Passo 1 (Recepção):* Fotos 360° no celular e etiqueta QR Code térmica ($60 \times 40\text{ mm}$) colada no chassi.
+       * *Passo 2 (Bancada Mobile):* Técnico bipa QR Code, laudo com catálogo oficial Toledo Prix; estufa térmica exclusiva para PCI/célula durante o orçamento (a balança inteira NUNCA vai para a estufa).
+       * *Passo 3 (Aprovação):* Priscila envia proposta em 1 clique; sistema trava o reparo até o cliente aprovar.
+       * *Passo 4 (Reparo & Lacre):* Técnico troca peças originais, realiza testes metrológicos com pesos-padrão ($\pm 2e$) e coloca o Lacre Físico Numerado no parafuso. **O técnico SÓ LACRA (não sela!).** TV toca fanfarra comemorativa.
+       * *Passo 5 (Saída & Teorema):* **QUEM SELA A BALANÇA É A PRISCILA!** Aplica o adesivo oficial do Selo Reparado (IPEM), clica em "Copiar Lacre p/ Teorema" (1 clique), imprime a O.S. física oficial do Teorema, cola o canhoto do Selo nela e colhe a assinatura física do cliente.
+     - **Slide 4 - Módulos Feitos Sob Medida:** 6 cartões objetivos cobrindo `/saida`, `/tv`, `/diretoria`, `/admin`, `/recepcao-fotos` e `/consulta`.
+     - **Slide 5 - Demonstração ao Vivo:** 6 botões interativos para testar cada módulo instantaneamente na rede local da A5.
+  3. **Identidade Visual e Proporções:**
+     - Emblema oficial A5 proporcional (`w-[38px] h-[26px]`, `viewBox="0 0 48 32"` com `font-size="17"`), tipografia Times New Roman / Georgia perfeitamente centralizada e paleta padronizada (`#254a93` e `#2aa6c8`).
+
 
 * **Status:** ✅ **Implementado e Homologado em Produção**
 * **Solicitante:** Diretoria / Sr. Jacson
