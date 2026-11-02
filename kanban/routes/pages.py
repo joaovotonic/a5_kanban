@@ -66,6 +66,13 @@ def apresentacao_page():
     return render_template("apresentacao.html", local_ip=get_local_ip(), port=PORT)
 
 
+@bp.route("/etiquetas")
+@bp.route("/layouts-etiqueta")
+def etiquetas_catalogo_page():
+    """Catálogo comparativo de 10 opções de layouts de etiqueta térmica (60x40mm e 60x55mm)."""
+    return render_template("etiquetas_catalogo.html", local_ip=get_local_ip(), port=PORT)
+
+
 @bp.route("/etiqueta/<path:os_number>")
 def etiqueta_page(os_number):
     """Gera a visualização de impressão térmica 60x40mm com QR Code da O.S."""

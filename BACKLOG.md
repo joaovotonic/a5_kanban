@@ -611,3 +611,36 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
      - Modal Lightbox para expandir qualquer tela em alta definição ao clicar.
      - Navegação superior por abas, atalhos de teclado (setas, teclas numéricas 1 a 8, 'C' para Clean Mode e 'F' para Tela Cheia).
 
+
+---
+
+## 📌 Item 35: Catálogo Interativo de Layouts de Etiqueta Térmica (10 Opções em 60x40mm e 60x55mm)
+
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Gerência Operacional / Oficina A5
+* **Telas & Arquivos Impactados:**
+  - templates/etiquetas_catalogo.html (Nova página interativa com catálogo de 10 layouts industriais)
+  - kanban/routes/pages.py (Rotas @bp.route('/etiquetas') e @bp.route('/layouts-etiqueta'))
+  - tests/test_kanban.py (Cobertura de teste automatizado das novas rotas de etiqueta)
+* **Principais Entregas:**
+  1. **10 Layouts Industriais Divididos em Dois Padrões de Bobina Térmica:**
+     - **Formato Padrão 60x40mm (5 Opções):**
+       * *Opção 1 - Oficial A5 Clássica:* Logo A5 oficial, O.S. invertida de alto contraste, dados de cliente/equipamento e QR Code lateral de 20mm.
+       * *Opção 2 - Leitura Rápida QR Central:* QR Code de 23mm centralizado para leitura instantânea a distância com smartphone do técnico na bancada.
+       * *Opção 3 - Dupla Leitura (QR 2D + Barras Code 128):* Combinação de QR Code para smartphone e código de barras 1D Code128 para leitor óptico de pistola USB.
+       * *Opção 4 - Checklist de Acessórios:* Inclusão de grid de conferência com caixas de marcação [X] Prato, [X] Fonte, [ ] Cabo, [ ] Bateria.
+       * *Opção 5 - Industrial Monospace High-Contrast:* Estilo metrológico com tipografia monospace condensada e bordas pretas reforçadas para ambientes agressivos.
+     - **Formato Expandido 60x55mm (5 Opções - +37% de Área):**
+       * *Opção 6 - Executiva Expandida A5:* Layout premium com cabeçalho corporativo completo, O.S. gigante e QR Code de 26mm em alta definição.
+       * *Opção 7 - Dossiê com Defeito Relatado:* Bloco dedicado em destaque para o defeito reclamado pelo cliente no balcão, facilitando o diagnóstico direto na bancada.
+       * *Opção 8 - Metrologia & Lacre Oficial:* Campos estruturados de metrologia com Lacre Anterior, Novo Lacre Físico A5 e campo oficial do Selo IPEM/Inmetro.
+       * *Opção 9 - Canhoto Destacável de Balcão:* Linha de picote pontilhada separando a etiqueta principal da balança de um canhoto com QR Code entregue ao cliente.
+       * *Opção 10 - Smart Workshop Grid:* Prateleira gigante em destaque em caixa preta invertida visível a 3 metros de distância na estante de entrada.
+  2. **Simulador de Dados Dinâmico em Tempo Real:**
+     - Painel superior com campos editáveis (Nº da O.S., Cliente, Balança/Modelo, Prateleira, Defeito Relatado e Data).
+     - Qualquer digitação atualiza os 10 modelos simultaneamente e em tempo real (incluindo QR Code e Código de Barras).
+  3. **Disparo e Isolamento de Impressão Térmica Real (window.print()):**
+     - Botão de impressão individual em cada cartão.
+     - CSS isolado com @page { size: 60mm 40mm; margin: 0; } ou @page { size: 60mm 55mm; margin: 0; } com print-color-adjust exact para impressão direta em impressoras térmicas (Zebra, Elgin, Argox, Bematech).
+  4. **Seletor de Modelo Preferido:**
+     - Botão Escolher Este Modelo que salva a preferência no localStorage do navegador e sinaliza visualmente a escolha feita.

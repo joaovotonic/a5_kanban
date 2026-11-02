@@ -45,6 +45,7 @@ class TestA5KanbanComplete(unittest.TestCase):
         pages = [
             "/admin",
             "/painel-tv",
+            "/tv",
             "/saida",
             "/saida?os=026736",
             "/consulta",
@@ -53,6 +54,8 @@ class TestA5KanbanComplete(unittest.TestCase):
             "/diretoria",
             "/chamado",
             "/apresentacao",
+            "/etiquetas",
+            "/layouts-etiqueta",
         ]
         for p in pages:
             res = self.client.get(p)
