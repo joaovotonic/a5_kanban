@@ -555,20 +555,29 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
      - Emblema oficial A5 proporcional (`w-[38px] h-[26px]`, `viewBox="0 0 48 32"` com `font-size="17"`), tipografia Times New Roman / Georgia perfeitamente centralizada e paleta padronizada (`#254a93` e `#2aa6c8`).
 
 
+---
+
+## 📌 Item 33: Apresentação Visual do Software: Passo a Passo do Projeto Tela por Tela com Capturas Reais do Sistema
+
 * **Status:** ✅ **Implementado e Homologado em Produção**
 * **Solicitante:** Diretoria / Sr. Jacson
 * **Telas & Arquivos Impactados:**
-  - `templates/apresentacao.html` (Reconstrução completa dos 7 slides com fundamentação no documento oficial POP-TEC-001)
+  - `templates/apresentacao.html` (Reconstrução completa da apresentação como uma jornada visual tela por tela do software)
+  - `static/img/screens/` (`recepcao_fotos.png`, `admin_kanban.png`, `bancada_mobile.png`, `painel_tv_full.png`, `intercom_diretoria.png`, `consulta_balcao.png`)
 * **Principais Entregas:**
-  1. **Alinhamento Normativo 100% com o POP-TEC-001:**
-     - Apresentação reconstruída do zero, mapeando cada seção do POP:
-       * **Slide 1:** Capa Executiva formal para o Sr. Jacson com homologação do POP-TEC-001.
-       * **Slide 2:** O Choque de Realidade — Por que o POP em papel gerava gargalos diários.
-       * **Slide 3:** Regra Fundamental de Metrologia — Técnico só lacra na bancada com pesos-padrão ($\pm 2e$); Priscila sela na recepção com Selo Reparado (IPEM); a única folha impressa é a O.S. física oficial do Teorema ERP na retirada.
-       * **Slide 4:** Fluxograma Interativo das 6 Fases do POP (Recepção com fotos 360° e QR Code $60 \times 40\text{ mm}$ $\rightarrow$ Bancada & Estufa de PCI $\rightarrow$ Smart TV & Intercom $\rightarrow$ Reparo & Bateria de Testes $\rightarrow$ Calibração $\pm 2e$ & Lacração A5 $\rightarrow$ Balcão de Saída, Selagem e Teorema).
-       * **Slide 5:** Regra de Ouro do POP 7.3: Teste de Peça $\neq$ Instalação Definitiva (blindagem de estoque e trava sistêmica de execução).
-       * **Slide 6:** Comparativo de Produtividade: Minutos recuperados e eliminação de papel.
-       * **Slide 7:** Demonstração ao vivo dos módulos em 1 clique.
-  2. **Identidade Visual e Experiência de Uso:**
-     - Emblema oficial A5 proporcional com tipografia serifada romana e cantos arredondados sem fundo branco.
-     - Suporte a Modo Clean e Modo Escuro persistente, atalhos de teclado completos e navegação direta nas 6 fases do fluxo (teclas 1 a 6).
+  1. **Apresentação Centrada no Software (Sem Explicações Manuais de Oficina):**
+     - Eliminadas explicações de procedimentos manuais de bancada para focar estritamente no funcionamento do projeto de software.
+     - Explicação da arquitetura em rede local (intranet), comunicação bi-direcional em tempo real por WebSockets (Socket.IO) e eliminação total de papel.
+  2. **Jornada Visual Tela por Tela com Capturas Reais do Sistema:**
+     - **Slide 1 - Visão Geral do Projeto:** Arquitetura técnica, servidor próprio local e sincronização instantânea.
+     - **Slide 2 - Tela 1 • Recepção com Fotos & Identificação Térmica (`/recepcao-fotos`):** Captura real mostrando o cadastro de O.S., fotos 360° pelo celular e impressão de etiqueta QR Code.
+     - **Slide 3 - Tela 2 • Painel Kanban da Recepção e Gestão (`/admin`):** Captura real do quadro Kanban com notificações sonoras automáticas e aprovação em 1 clique.
+     - **Slide 4 - Tela 3 • Bancada Técnica Mobile (`/saida`):** Mockup smartphone com captura real da O.S. carregada, leitor de QR Code, catálogo de peças Toledo Prix e registro de lacre físico.
+     - **Slide 5 - Tela 4 • Painel Smart TV do Chão de Fábrica (`/tv`):** Captura real da tela de 55", com cronômetros de estufa de placa, placar do dia e som com ducking automático.
+     - **Slide 6 - Tela 5 • Intercom Executivo da Diretoria (`/diretoria`):** Captura real da tela do Sr. Jacson com botões de chamada rápida e sintetizador de voz neural (Edge-TTS).
+     - **Slide 7 - Tela 6 • Consulta Rápida de Balcão & Integração Teorema (`/consulta`):** Captura real da busca instantânea de balcão e botão de cópia de lacre para o Teorema ERP.
+     - **Slide 8 - Demonstração Completa ao Vivo:** Painel com 6 botões interativos para testar qualquer tela na rede local da A5.
+  3. **Recursos de Apresentação Executiva:**
+     - Modal Lightbox para expandir qualquer tela em alta definição ao clicar.
+     - Navegação superior por abas, atalhos de teclado (setas, teclas numéricas 1 a 8, 'C' para Clean Mode e 'F' para Tela Cheia).
+
