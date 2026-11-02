@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Etiquetas Térmicas (60x40mm e 60x45mm) • A5 Tecnologia</title>
+    <title>Etiqueta Térmica Otimizada (60x40mm) • A5 Tecnologia</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -49,12 +48,12 @@
             transition: background-color 0.25s ease, color 0.25s ease;
         }
 
-        /* Simulação Física da Etiqueta Térmica Monocromática */
+        /* Simulação Física da Etiqueta Térmica Monocromática (60x40mm) */
         .thermal-label-wrap {
             background: #ffffff;
             color: #000000;
-            border: 1px solid #94a3b8;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.35), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+            border: 1px solid #000000;
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
             border-radius: 4px;
             position: relative;
             user-select: none;
@@ -63,19 +62,14 @@
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
             box-sizing: border-box;
+            transition: transform 0.2s ease;
         }
 
-        /* Tamanho Físico Proporcional na Tela (Largura de 320px) */
+        /* Tamanho Proporcional na Tela (Proporção Exata 60 x 40 mm) */
         .size-60x40 {
-            width: 320px;
-            height: 213px; /* Proporção 60 x 40 mm */
-            padding: 8px 9px;
-        }
-
-        .size-60x45 {
-            width: 320px;
-            height: 240px; /* Proporção 60 x 45 mm */
-            padding: 9px 10px;
+            width: 340px;
+            height: 226px; /* 340 / 1.5 = 226.6px */
+            padding: 8px 10px;
         }
 
         /* Checkboxes monocromáticos de alta nitidez para impressora térmica */
@@ -83,39 +77,41 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 11px;
-            height: 11px;
-            border: 1.2px solid #000000;
+            width: 12px;
+            height: 12px;
+            border: 1.5px solid #000000;
             border-radius: 2px;
-            font-size: 8px;
+            font-size: 9px;
             font-weight: 900;
             line-height: 1;
             box-sizing: border-box;
             background: #ffffff;
             color: #000000;
             vertical-align: middle;
-            margin-right: 3px;
+            margin-right: 4px;
         }
         .chk-box.checked {
             background: #000000;
             color: #ffffff;
         }
 
-        .barcode-svg {
-            width: 100%;
-            height: 24px;
-            display: block;
-        }
+        /* Escalas de Zoom na Tela */
+        .zoom-100 { transform: scale(1); transform-origin: top center; }
+        .zoom-125 { transform: scale(1.25); transform-origin: top center; }
+        .zoom-150 { transform: scale(1.45); transform-origin: top center; }
 
-        /* Linha de Picote Realista */
-        .perforated-line {
-            border-top: 1.5px dashed #000000;
-            margin: 4px 0;
-            position: relative;
-        }
-
-        /* Isolamento para Impressão */
+        /* Isolamento para Impressão Física 60x40mm */
         @media print {
+            @page {
+                size: 60mm 40mm;
+                margin: 0mm;
+            }
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
             body * {
                 visibility: hidden !important;
             }
@@ -126,11 +122,24 @@
                 position: fixed !important;
                 left: 0 !important;
                 top: 0 !important;
+                width: 60mm !important;
+                height: 40mm !important;
                 margin: 0 !important;
                 padding: 0 !important;
                 box-shadow: none !important;
                 border: none !important;
                 background: #ffffff !important;
+                display: block !important;
+            }
+            #printTargetArea .thermal-label-wrap {
+                width: 60mm !important;
+                height: 40mm !important;
+                max-width: 60mm !important;
+                max-height: 40mm !important;
+                padding: 1.8mm 2.2mm !important;
+                border: none !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
             }
         }
     </style>
@@ -150,12 +159,12 @@
             <div>
                 <h1 class="text-sm font-bold text-[#254a93] dark:text-white flex items-center gap-1.5 leading-none">
                     <i data-lucide="tag" class="w-4 h-4 text-sky-400"></i>
-                    <span>Catálogo de Etiquetas Térmicas com Acessórios</span>
+                    <span>Layout de Etiqueta Térmica Selecionado (60x40mm)</span>
                     <span class="inline-flex items-center gap-1 text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-400/25 px-2 py-0.5 rounded-full ml-1">
-                        12 Novos Modelos
+                        Versão Otimizada
                     </span>
                 </h1>
-                <p class="text-[10px] font-semibold text-[#2aa6c8] dark:text-sky-400 tracking-wide mt-0.5 leading-tight">A5 Tecnologia • Formatos Exclusivos 60x40mm e 60x45mm (Foco em Acessórios & Bancada)</p>
+                <p class="text-[10px] font-semibold text-[#2aa6c8] dark:text-sky-400 tracking-wide mt-0.5 leading-tight">Cliente Ampliado • O.S. em Alto Contraste • Mega QR Code de Bancada • Grade 2x2 de Acessórios</p>
             </div>
         </div>
 
@@ -181,1117 +190,326 @@
     </header>
 
     <!-- =================================================================== -->
-    <!-- BARRA DE CONFIGURAÇÃO DE AMOSTRA & SIMULADOR DE ACESSÓRIOS         -->
+    <!-- BARRA DO SIMULADOR EM TEMPO REAL                                    -->
     <!-- =================================================================== -->
-    <div class="bg-white/90 dark:bg-zinc-900/90 border-b border-slate-200 dark:border-zinc-800 px-5 py-3.5 sticky top-[57px] z-30 backdrop-blur-md shadow-sm">
-        <div class="max-w-7xl mx-auto flex flex-col gap-3">
-            <!-- Linha 1: Dados textuais da O.S. -->
-            <div class="flex flex-wrap items-center justify-between gap-3">
-                <div class="flex flex-wrap items-center gap-2 text-xs">
+    <div class="bg-white/90 dark:bg-zinc-900/90 border-b border-slate-200 dark:border-zinc-800 px-5 py-3 sticky top-[57px] z-30 backdrop-blur-md shadow-sm">
+        <div class="max-w-6xl mx-auto flex flex-col gap-2.5">
+            <!-- Linha 1: Campos de Texto -->
+            <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div class="flex flex-wrap items-center gap-2">
                     <span class="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1">
                         <i data-lucide="sliders" class="w-3.5 h-3.5 text-sky-500"></i>
-                        Simulador em Tempo Real:
+                        Simular Dados:
                     </span>
                     <div class="flex items-center gap-1 bg-slate-100 dark:bg-zinc-800 px-2 py-1 rounded-lg border border-slate-200 dark:border-zinc-700">
                         <label class="text-[10px] uppercase font-bold text-slate-500">O.S.:</label>
-                        <input type="text" id="inputOS" value="1024" oninput="updateAllLabels()" class="bg-transparent font-mono font-bold text-xs w-14 outline-none text-sky-500">
+                        <input type="text" id="inputOS" value="1024" oninput="updateLabel()" class="bg-transparent font-mono font-bold text-xs w-16 outline-none text-sky-500">
                     </div>
                     <div class="flex items-center gap-1 bg-slate-100 dark:bg-zinc-800 px-2 py-1 rounded-lg border border-slate-200 dark:border-zinc-700">
                         <label class="text-[10px] uppercase font-bold text-slate-500">Cliente:</label>
-                        <input type="text" id="inputCliente" value="Supermercado Alvorada" oninput="updateAllLabels()" class="bg-transparent text-xs w-36 outline-none text-slate-900 dark:text-slate-100 font-medium">
+                        <input type="text" id="inputCliente" value="Supermercado Alvorada" oninput="updateLabel()" class="bg-transparent text-xs w-44 outline-none text-slate-900 dark:text-slate-100 font-bold">
                     </div>
                     <div class="flex items-center gap-1 bg-slate-100 dark:bg-zinc-800 px-2 py-1 rounded-lg border border-slate-200 dark:border-zinc-700">
                         <label class="text-[10px] uppercase font-bold text-slate-500">Balança:</label>
-                        <input type="text" id="inputModelo" value="Toledo Prix 4 Uno" oninput="updateAllLabels()" class="bg-transparent text-xs w-32 outline-none text-slate-900 dark:text-slate-100 font-medium">
+                        <input type="text" id="inputModelo" value="Toledo Prix 4 Uno" oninput="updateLabel()" class="bg-transparent text-xs w-36 outline-none text-slate-900 dark:text-slate-100 font-medium">
                     </div>
                     <div class="flex items-center gap-1 bg-slate-100 dark:bg-zinc-800 px-2 py-1 rounded-lg border border-slate-200 dark:border-zinc-700">
                         <label class="text-[10px] uppercase font-bold text-slate-500">Prateleira:</label>
-                        <input type="text" id="inputPrat" value="B-04" oninput="updateAllLabels()" class="bg-transparent font-mono font-bold text-xs w-16 outline-none text-emerald-500">
-                    </div>
-                    <div class="flex items-center gap-1 bg-slate-100 dark:bg-zinc-800 px-2 py-1 rounded-lg border border-slate-200 dark:border-zinc-700">
-                        <label class="text-[10px] uppercase font-bold text-slate-500">Defeito:</label>
-                        <input type="text" id="inputDefeito" value="Não liga / oscila peso" oninput="updateAllLabels()" class="bg-transparent text-xs w-36 outline-none text-amber-500 font-medium">
+                        <input type="text" id="inputPrat" value="B-04" oninput="updateLabel()" class="bg-transparent font-mono font-bold text-xs w-16 outline-none text-emerald-500">
                     </div>
                 </div>
 
-                <!-- Filtros de Tamanho -->
-                <div class="flex items-center gap-1.5 bg-slate-100 dark:bg-zinc-800 p-1 rounded-xl border border-slate-200 dark:border-zinc-700 text-xs">
-                    <button type="button" onclick="filterSize('all')" id="filterAll" class="px-3 py-1 rounded-lg bg-sky-500 text-slate-950 font-bold transition">
-                        Todos (12)
+                <!-- Controles de Zoom da Prévia na Tela -->
+                <div class="flex items-center gap-1 bg-slate-100 dark:bg-zinc-800 p-1 rounded-xl border border-slate-200 dark:border-zinc-700">
+                    <span class="text-[10px] font-bold text-slate-500 px-1 uppercase">Zoom na Tela:</span>
+                    <button type="button" onclick="setZoom('100')" id="btnZoom100" class="px-2.5 py-0.5 rounded-lg text-xs font-bold bg-sky-500 text-slate-950 transition">
+                        100% Real
                     </button>
-                    <button type="button" onclick="filterSize('40')" id="filter40" class="px-3 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition font-medium">
-                        60x40 mm (6)
+                    <button type="button" onclick="setZoom('125')" id="btnZoom125" class="px-2.5 py-0.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-white transition">
+                        125%
                     </button>
-                    <button type="button" onclick="filterSize('45')" id="filter45" class="px-3 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition font-medium">
-                        60x45 mm (6)
+                    <button type="button" onclick="setZoom('150')" id="btnZoom150" class="px-2.5 py-0.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-white transition">
+                        150%
                     </button>
                 </div>
             </div>
 
-            <!-- Linha 2: Simulador Dinâmico de Acessórios Recebidos -->
-            <div class="flex flex-wrap items-center gap-3 pt-2 border-t border-slate-200 dark:border-zinc-800/80 text-xs">
+            <!-- Linha 2: Acessórios Recebidos -->
+            <div class="flex flex-wrap items-center gap-4 pt-2 border-t border-slate-200 dark:border-zinc-800 text-xs">
                 <span class="font-bold text-slate-600 dark:text-slate-400 text-[11px] flex items-center gap-1">
                     <i data-lucide="check-square" class="w-3.5 h-3.5 text-emerald-500"></i>
-                    Acessórios Recebidos na Entrada:
+                    Acessórios Recebidos:
                 </span>
-
-                <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800/60 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
-                    <input type="checkbox" id="chkPrato" checked onchange="updateAllLabels()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
-                    <span class="font-semibold text-slate-800 dark:text-slate-200 text-xs">Prato Inox</span>
+                <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
+                    <input type="checkbox" id="chkPrato" checked onchange="updateLabel()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
+                    <span class="font-semibold text-slate-800 dark:text-slate-200">Prato Inox</span>
                 </label>
-
-                <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800/60 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
-                    <input type="checkbox" id="chkFonte" checked onchange="updateAllLabels()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
-                    <span class="font-semibold text-slate-800 dark:text-slate-200 text-xs">Fonte Alim.</span>
+                <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
+                    <input type="checkbox" id="chkFonte" onchange="updateLabel()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
+                    <span class="font-semibold text-slate-800 dark:text-slate-200">Fonte Alim.</span>
                 </label>
-
-                <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800/60 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
-                    <input type="checkbox" id="chkCabo" onchange="updateAllLabels()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
-                    <span class="font-semibold text-slate-800 dark:text-slate-200 text-xs">Cabo Força</span>
+                <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
+                    <input type="checkbox" id="chkCabo" onchange="updateLabel()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
+                    <span class="font-semibold text-slate-800 dark:text-slate-200">Cabo Força</span>
                 </label>
-
-                <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800/60 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
-                    <input type="checkbox" id="chkBateria" onchange="updateAllLabels()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
-                    <span class="font-semibold text-slate-800 dark:text-slate-200 text-xs">Bateria Interna</span>
+                <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
+                    <input type="checkbox" id="chkBateria" onchange="updateLabel()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
+                    <span class="font-semibold text-slate-800 dark:text-slate-200">Bateria Interna</span>
                 </label>
-
-                <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800/60 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
-                    <input type="checkbox" id="chkPes" onchange="updateAllLabels()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
-                    <span class="font-semibold text-slate-800 dark:text-slate-200 text-xs">Pés de Nível</span>
-                </label>
-
-                <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 dark:bg-zinc-800/60 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-zinc-700 hover:border-sky-500 transition">
-                    <input type="checkbox" id="chkCapa" onchange="updateAllLabels()" class="w-3.5 h-3.5 accent-sky-500 rounded cursor-pointer">
-                    <span class="font-semibold text-slate-800 dark:text-slate-200 text-xs">Capa / Outros</span>
-                </label>
-
-                <div id="chosenLayoutBadge" class="hidden ml-auto flex items-center gap-1.5 text-xs font-bold text-amber-500 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-lg">
-                    <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-500"></i>
-                    <span>Selecionado: <span id="chosenLayoutName" class="underline"></span></span>
-                </div>
             </div>
         </div>
     </div>
 
     <!-- =================================================================== -->
-    <!-- ÁREA DE GRID DOS 12 LAYOUTS DE ETIQUETA                             -->
+    <!-- ÁREA PRINCIPAL: VISUALIZAÇÃO E TESTE DA ETIQUETA REFINADA           -->
     <!-- =================================================================== -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-5 sm:p-7">
+    <main class="flex-1 max-w-5xl w-full mx-auto p-5 sm:p-8 flex flex-col items-center justify-center">
 
-        <!-- INTRODUÇÃO DA SESSÃO -->
-        <div class="mb-6">
-            <h2 class="text-xl font-bold flex items-center gap-2">
-                <span>Escolha o Formato Ideal da Etiqueta Térmica</span>
-                <span class="text-xs font-normal text-slate-400">Total: 12 layouts industriais focados em acessórios e operação de bancada</span>
-            </h2>
-            <p class="text-xs text-slate-400 mt-1">
-                Todas as etiquetas usam <strong>largura de 60 mm</strong> (compatível com as impressoras térmicas Zebra, Elgin, Argox e Bematech da A5). 
-                Clique em <strong>"🖨️ Testar Impressão"</strong> para imprimir diretamente na bobina e conferir a nitidez física.
-            </p>
+        <!-- CARD PRINCIPAL DE APRESENTAÇÃO -->
+        <div class="w-full bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col items-center">
+            
+            <!-- HEADER DO CARD -->
+            <div class="w-full flex flex-wrap items-center justify-between pb-4 mb-6 border-b border-white/10 dark:border-white/10 gap-3">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-sky-500/10 text-sky-400 border border-sky-400/25">
+                            Formato Padrão: 60 x 40 mm
+                        </span>
+                        <span class="text-xs font-semibold text-emerald-400 flex items-center gap-1">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                            Modelo Aprimorado
+                        </span>
+                    </div>
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white mt-1">
+                        Etiqueta Oficial A5 • Edição Otimizada para Bancada
+                    </h2>
+                </div>
+
+                <!-- Botão de Ação Primária: Impressão Térmica Real -->
+                <button type="button" onclick="printOptimizedLabel()" 
+                    class="py-2.5 px-6 rounded-2xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold text-sm transition flex items-center gap-2 shadow-lg shadow-sky-500/25 transform hover:-translate-y-0.5 active:translate-y-0">
+                    <i data-lucide="printer" class="w-4 h-4"></i>
+                    <span>Imprimir Etiqueta de Teste (60x40mm)</span>
+                </button>
+            </div>
+
+            <!-- QUADRO COM A ETIQUETA FÍSICA CENTRALIZADA -->
+            <div id="zoomContainer" class="zoom-100 my-4 p-4 flex flex-col items-center justify-center">
+                
+                <!-- ======================================================= -->
+                <!-- ETIQUETA TÉRMICA 60x40mm (CÓDIGO EXATO DE IMPRESSÃO)    -->
+                <!-- ======================================================= -->
+                <div id="optimizedLabel" class="thermal-label-wrap size-60x40 flex flex-col justify-between">
+                    
+                    <!-- LINHA 1: CABEÇALHO COM LOGO A5 E NÚMERO DA O.S. BEM GRANDE -->
+                    <div class="flex items-center justify-between border-b-2 border-black pb-1">
+                        <div class="flex items-center gap-1.5">
+                            <svg viewBox="0 0 48 32" class="w-[26px] h-[18px] shrink-0" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="48" height="32" rx="4" fill="#000000"/>
+                                <text x="24" y="16.5" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="18" fill="#ffffff" text-anchor="middle" dominant-baseline="central" letter-spacing="-0.5">A5</text>
+                            </svg>
+                            <span class="text-[10px] font-extrabold tracking-tight">A5 TECNOLOGIA</span>
+                        </div>
+                        <!-- NÚMERO DA O.S. AUMENTADO E EM ALTO CONTRASTE -->
+                        <div class="bg-black text-white px-2 py-0.5 text-[14px] font-mono font-black tracking-tight rounded-sm leading-none flex items-center gap-1">
+                            <span class="text-[9px] font-bold text-zinc-300">O.S.</span>
+                            <span id="labelOS" class="val-os">1024</span>
+                        </div>
+                    </div>
+
+                    <!-- LINHA 2: CLIENTE BEM GRANDE E MODELO DA BALANÇA -->
+                    <div class="my-1 leading-tight">
+                        <!-- NOME DO CLIENTE AUMENTADO COM MÁXIMA LEITURA -->
+                        <div class="truncate text-[12px] font-black tracking-tight text-black flex items-baseline gap-1">
+                            <span class="text-[9px] font-bold uppercase text-zinc-700 shrink-0">CLI:</span>
+                            <span id="labelCliente" class="val-cliente uppercase">Supermercado Alvorada</span>
+                        </div>
+                        <div class="truncate text-[9.5px] font-bold text-zinc-800 flex items-baseline gap-1 mt-0.5">
+                            <span class="text-[8px] font-extrabold uppercase text-zinc-600 shrink-0">EQP:</span>
+                            <span id="labelModelo" class="val-modelo">Toledo Prix 4 Uno</span>
+                        </div>
+                    </div>
+
+                    <!-- LINHA 3: ACESSÓRIOS 2x2 + QR CODE EXPANDIDO (BEM MAIOR) -->
+                    <div class="flex items-center justify-between border-t-2 border-b-2 border-black py-1">
+                        <!-- Grade 2x2 de Acessórios com Caixas Nítidas -->
+                        <div class="text-[9px] leading-snug space-y-1 pr-2">
+                            <div class="text-[7.5px] font-black uppercase tracking-wider text-black">
+                                ACESSÓRIOS RECEBIDOS:
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span id="accPratoWrap" class="inline-flex items-center font-bold">
+                                    <span id="boxPrato" class="chk-box checked">✓</span>Prato
+                                </span>
+                                <span id="accFonteWrap" class="inline-flex items-center font-bold">
+                                    <span id="boxFonte" class="chk-box"> </span>Fonte
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span id="accCaboWrap" class="inline-flex items-center font-bold">
+                                    <span id="boxCabo" class="chk-box"> </span>Cabo
+                                </span>
+                                <span id="accBateriaWrap" class="inline-flex items-center font-bold">
+                                    <span id="boxBateria" class="chk-box"> </span>Bateria
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- MEGA QR CODE EXPANDIDO DE BANCADA (~22mm físicos) -->
+                        <div class="shrink-0 pl-2 border-l border-black flex items-center justify-center">
+                            <div id="labelQRCode" class="flex justify-center items-center"></div>
+                        </div>
+                    </div>
+
+                    <!-- LINHA 4: RODAPÉ COM PRATELEIRA E DATA/HORA -->
+                    <div class="flex items-center justify-between text-[8.5px] pt-1 font-mono font-bold">
+                        <div class="flex items-center gap-1">
+                            <span>PRAT:</span>
+                            <span id="labelPrat" class="val-prat bg-black text-white px-1.5 py-0.5 rounded-sm">B-04</span>
+                        </div>
+                        <div class="text-zinc-800 text-[8px] tracking-tight">
+                            <span id="labelData">01/11/26 14:30</span>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- ======================================================= -->
+            </div>
+
+            <!-- QUADRO DE DESTAQUES TÉCNICOS DA OTIMIZAÇÃO -->
+            <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-3 mt-6 pt-6 border-t border-white/10 dark:border-white/10 text-xs">
+                <div class="bg-slate-50 dark:bg-zinc-800/60 p-3 rounded-2xl border border-slate-200 dark:border-zinc-700/60 flex items-start gap-2.5">
+                    <div class="w-7 h-7 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center shrink-0 mt-0.5">
+                        <i data-lucide="type" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 dark:text-white">Nome do Cliente Ampliado</h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Tipografia em 12px negrito para leitura instantânea a distância na prateleira de entrada.</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 dark:bg-zinc-800/60 p-3 rounded-2xl border border-slate-200 dark:border-zinc-700/60 flex items-start gap-2.5">
+                    <div class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+                        <i data-lucide="hash" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 dark:text-white">O.S. em Caixa Alta Invertida</h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Número da O.S. ampliado para 14px em bloco preto maciço, evitando confusão de balança.</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 dark:bg-zinc-800/60 p-3 rounded-2xl border border-slate-200 dark:border-zinc-700/60 flex items-start gap-2.5">
+                    <div class="w-7 h-7 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0 mt-0.5">
+                        <i data-lucide="qr-code" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 dark:text-white">Mega QR Code (22 mm)</h4>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Tamanho aumentado em +45% para leitura rápida em qualquer smartphone de técnico sem erro de foco.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTÕES DE CONFIRMAÇÃO DEFINITIVA -->
+            <div class="w-full mt-6 flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-white/10 dark:border-white/10">
+                <div class="text-xs text-slate-400 flex items-center gap-1.5">
+                    <i data-lucide="info" class="w-4 h-4 text-sky-400"></i>
+                    <span>Tudo pronto para teste. Imprima agora na bobina 60x40mm para avaliar em mãos.</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="confirmAsOfficial()" 
+                        class="py-2 px-5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition flex items-center gap-1.5 shadow-sm">
+                        <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                        <span>Aprovar Este Modelo como Padrão Oficial</span>
+                    </button>
+                </div>
+            </div>
+
         </div>
-
-        <!-- =============================================================== -->
-        <!-- SEÇÃO 1: FORMATO PADRÃO COMPACTO 60x40 mm (6 MODELOS)           -->
-        <!-- =============================================================== -->
-        <section id="section40" class="label-section mb-12" data-size="40">
-            <div class="flex items-center justify-between pb-3 mb-6 border-b border-slate-200 dark:border-zinc-800">
-                <div class="flex items-center gap-2.5">
-                    <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white">Padrão Compacto de Mercado: 60 x 40 mm</h3>
-                    <span class="text-xs px-2 py-0.5 rounded-md bg-sky-500/10 text-sky-400 border border-sky-500/20 font-mono font-bold">Bobina 60x40mm</span>
-                </div>
-                <span class="text-xs text-slate-400">6 opções focadas em acessórios e leitura rápida</span>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                <!-- ----------------------------------------------------------- -->
-                <!-- MODELO 1 (60x40): Oficial A5 + Grade 2x2 de Acessórios      -->
-                <!-- ----------------------------------------------------------- -->
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 flex flex-col justify-between shadow-sm hover:border-sky-500/40 transition">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Opção 1 • 60x40mm</span>
-                            <span class="text-[11px] font-semibold text-slate-400">Grade 2x2 Clássica</span>
-                        </div>
-
-                        <!-- Prévia da Etiqueta Física -->
-                        <div class="flex justify-center my-2">
-                            <div id="label-card-1" class="thermal-label-wrap size-60x40 flex flex-col justify-between">
-                                <!-- Topo: Logo A5, Titulo e OS Invertida -->
-                                <div class="flex items-center justify-between border-b border-black pb-1">
-                                    <div class="flex items-center gap-1.5">
-                                        <div class="bg-black text-white px-1 py-0.5 text-[8px] font-bold rounded-sm tracking-tight leading-none font-serif">A5</div>
-                                        <span class="text-[9px] font-bold tracking-tight">A5 TECNOLOGIA</span>
-                                    </div>
-                                    <div class="bg-black text-white px-1.5 py-0.5 text-[10px] font-mono font-extrabold tracking-tight">
-                                        O.S. <span class="val-os">1024</span>
-                                    </div>
-                                </div>
-
-                                <!-- Meio: Dados do Cliente e Equipamento -->
-                                <div class="text-[9px] leading-tight my-1">
-                                    <div class="truncate font-bold"><span class="font-normal">CLI:</span> <span class="val-cliente">Supermercado Alvorada</span></div>
-                                    <div class="truncate"><span class="font-bold">EQP:</span> <span class="val-modelo">Toledo Prix 4 Uno</span></div>
-                                </div>
-
-                                <!-- Corpo Dividido: Acessórios 2x2 à esquerda + QR à direita -->
-                                <div class="flex items-center justify-between border-t border-b border-black py-1">
-                                    <div class="text-[8.5px] leading-snug space-y-0.5">
-                                        <div class="text-[7.5px] font-bold uppercase tracking-wider text-black mb-0.5">ACESSÓRIOS RECEBIDOS:</div>
-                                        <div class="flex items-center gap-2">
-                                            <span class="acc-prato"><span class="chk-box checked">✓</span>Prato</span>
-                                            <span class="acc-fonte"><span class="chk-box checked">✓</span>Fonte</span>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            <span class="acc-cabo"><span class="chk-box"> </span>Cabo</span>
-                                            <span class="acc-bateria"><span class="chk-box"> </span>Bateria</span>
-                                        </div>
-                                    </div>
-                                    <div class="shrink-0 pl-1 border-l border-black">
-                                        <div id="qr-1" class="flex justify-center items-center"></div>
-                                    </div>
-                                </div>
-
-                                <!-- Rodapé: Prateleira e Data -->
-                                <div class="flex items-center justify-between text-[8px] pt-1 font-mono font-bold">
-                                    <span>PRAT: <span class="val-prat bg-black text-white px-1 rounded-sm">B-04</span></span>
-                                    <span class="val-data">01/11/26 14:30</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botões de Ação -->
-                    <div class="mt-4 pt-3 border-t border-white/10 dark:border-white/10 flex items-center justify-between gap-2">
-                        <button type="button" onclick="printSingleLabel('label-card-1', '60mm 40mm')" class="flex-1 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                            <span>Testar Impressão</span>
-                        </button>
-                        <button type="button" onclick="chooseLayout('Opção 1: Oficial A5 + Grade 2x2 (60x40)')" class="py-1.5 px-3 bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-sm">
-                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                            <span>Escolher</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ----------------------------------------------------------- -->
-                <!-- MODELO 2 (60x40): Acessórios em Linha + Foco em Prateleira  -->
-                <!-- ----------------------------------------------------------- -->
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 flex flex-col justify-between shadow-sm hover:border-sky-500/40 transition">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Opção 2 • 60x40mm</span>
-                            <span class="text-[11px] font-semibold text-slate-400">Acessórios em Faixa</span>
-                        </div>
-
-                        <!-- Prévia da Etiqueta Física -->
-                        <div class="flex justify-center my-2">
-                            <div id="label-card-2" class="thermal-label-wrap size-60x40 flex flex-col justify-between">
-                                <!-- Topo: OS Gigante + Prateleira em Caixa Preta -->
-                                <div class="flex items-center justify-between border-b-2 border-black pb-1">
-                                    <div class="text-[13px] font-extrabold tracking-tighter">
-                                        #<span class="val-os">1024</span>
-                                    </div>
-                                    <div class="text-[9px] font-bold">A5 BALANÇAS</div>
-                                    <div class="bg-black text-white px-2 py-0.5 text-[11px] font-mono font-black">
-                                        <span class="val-prat">B-04</span>
-                                    </div>
-                                </div>
-
-                                <!-- Meio: Cliente e Modelo com QR lateral -->
-                                <div class="flex items-center justify-between gap-1 my-1">
-                                    <div class="text-[9px] leading-tight overflow-hidden">
-                                        <div class="font-bold truncate text-[9.5px] val-cliente">Supermercado Alvorada</div>
-                                        <div class="text-zinc-700 truncate val-modelo">Toledo Prix 4 Uno</div>
-                                        <div class="text-[7.5px] text-zinc-600 truncate mt-0.5 italic">Def: <span class="val-defeito">Não liga / oscila peso</span></div>
-                                    </div>
-                                    <div id="qr-2" class="shrink-0"></div>
-                                </div>
-
-                                <!-- Rodapé: Faixa de 4 Acessórios em Linha Horizontal -->
-                                <div class="border-t border-black pt-1 bg-zinc-100 -mx-[9px] -mb-[8px] px-2 py-1 flex items-center justify-between text-[8px] font-mono font-bold">
-                                    <span class="acc-prato"><span class="chk-box checked">✓</span>PRATO</span>
-                                    <span class="acc-fonte"><span class="chk-box checked">✓</span>FONTE</span>
-                                    <span class="acc-cabo"><span class="chk-box"> </span>CABO</span>
-                                    <span class="acc-bateria"><span class="chk-box"> </span>BAT</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botões de Ação -->
-                    <div class="mt-4 pt-3 border-t border-white/10 dark:border-white/10 flex items-center justify-between gap-2">
-                        <button type="button" onclick="printSingleLabel('label-card-2', '60mm 40mm')" class="flex-1 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                            <span>Testar Impressão</span>
-                        </button>
-                        <button type="button" onclick="chooseLayout('Opção 2: Faixa de Acessórios + Prateleira Topo (60x40)')" class="py-1.5 px-3 bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-sm">
-                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                            <span>Escolher</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ----------------------------------------------------------- -->
-                <!-- MODELO 3 (60x40): Checklist com Visto de Balcão             -->
-                <!-- ----------------------------------------------------------- -->
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 flex flex-col justify-between shadow-sm hover:border-sky-500/40 transition">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Opção 3 • 60x40mm</span>
-                            <span class="text-[11px] font-semibold text-slate-400">Visto de Recepção</span>
-                        </div>
-
-                        <!-- Prévia da Etiqueta Física -->
-                        <div class="flex justify-center my-2">
-                            <div id="label-card-3" class="thermal-label-wrap size-60x40 flex flex-col justify-between">
-                                <!-- Topo: Cabeçalho com O.S. e Balcão -->
-                                <div class="flex items-center justify-between border-b border-black pb-0.5">
-                                    <div class="text-[8.5px] font-extrabold tracking-tight">A5 • ENTRADA BALCÃO</div>
-                                    <div class="text-[11px] font-mono font-black">O.S. <span class="val-os">1024</span></div>
-                                </div>
-
-                                <!-- Meio: Dados e Checklist com caixas destacadas -->
-                                <div class="my-0.5 text-[8.5px]">
-                                    <div class="truncate font-bold"><span class="val-cliente">Supermercado Alvorada</span></div>
-                                    <div class="truncate text-zinc-700"><span class="val-modelo">Toledo Prix 4 Uno</span></div>
-                                </div>
-
-                                <div class="flex items-center justify-between border border-black p-1 rounded-sm my-0.5">
-                                    <div class="text-[8px] leading-tight space-y-0.5">
-                                        <div class="font-bold text-[7.5px]">CONFERÊNCIA DE ACESSÓRIOS:</div>
-                                        <div class="flex gap-2">
-                                            <span class="acc-prato"><span class="chk-box checked">✓</span>Prato Inox</span>
-                                            <span class="acc-fonte"><span class="chk-box checked">✓</span>Fonte</span>
-                                        </div>
-                                        <div class="flex gap-2">
-                                            <span class="acc-cabo"><span class="chk-box"> </span>Cabo Força</span>
-                                            <span class="acc-bateria"><span class="chk-box"> </span>Bateria</span>
-                                        </div>
-                                    </div>
-                                    <div id="qr-3" class="shrink-0 pl-1"></div>
-                                </div>
-
-                                <!-- Rodapé: Linha de Visto / Rubrica da Recepção -->
-                                <div class="flex items-center justify-between text-[7.5px] pt-0.5 border-t border-black font-mono">
-                                    <span>VISTO: <strong class="underline decoration-dotted">PRISCILA</strong></span>
-                                    <span>PRAT: <strong class="val-prat">B-04</strong></span>
-                                    <span class="val-data">01/11 14:30</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botões de Ação -->
-                    <div class="mt-4 pt-3 border-t border-white/10 dark:border-white/10 flex items-center justify-between gap-2">
-                        <button type="button" onclick="printSingleLabel('label-card-3', '60mm 40mm')" class="flex-1 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                            <span>Testar Impressão</span>
-                        </button>
-                        <button type="button" onclick="chooseLayout('Opção 3: Checklist com Visto de Balcão (60x40)')" class="py-1.5 px-3 bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-sm">
-                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                            <span>Escolher</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ----------------------------------------------------------- -->
-                <!-- MODELO 4 (60x40): Smart Badges (Apenas o que Veio)         -->
-                <!-- ----------------------------------------------------------- -->
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 flex flex-col justify-between shadow-sm hover:border-sky-500/40 transition">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Opção 4 • 60x40mm</span>
-                            <span class="text-[11px] font-semibold text-slate-400">Badges de Presença</span>
-                        </div>
-
-                        <!-- Prévia da Etiqueta Física -->
-                        <div class="flex justify-center my-2">
-                            <div id="label-card-4" class="thermal-label-wrap size-60x40 flex flex-col justify-between">
-                                <!-- Topo: Logo A5 e O.S. Grande -->
-                                <div class="flex items-center justify-between border-b border-black pb-1">
-                                    <div class="text-[10px] font-extrabold">A5 TECNOLOGIA</div>
-                                    <div class="text-[11px] font-mono font-bold">O.S. #<span class="val-os">1024</span></div>
-                                    <div class="text-[9px] font-mono font-bold border border-black px-1 rounded-sm">PRAT: <span class="val-prat">B-04</span></div>
-                                </div>
-
-                                <!-- Meio: Dados e Badges Pretos Maciços -->
-                                <div class="my-1">
-                                    <div class="text-[9.5px] font-bold truncate val-cliente">Supermercado Alvorada</div>
-                                    <div class="text-[8.5px] text-zinc-700 truncate val-modelo">Toledo Prix 4 Uno</div>
-
-                                    <!-- Badges Pretos Destacando Acessórios -->
-                                    <div class="mt-1 flex flex-wrap gap-1 text-[7.5px] font-mono font-bold">
-                                        <span class="acc-prato-badge bg-black text-white px-1.5 py-0.5 rounded-sm">+ PRATO INOX</span>
-                                        <span class="acc-fonte-badge bg-black text-white px-1.5 py-0.5 rounded-sm">+ FONTE ALIM.</span>
-                                        <span class="acc-cabo-badge border border-black text-black px-1.5 py-0.5 rounded-sm">S/ CABO</span>
-                                        <span class="acc-bateria-badge border border-black text-black px-1.5 py-0.5 rounded-sm">S/ BATERIA</span>
-                                    </div>
-                                </div>
-
-                                <!-- Rodapé: QR Code e Data -->
-                                <div class="flex items-center justify-between border-t border-black pt-1">
-                                    <div class="text-[7.5px] font-mono">
-                                        <div>ENTRADA OFICINA</div>
-                                        <div class="font-bold val-data">01/11/26 14:30</div>
-                                    </div>
-                                    <div id="qr-4" class="shrink-0"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botões de Ação -->
-                    <div class="mt-4 pt-3 border-t border-white/10 dark:border-white/10 flex items-center justify-between gap-2">
-                        <button type="button" onclick="printSingleLabel('label-card-4', '60mm 40mm')" class="flex-1 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                            <span>Testar Impressão</span>
-                        </button>
-                        <button type="button" onclick="chooseLayout('Opção 4: Smart Badges de Presença (60x40)')" class="py-1.5 px-3 bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-sm">
-                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                            <span>Escolher</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ----------------------------------------------------------- -->
-                <!-- MODELO 5 (60x40): Dupla Leitura (QR + Código de Barras 1D)  -->
-                <!-- ----------------------------------------------------------- -->
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 flex flex-col justify-between shadow-sm hover:border-sky-500/40 transition">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Opção 5 • 60x40mm</span>
-                            <span class="text-[11px] font-semibold text-slate-400">QR + Código 1D</span>
-                        </div>
-
-                        <!-- Prévia da Etiqueta Física -->
-                        <div class="flex justify-center my-2">
-                            <div id="label-card-5" class="thermal-label-wrap size-60x40 flex flex-col justify-between">
-                                <!-- Topo: OS e Dados Rápidos -->
-                                <div class="flex items-center justify-between border-b border-black pb-0.5 text-[9px]">
-                                    <span class="font-extrabold">A5 TECNOLOGIA</span>
-                                    <span class="font-mono font-bold bg-black text-white px-1">O.S. <span class="val-os">1024</span></span>
-                                    <span class="font-mono font-bold">PRAT: <span class="val-prat">B-04</span></span>
-                                </div>
-
-                                <!-- Meio: Cliente e Checklist -->
-                                <div class="my-0.5 flex items-center justify-between text-[8px]">
-                                    <div class="leading-tight overflow-hidden">
-                                        <div class="font-bold truncate text-[8.5px] val-cliente">Supermercado Alvorada</div>
-                                        <div class="truncate val-modelo">Toledo Prix 4 Uno</div>
-                                        <div class="mt-0.5 flex gap-1.5 font-mono text-[7.5px]">
-                                            <span class="acc-prato"><span class="chk-box checked">✓</span>PRAT</span>
-                                            <span class="acc-fonte"><span class="chk-box checked">✓</span>FONT</span>
-                                            <span class="acc-cabo"><span class="chk-box"> </span>CABO</span>
-                                            <span class="acc-bateria"><span class="chk-box"> </span>BAT</span>
-                                        </div>
-                                    </div>
-                                    <div id="qr-5" class="shrink-0 pl-1"></div>
-                                </div>
-
-                                <!-- Rodapé: Código de Barras 1D Code128 -->
-                                <div class="border-t border-black pt-0.5">
-                                    <svg id="barcode-5" class="barcode-svg"></svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botões de Ação -->
-                    <div class="mt-4 pt-3 border-t border-white/10 dark:border-white/10 flex items-center justify-between gap-2">
-                        <button type="button" onclick="printSingleLabel('label-card-5', '60mm 40mm')" class="flex-1 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                            <span>Testar Impressão</span>
-                        </button>
-                        <button type="button" onclick="chooseLayout('Opção 5: Dupla Leitura QR + Barras 1D (60x40)')" class="py-1.5 px-3 bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-sm">
-                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                            <span>Escolher</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ----------------------------------------------------------- -->
-                <!-- MODELO 6 (60x40): Metrológico High-Contrast Industrial     -->
-                <!-- ----------------------------------------------------------- -->
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 flex flex-col justify-between shadow-sm hover:border-sky-500/40 transition">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-sky-500/10 text-sky-400">Opção 6 • 60x40mm</span>
-                            <span class="text-[11px] font-semibold text-slate-400">Industrial Metrológico</span>
-                        </div>
-
-                        <!-- Prévia da Etiqueta Física -->
-                        <div class="flex justify-center my-2">
-                            <div id="label-card-6" class="thermal-label-wrap size-60x40 flex flex-col justify-between" style="border: 1.5px solid #000; font-family: monospace;">
-                                <!-- Topo: Barra Invertida Preta Estilo Calibração -->
-                                <div class="bg-black text-white px-1.5 py-0.5 flex justify-between items-center text-[9px] font-bold">
-                                    <span>ORDEM DE SERVIÇO</span>
-                                    <span>Nº <span class="val-os">1024</span></span>
-                                </div>
-
-                                <!-- Meio: Dados Condensados -->
-                                <div class="text-[8px] leading-tight my-1">
-                                    <div class="truncate"><strong>CLI:</strong> <span class="val-cliente">Supermercado Alvorada</span></div>
-                                    <div class="truncate"><strong>EQP:</strong> <span class="val-modelo">Toledo Prix 4 Uno</span></div>
-                                    <div class="truncate"><strong>PRAT:</strong> <span class="val-prat">B-04</span> | <span class="val-data">01/11/26</span></div>
-                                </div>
-
-                                <!-- Checklist Industrial -->
-                                <div class="flex items-center justify-between border-t border-black pt-1">
-                                    <div class="text-[8px] leading-snug">
-                                        <div class="font-bold text-[7px]">ACESSÓRIOS RECEBIDOS:</div>
-                                        <div><span class="acc-prato"><span class="chk-box checked">✓</span>PRATO</span> <span class="acc-fonte"><span class="chk-box checked">✓</span>FONTE</span></div>
-                                        <div><span class="acc-cabo"><span class="chk-box"> </span>CABO</span> <span class="acc-bateria"><span class="chk-box"> </span>BATERIA</span></div>
-                                    </div>
-                                    <div id="qr-6" class="shrink-0 pl-1"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botões de Ação -->
-                    <div class="mt-4 pt-3 border-t border-white/10 dark:border-white/10 flex items-center justify-between gap-2">
-                        <button type="button" onclick="printSingleLabel('label-card-6', '60mm 40mm')" class="flex-1 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                            <span>Testar Impressão</span>
-                        </button>
-                        <button type="button" onclick="chooseLayout('Opção 6: Industrial Metrológico High-Contrast (60x40)')" class="py-1.5 px-3 bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-sm">
-                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                            <span>Escolher</span>
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- =============================================================== -->
-        <!-- SEÇÃO 2: FORMATO EXPANDIDO 60x45 mm (6 MODELOS)                 -->
-        <!-- =============================================================== -->
-        <section id="section45" class="label-section mb-12" data-size="45">
-            <div class="flex items-center justify-between pb-3 mb-6 border-b border-slate-200 dark:border-zinc-800">
-                <div class="flex items-center gap-2.5">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white">Formato Expandido: 60 x 45 mm (+5mm de Altura)</h3>
-                    <span class="text-xs px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono font-bold">+12.5% Área Útil</span>
-                </div>
-                <span class="text-xs text-slate-400">Espaço extra ideal para 6 acessórios, defeito e anotações</span>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                <!-- ----------------------------------------------------------- -->
-                <!-- MODELO 7 (60x45): Checklist Master 6 Itens com Condição     -->
-                <!-- ----------------------------------------------------------- -->
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 flex flex-col justify-between shadow-sm hover:border-emerald-500/40 transition">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Opção 7 • 60x45mm</span>
-                            <span class="text-[11px] font-semibold text-slate-400">Master 6 Acessórios</span>
-                        </div>
-
-                        <!-- Prévia da Etiqueta Física -->
-                        <div class="flex justify-center my-2">
-                            <div id="label-card-7" class="thermal-label-wrap size-60x45 flex flex-col justify-between">
-                                <!-- Topo: Cabeçalho Completo -->
-                                <div class="flex items-center justify-between border-b-2 border-black pb-1">
-                                    <div class="flex items-center gap-1">
-                                        <span class="bg-black text-white font-serif font-bold text-[9px] px-1 py-0.5 leading-none">A5</span>
-                                        <span class="text-[9px] font-extrabold tracking-tight">A5 TECNOLOGIA</span>
-                                    </div>
-                                    <div class="bg-black text-white px-2 py-0.5 text-[11px] font-mono font-bold">
-                                        O.S. <span class="val-os">1024</span>
-                                    </div>
-                                </div>
-
-                                <!-- Dados -->
-                                <div class="text-[9px] leading-tight my-1">
-                                    <div class="truncate font-bold"><span class="font-normal">Cliente:</span> <span class="val-cliente">Supermercado Alvorada</span></div>
-                                    <div class="truncate"><span class="font-bold">Balança:</span> <span class="val-modelo">Toledo Prix 4 Uno</span></div>
-                                </div>
-
-                                <!-- Grade Completa de 6 Acessórios -->
-                                <div class="border border-black p-1 rounded-sm my-0.5 bg-zinc-50">
-                                    <div class="text-[7px] font-bold tracking-wider uppercase mb-1">CONFERÊNCIA DETALHADA DE ACESSÓRIOS:</div>
-                                    <div class="grid grid-cols-2 gap-x-2 gap-y-0.5 text-[8px] font-mono">
-                                        <span class="acc-prato"><span class="chk-box checked">✓</span>Prato Inox</span>
-                                        <span class="acc-cabo"><span class="chk-box"> </span>Cabo Força</span>
-                                        <span class="acc-fonte"><span class="chk-box checked">✓</span>Fonte Alim.</span>
-                                        <span class="acc-bateria"><span class="chk-box"> </span>Bateria Int.</span>
-                                        <span class="acc-pes"><span class="chk-box"> </span>Pés de Nível</span>
-                                        <span class="acc-capa"><span class="chk-box"> </span>Capa Protetora</span>
-                                    </div>
-                                </div>
-
-                                <!-- Rodapé com QR Code e Prateleira -->
-                                <div class="flex items-center justify-between pt-1 border-t border-black text-[8px] font-mono">
-                                    <div>
-                                        <div>PRAT: <strong class="bg-black text-white px-1.5 py-0.5 val-prat">B-04</strong></div>
-                                        <div class="text-[7px] text-zinc-600 mt-0.5 val-data">01/11/26 14:30</div>
-                                    </div>
-                                    <div id="qr-7" class="shrink-0"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botões de Ação -->
-                    <div class="mt-4 pt-3 border-t border-white/10 dark:border-white/10 flex items-center justify-between gap-2">
-                        <button type="button" onclick="printSingleLabel('label-card-7', '60mm 45mm')" class="flex-1 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                            <span>Testar Impressão</span>
-                        </button>
-                        <button type="button" onclick="chooseLayout('Opção 7: Checklist Master 6 Acessórios (60x45)')" class="py-1.5 px-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-sm">
-                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                            <span>Escolher</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ----------------------------------------------------------- -->
-                <!-- MODELO 8 (60x45): Dossiê com Defeito Relatado Impresso      -->
-                <!-- ----------------------------------------------------------- -->
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 flex flex-col justify-between shadow-sm hover:border-emerald-500/40 transition">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Opção 8 • 60x45mm</span>
-                            <span class="text-[11px] font-semibold text-slate-400">Acessórios + Defeito</span>
-                        </div>
-
-                        <!-- Prévia da Etiqueta Física -->
-                        <div class="flex justify-center my-2">
-                            <div id="label-card-8" class="thermal-label-wrap size-60x45 flex flex-col justify-between">
-                                <!-- Topo: Cabeçalho com O.S. e Prateleira -->
-                                <div class="flex items-center justify-between border-b border-black pb-1">
-                                    <div class="text-[10px] font-black">A5 TECNOLOGIA</div>
-                                    <div class="flex items-center gap-1">
-                                        <span class="text-[11px] font-mono font-black">O.S. <span class="val-os">1024</span></span>
-                                        <span class="bg-black text-white px-1 text-[9px] font-mono font-bold val-prat">B-04</span>
-                                    </div>
-                                </div>
-
-                                <!-- Cliente e Modelo -->
-                                <div class="text-[9px] my-0.5 leading-tight">
-                                    <div class="font-bold truncate val-cliente">Supermercado Alvorada</div>
-                                    <div class="truncate text-zinc-700 val-modelo">Toledo Prix 4 Uno</div>
-                                </div>
-
-                                <!-- Faixa de Acessórios -->
-                                <div class="border-t border-b border-black py-0.5 my-0.5 flex items-center justify-between text-[8px] font-mono font-bold">
-                                    <span class="acc-prato"><span class="chk-box checked">✓</span>PRATO</span>
-                                    <span class="acc-fonte"><span class="chk-box checked">✓</span>FONTE</span>
-                                    <span class="acc-cabo"><span class="chk-box"> </span>CABO</span>
-                                    <span class="acc-bateria"><span class="chk-box"> </span>BAT</span>
-                                </div>
-
-                                <!-- Caixa Destacada com o Defeito do Cliente -->
-                                <div class="border border-black p-1 rounded-sm my-0.5 bg-zinc-50 flex items-center justify-between gap-1">
-                                    <div class="text-[7.5px] leading-tight overflow-hidden">
-                                        <div class="font-bold text-[7px] uppercase tracking-wider text-black">DEFEITO RECLAMADO:</div>
-                                        <div class="italic text-zinc-800 font-medium line-clamp-2 val-defeito">Não liga na tomada / visor oscilando</div>
-                                    </div>
-                                    <div id="qr-8" class="shrink-0"></div>
-                                </div>
-
-                                <!-- Rodapé -->
-                                <div class="flex items-center justify-between text-[7px] text-zinc-600 font-mono pt-0.5">
-                                    <span>CONFERIDO NA ENTRADA</span>
-                                    <span class="val-data">01/11/2026 14:30</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botões de Ação -->
-                    <div class="mt-4 pt-3 border-t border-white/10 dark:border-white/10 flex items-center justify-between gap-2">
-                        <button type="button" onclick="printSingleLabel('label-card-8', '60mm 45mm')" class="flex-1 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                            <span>Testar Impressão</span>
-                        </button>
-                        <button type="button" onclick="chooseLayout('Opção 8: Acessórios + Caixa de Defeito (60x45)')" class="py-1.5 px-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-sm">
-                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                            <span>Escolher</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ----------------------------------------------------------- -->
-                <!-- MODELO 9 (60x45): Lacre de Chegada + Acessórios de Entrada  -->
-                <!-- ----------------------------------------------------------- -->
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 flex flex-col justify-between shadow-sm hover:border-emerald-500/40 transition">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Opção 9 • 60x45mm</span>
-                            <span class="text-[11px] font-semibold text-slate-400">Lacre Entrada + Acessórios</span>
-                        </div>
-
-                        <!-- Prévia da Etiqueta Física -->
-                        <div class="flex justify-center my-2">
-                            <div id="label-card-9" class="thermal-label-wrap size-60x45 flex flex-col justify-between">
-                                <!-- Topo: Cabeçalho com O.S. -->
-                                <div class="flex items-center justify-between border-b border-black pb-1">
-                                    <div class="flex items-center gap-1">
-                                        <span class="font-extrabold text-[9px]">A5 METROLOGIA</span>
-                                    </div>
-                                    <div class="bg-black text-white px-2 py-0.5 text-[10px] font-mono font-black">
-                                        O.S. <span class="val-os">1024</span>
-                                    </div>
-                                </div>
-
-                                <!-- Dados -->
-                                <div class="text-[8.5px] leading-tight my-0.5">
-                                    <div class="truncate font-bold"><span class="val-cliente">Supermercado Alvorada</span></div>
-                                    <div class="truncate text-zinc-700"><span class="val-modelo">Toledo Prix 4 Uno</span></div>
-                                </div>
-
-                                <!-- Bloco de Acessórios -->
-                                <div class="border border-black p-1 rounded-sm text-[8px] space-y-0.5 bg-zinc-50">
-                                    <div class="text-[7px] font-bold uppercase tracking-wider">ACESSÓRIOS RECEBIDOS:</div>
-                                    <div class="flex justify-between font-mono">
-                                        <span class="acc-prato"><span class="chk-box checked">✓</span>Prato</span>
-                                        <span class="acc-fonte"><span class="chk-box checked">✓</span>Fonte</span>
-                                        <span class="acc-cabo"><span class="chk-box"> </span>Cabo</span>
-                                        <span class="acc-bateria"><span class="chk-box"> </span>Bat</span>
-                                    </div>
-                                </div>
-
-                                <!-- Campo de Lacre de Entrada / Condição Física -->
-                                <div class="flex items-center justify-between border border-black p-1 rounded-sm text-[7.5px] font-mono my-0.5">
-                                    <div>
-                                        <div>LACRE CHEGADA: <strong>[✓] ÍNTEGRO</strong></div>
-                                        <div>PRATELEIRA: <strong class="bg-black text-white px-1 val-prat">B-04</strong></div>
-                                    </div>
-                                    <div id="qr-9" class="shrink-0 pl-1"></div>
-                                </div>
-
-                                <!-- Rodapé -->
-                                <div class="flex items-center justify-between text-[7px] font-mono text-zinc-600 border-t border-black pt-0.5">
-                                    <span>CONFERIDO NA RECEPÇÃO</span>
-                                    <span class="val-data">01/11/26 14:30</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botões de Ação -->
-                    <div class="mt-4 pt-3 border-t border-white/10 dark:border-white/10 flex items-center justify-between gap-2">
-                        <button type="button" onclick="printSingleLabel('label-card-9', '60mm 45mm')" class="flex-1 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                            <span>Testar Impressão</span>
-                        </button>
-                        <button type="button" onclick="chooseLayout('Opção 9: Lacre Entrada + Acessórios (60x45)')" class="py-1.5 px-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-sm">
-                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                            <span>Escolher</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ----------------------------------------------------------- -->
-                <!-- MODELO 10 (60x45): Canhoto Destacável com Micro-Picote      -->
-                <!-- ----------------------------------------------------------- -->
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 flex flex-col justify-between shadow-sm hover:border-emerald-500/40 transition">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Opção 10 • 60x45mm</span>
-                            <span class="text-[11px] font-semibold text-slate-400">Canhoto Destacável</span>
-                        </div>
-
-                        <!-- Prévia da Etiqueta Física -->
-                        <div class="flex justify-center my-2">
-                            <div id="label-card-10" class="thermal-label-wrap size-60x45 flex flex-col justify-between">
-                                <!-- CORPO SUPERIOR: Cola na Balança -->
-                                <div>
-                                    <div class="flex items-center justify-between border-b border-black pb-0.5">
-                                        <div class="text-[9px] font-extrabold">A5 TECNOLOGIA</div>
-                                        <div class="text-[10px] font-mono font-black">O.S. <span class="val-os">1024</span></div>
-                                    </div>
-                                    <div class="flex items-center justify-between my-0.5">
-                                        <div class="text-[8.5px] leading-tight overflow-hidden">
-                                            <div class="font-bold truncate val-cliente">Supermercado Alvorada</div>
-                                            <div class="truncate text-zinc-700 val-modelo">Toledo Prix 4 Uno</div>
-                                            <div class="text-[7.5px] font-mono mt-0.5">PRAT: <strong class="bg-black text-white px-1 val-prat">B-04</strong></div>
-                                        </div>
-                                        <div id="qr-10" class="shrink-0 pl-1"></div>
-                                    </div>
-                                </div>
-
-                                <!-- LINHA DE PICOTE DESTACÁVEL -->
-                                <div class="perforated-line">
-                                    <span class="absolute -top-2 left-1/2 -translate-x-1/2 bg-white px-1 text-[6.5px] font-mono uppercase text-zinc-600">✂ DESTACAR CANHOTO</span>
-                                </div>
-
-                                <!-- CORPO INFERIOR: Canhoto de Acessórios para o Cliente -->
-                                <div class="bg-zinc-100 -mx-[10px] -mb-[9px] p-1.5 border-t border-black">
-                                    <div class="flex items-center justify-between text-[7.5px] font-bold">
-                                        <span>CANHOTO CLIENTE • O.S. <span class="val-os">1024</span></span>
-                                        <span class="val-data">01/11/26</span>
-                                    </div>
-                                    <div class="text-[7px] text-zinc-700 mt-0.5 font-mono">
-                                        ACESSÓRIOS: <span class="acc-prato font-bold">[✓]Prato</span> <span class="acc-fonte font-bold">[✓]Fonte</span> <span class="acc-cabo">[ ]Cabo</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botões de Ação -->
-                    <div class="mt-4 pt-3 border-t border-white/10 dark:border-white/10 flex items-center justify-between gap-2">
-                        <button type="button" onclick="printSingleLabel('label-card-10', '60mm 45mm')" class="flex-1 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                            <span>Testar Impressão</span>
-                        </button>
-                        <button type="button" onclick="chooseLayout('Opção 10: Canhoto Destacável de Acessórios (60x45)')" class="py-1.5 px-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-sm">
-                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                            <span>Escolher</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ----------------------------------------------------------- -->
-                <!-- MODELO 11 (60x45): Mega-Legibilidade com Ícones de Bancada  -->
-                <!-- ----------------------------------------------------------- -->
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 flex flex-col justify-between shadow-sm hover:border-emerald-500/40 transition">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Opção 11 • 60x45mm</span>
-                            <span class="text-[11px] font-semibold text-slate-400">Alta Legibilidade</span>
-                        </div>
-
-                        <!-- Prévia da Etiqueta Física -->
-                        <div class="flex justify-center my-2">
-                            <div id="label-card-11" class="thermal-label-wrap size-60x45 flex flex-col justify-between">
-                                <!-- Topo: O.S. Gigante e Prateleira -->
-                                <div class="flex items-center justify-between border-b-2 border-black pb-1">
-                                    <div class="bg-black text-white px-2 py-0.5 text-[13px] font-mono font-black tracking-tight">
-                                        #<span class="val-os">1024</span>
-                                    </div>
-                                    <div class="text-right">
-                                        <div class="text-[7px] text-zinc-500 uppercase font-mono">ESTANTE / PRAT:</div>
-                                        <div class="text-[13px] font-mono font-black val-prat">B-04</div>
-                                    </div>
-                                </div>
-
-                                <!-- Meio: Dados Grandes -->
-                                <div class="my-0.5">
-                                    <div class="text-[10px] font-bold truncate val-cliente">Supermercado Alvorada</div>
-                                    <div class="text-[9px] text-zinc-700 truncate val-modelo">Toledo Prix 4 Uno</div>
-                                </div>
-
-                                <!-- Grade de Acessórios com Vistos Grandes -->
-                                <div class="border border-black p-1 rounded-sm my-0.5">
-                                    <div class="text-[7px] font-bold uppercase tracking-wider mb-0.5">CONFERÊNCIA DE ACESSÓRIOS:</div>
-                                    <div class="grid grid-cols-2 gap-1 text-[8.5px] font-mono font-bold">
-                                        <span class="acc-prato"><span class="chk-box checked">✓</span>PRATO INOX</span>
-                                        <span class="acc-fonte"><span class="chk-box checked">✓</span>FONTE 12V</span>
-                                        <span class="acc-cabo"><span class="chk-box"> </span>CABO AC</span>
-                                        <span class="acc-bateria"><span class="chk-box"> </span>BATERIA</span>
-                                    </div>
-                                </div>
-
-                                <!-- Rodapé com QR Code e Data -->
-                                <div class="flex items-center justify-between border-t border-black pt-1">
-                                    <div class="text-[7.5px] font-mono text-zinc-600">
-                                        <div>A5 TECNOLOGIA</div>
-                                        <div class="val-data">01/11/2026 14:30</div>
-                                    </div>
-                                    <div id="qr-11" class="shrink-0"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botões de Ação -->
-                    <div class="mt-4 pt-3 border-t border-white/10 dark:border-white/10 flex items-center justify-between gap-2">
-                        <button type="button" onclick="printSingleLabel('label-card-11', '60mm 45mm')" class="flex-1 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                            <span>Testar Impressão</span>
-                        </button>
-                        <button type="button" onclick="chooseLayout('Opção 11: Mega-Legibilidade com Vistos Grandes (60x45)')" class="py-1.5 px-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-sm">
-                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                            <span>Escolher</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ----------------------------------------------------------- -->
-                <!-- MODELO 12 (60x45): Checklist + Campo de Anotações Manuais   -->
-                <!-- ----------------------------------------------------------- -->
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 flex flex-col justify-between shadow-sm hover:border-emerald-500/40 transition">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Opção 12 • 60x45mm</span>
-                            <span class="text-[11px] font-semibold text-slate-400">Checklist + Anotação</span>
-                        </div>
-
-                        <!-- Prévia da Etiqueta Física -->
-                        <div class="flex justify-center my-2">
-                            <div id="label-card-12" class="thermal-label-wrap size-60x45 flex flex-col justify-between">
-                                <!-- Topo: Cabeçalho com O.S. e QR -->
-                                <div class="flex items-center justify-between border-b border-black pb-0.5">
-                                    <div class="text-[9px] font-black">A5 TECNOLOGIA</div>
-                                    <div class="text-[10px] font-mono font-bold bg-black text-white px-1.5 py-0.5">
-                                        O.S. <span class="val-os">1024</span>
-                                    </div>
-                                    <div class="text-[8.5px] font-mono font-bold">PRAT: <span class="val-prat">B-04</span></div>
-                                </div>
-
-                                <!-- Dados -->
-                                <div class="text-[8.5px] my-0.5 leading-tight">
-                                    <div class="font-bold truncate val-cliente">Supermercado Alvorada</div>
-                                    <div class="truncate text-zinc-700 val-modelo">Toledo Prix 4 Uno</div>
-                                </div>
-
-                                <!-- Acessórios em Linha -->
-                                <div class="border-t border-b border-black py-0.5 flex justify-between text-[7.5px] font-mono font-bold">
-                                    <span class="acc-prato"><span class="chk-box checked">✓</span>PRATO</span>
-                                    <span class="acc-fonte"><span class="chk-box checked">✓</span>FONTE</span>
-                                    <span class="acc-cabo"><span class="chk-box"> </span>CABO</span>
-                                    <span class="acc-bateria"><span class="chk-box"> </span>BAT</span>
-                                </div>
-
-                                <!-- Linhas Pautadas para Anotação do Técnico -->
-                                <div class="my-0.5 text-[7px] font-mono space-y-1">
-                                    <div class="border-b border-black/40 pb-0.5">Obs: ___________________________________</div>
-                                    <div class="border-b border-black/40 pb-0.5">Lacre Anterior: ____________ Tens: _____V</div>
-                                </div>
-
-                                <!-- Rodapé com QR Code e Data -->
-                                <div class="flex items-center justify-between pt-0.5 border-t border-black text-[7px] font-mono">
-                                    <span>Técnico Resp: _____________</span>
-                                    <div id="qr-12" class="shrink-0 pl-1"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botões de Ação -->
-                    <div class="mt-4 pt-3 border-t border-white/10 dark:border-white/10 flex items-center justify-between gap-2">
-                        <button type="button" onclick="printSingleLabel('label-card-12', '60mm 45mm')" class="flex-1 py-1.5 px-3 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5">
-                            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-                            <span>Testar Impressão</span>
-                        </button>
-                        <button type="button" onclick="chooseLayout('Opção 12: Checklist + Linhas Pautadas de Bancada (60x45)')" class="py-1.5 px-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-bold rounded-xl transition flex items-center gap-1 shadow-sm">
-                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                            <span>Escolher</span>
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </section>
 
     </main>
 
     <!-- =================================================================== -->
-    <!-- ELEMENTO INVISÍVEL PARA DISPARO DE IMPRESSÃO ISOLADA                -->
+    <!-- ELEMENTO INVISÍVEL PARA DISPARO DE IMPRESSÃO TÉRMICA ISOLADA        -->
     <!-- =================================================================== -->
     <div id="printTargetArea" class="hidden"></div>
 
     <!-- =================================================================== -->
-    <!-- MODAL DE CONFIRMAÇÃO DE ESCOLHA                                     -->
-    <!-- =================================================================== -->
-    <div id="choiceModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-        <div class="bg-zinc-900 border border-zinc-700 rounded-2xl max-w-md w-full p-6 text-center shadow-2xl">
-            <div class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center mb-3">
-                <i data-lucide="check-circle" class="w-6 h-6"></i>
-            </div>
-            <h3 class="text-lg font-bold text-white">Modelo de Etiqueta Selecionado!</h3>
-            <p class="text-xs text-zinc-400 mt-1">
-                Você escolheu o seguinte layout para a etiquetadora da A5:
-            </p>
-            <div id="modalChoiceName" class="mt-3 p-3 bg-zinc-800 border border-zinc-700 rounded-xl font-mono text-sm text-sky-400 font-bold">
-            </div>
-            <p class="text-[11px] text-zinc-400 mt-3">
-                Esta escolha foi salva no seu navegador. Basta me dizer este nome aqui no chat que definiremos este layout como o padrão definitivo da rota <code class="text-sky-400 font-mono">/etiqueta/&lt;os&gt;</code>!
-            </p>
-            <div class="flex items-center justify-center gap-2 mt-5">
-                <button type="button" onclick="copyChoiceToClipboard()" class="py-2 px-4 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
-                    <i data-lucide="copy" class="w-4 h-4"></i>
-                    <span>Copiar Nome do Modelo</span>
-                </button>
-                <button type="button" onclick="closeChoiceModal()" class="py-2 px-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-bold transition">
-                    Fechar
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- =================================================================== -->
-    <!-- SCRIPTS DINÂMICOS: ATUALIZAÇÃO, QR CODE, BARCODE E IMPRESSÃO       -->
+    <!-- SCRIPTS DINÂMICOS                                                   -->
     <!-- =================================================================== -->
     <script>
-        let currentChoice = "";
-
-        // Atualização Dinâmica de Dados e Acessórios
-        function updateAllLabels() {
+        // Atualiza campos e QR Code
+        function updateLabel() {
             const os = document.getElementById("inputOS").value || "1024";
-            const cliente = document.getElementById("inputCliente").value || "Cliente Balcão";
-            const modelo = document.getElementById("inputModelo").value || "Toledo Prix 4";
+            const cliente = document.getElementById("inputCliente").value || "Cliente";
+            const modelo = document.getElementById("inputModelo").value || "Balança";
             const prat = document.getElementById("inputPrat").value || "B-01";
-            const defeito = document.getElementById("inputDefeito").value || "Não liga";
 
-            // Acessórios selecionados no simulador
+            document.getElementById("labelOS").textContent = os;
+            document.getElementById("labelCliente").textContent = cliente;
+            document.getElementById("labelModelo").textContent = modelo;
+            document.getElementById("labelPrat").textContent = prat;
+
+            // Atualiza checkboxes
             const temPrato = document.getElementById("chkPrato").checked;
             const temFonte = document.getElementById("chkFonte").checked;
             const temCabo = document.getElementById("chkCabo").checked;
             const temBateria = document.getElementById("chkBateria").checked;
-            const temPes = document.getElementById("chkPes").checked;
-            const temCapa = document.getElementById("chkCapa").checked;
 
-            // Atualiza textos comuns
-            document.querySelectorAll(".val-os").forEach(el => el.textContent = os);
-            document.querySelectorAll(".val-cliente").forEach(el => el.textContent = cliente);
-            document.querySelectorAll(".val-modelo").forEach(el => el.textContent = modelo);
-            document.querySelectorAll(".val-prat").forEach(el => el.textContent = prat);
-            document.querySelectorAll(".val-defeito").forEach(el => el.textContent = defeito);
+            setBox("boxPrato", temPrato);
+            setBox("boxFonte", temFonte);
+            setBox("boxCabo", temCabo);
+            setBox("boxBateria", temBateria);
 
-            // Atualiza estado visual dos checkboxes de acessórios
-            updateCheckState(".acc-prato", temPrato, "Prato Inox", "PRATO");
-            updateCheckState(".acc-fonte", temFonte, "Fonte Alim.", "FONTE");
-            updateCheckState(".acc-cabo", temCabo, "Cabo Força", "CABO");
-            updateCheckState(".acc-bateria", temBateria, "Bateria Int.", "BATERIA");
-            updateCheckState(".acc-pes", temPes, "Pés de Nível", "PÉS");
-            updateCheckState(".acc-capa", temCapa, "Capa Protetora", "CAPA");
-
-            // Atualiza badges inteligentes (Opção 4)
-            document.querySelectorAll(".acc-prato-badge").forEach(el => {
-                if (temPrato) {
-                    el.className = "acc-prato-badge bg-black text-white px-1.5 py-0.5 rounded-sm";
-                    el.textContent = "+ PRATO INOX";
-                } else {
-                    el.className = "acc-prato-badge border border-black text-black px-1.5 py-0.5 rounded-sm";
-                    el.textContent = "S/ PRATO";
-                }
-            });
-
-            document.querySelectorAll(".acc-fonte-badge").forEach(el => {
-                if (temFonte) {
-                    el.className = "acc-fonte-badge bg-black text-white px-1.5 py-0.5 rounded-sm";
-                    el.textContent = "+ FONTE ALIM.";
-                } else {
-                    el.className = "acc-fonte-badge border border-black text-black px-1.5 py-0.5 rounded-sm";
-                    el.textContent = "S/ FONTE";
-                }
-            });
-
-            document.querySelectorAll(".acc-cabo-badge").forEach(el => {
-                if (temCabo) {
-                    el.className = "acc-cabo-badge bg-black text-white px-1.5 py-0.5 rounded-sm";
-                    el.textContent = "+ CABO FORÇA";
-                } else {
-                    el.className = "acc-cabo-badge border border-black text-black px-1.5 py-0.5 rounded-sm";
-                    el.textContent = "S/ CABO";
-                }
-            });
-
-            document.querySelectorAll(".acc-bateria-badge").forEach(el => {
-                if (temBateria) {
-                    el.className = "acc-bateria-badge bg-black text-white px-1.5 py-0.5 rounded-sm";
-                    el.textContent = "+ BATERIA";
-                } else {
-                    el.className = "acc-bateria-badge border border-black text-black px-1.5 py-0.5 rounded-sm";
-                    el.textContent = "S/ BATERIA";
-                }
-            });
-
-            // Re-renderiza códigos de barras e QR Codes
-            renderAllQRCodes(os);
-            renderBarcodes(os);
+            // Re-renderiza o Mega QR Code com tamanho ampliado (70px na tela = ~22mm físico)
+            renderQRCode(os);
         }
 
-        function updateCheckState(selector, isChecked, labelLong, labelShort) {
-            document.querySelectorAll(selector).forEach(parent => {
-                const box = parent.querySelector(".chk-box");
-                if (box) {
-                    if (isChecked) {
-                        box.className = "chk-box checked";
-                        box.textContent = "✓";
-                    } else {
-                        box.className = "chk-box";
-                        box.textContent = " ";
-                    }
+        function setBox(id, checked) {
+            const el = document.getElementById(id);
+            if (el) {
+                if (checked) {
+                    el.className = "chk-box checked";
+                    el.textContent = "✓";
+                } else {
+                    el.className = "chk-box";
+                    el.textContent = " ";
                 }
-            });
-        }
-
-        // Renderiza Código de Barras Code 128 (Opção 5)
-        function renderBarcodes(os) {
-            try {
-                if (document.getElementById("barcode-5")) {
-                    JsBarcode("#barcode-5", `OS${os}`, {
-                        format: "CODE128",
-                        width: 1.2,
-                        height: 22,
-                        displayValue: true,
-                        fontSize: 9,
-                        margin: 0,
-                        textMargin: 1,
-                        fontOptions: "bold",
-                        font: "monospace"
-                    });
-                }
-            } catch (e) {
-                console.error("Erro ao gerar barcode:", e);
             }
         }
 
-        // Renderiza Todos os QR Codes com o IP da Rede Local
-        function renderAllQRCodes(osNumber) {
+        function renderQRCode(osNumber) {
             const os = osNumber || document.getElementById("inputOS").value || "1024";
             const host = window.location.host || "127.0.0.1:5000";
             const url = `http://${host}/saida?os=${os}`;
 
-            const configs = [
-                { id: "qr-1", size: 48 },
-                { id: "qr-2", size: 54 },
-                { id: "qr-3", size: 48 },
-                { id: "qr-4", size: 46 },
-                { id: "qr-5", size: 44 },
-                { id: "qr-6", size: 48 },
-                { id: "qr-7", size: 54 },
-                { id: "qr-8", size: 50 },
-                { id: "qr-9", size: 46 },
-                { id: "qr-10", size: 46 },
-                { id: "qr-11", size: 52 },
-                { id: "qr-12", size: 44 }
-            ];
-
-            configs.forEach(c => {
-                const el = document.getElementById(c.id);
-                if (el) {
-                    el.innerHTML = "";
-                    new QRCode(el, {
-                        text: url,
-                        width: c.size,
-                        height: c.size,
-                        colorDark: "#000000",
-                        colorLight: "#ffffff",
-                        correctLevel: QRCode.CorrectLevel.M
-                    });
-                }
-            });
+            const container = document.getElementById("labelQRCode");
+            if (container) {
+                container.innerHTML = "";
+                new QRCode(container, {
+                    text: url,
+                    width: 70, // Tamanho aumentado significativamente!
+                    height: 70,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+            }
         }
 
-        // Filtro por Tamanho (Todos, 60x40, 60x45)
-        function filterSize(type) {
-            document.getElementById("filterAll").className = (type === "all") ? "px-3 py-1 rounded-lg bg-sky-500 text-slate-950 font-bold transition" : "px-3 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition font-medium";
-            document.getElementById("filter40").className = (type === "40") ? "px-3 py-1 rounded-lg bg-sky-500 text-slate-950 font-bold transition" : "px-3 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition font-medium";
-            document.getElementById("filter45").className = (type === "45") ? "px-3 py-1 rounded-lg bg-sky-500 text-slate-950 font-bold transition" : "px-3 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition font-medium";
+        // Controle de Zoom na tela
+        function setZoom(level) {
+            const c = document.getElementById("zoomContainer");
+            c.className = `zoom-${level} my-4 p-4 flex flex-col items-center justify-center`;
 
-            document.querySelectorAll(".label-section").forEach(sec => {
-                const s = sec.getAttribute("data-size");
-                if (type === "all" || type === s) {
-                    sec.style.display = "block";
-                } else {
-                    sec.style.display = "none";
-                }
-            });
+            document.getElementById("btnZoom100").className = (level === '100') ? "px-2.5 py-0.5 rounded-lg text-xs font-bold bg-sky-500 text-slate-950 transition" : "px-2.5 py-0.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-white transition";
+            document.getElementById("btnZoom125").className = (level === '125') ? "px-2.5 py-0.5 rounded-lg text-xs font-bold bg-sky-500 text-slate-950 transition" : "px-2.5 py-0.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-white transition";
+            document.getElementById("btnZoom150").className = (level === '150') ? "px-2.5 py-0.5 rounded-lg text-xs font-bold bg-sky-500 text-slate-950 transition" : "px-2.5 py-0.5 rounded-lg text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-white transition";
         }
 
-        // Testar Impressão Isolada de um Modelo Específico
-        function printSingleLabel(labelId, pageSize) {
-            const originalLabel = document.getElementById(labelId);
+        // Impressão Isolada na Escala Exata 60x40mm
+        function printOptimizedLabel() {
+            const originalLabel = document.getElementById("optimizedLabel");
             if (!originalLabel) return;
 
             const printArea = document.getElementById("printTargetArea");
@@ -1300,33 +518,13 @@
             clone.style.border = "none";
             clone.style.boxShadow = "none";
             clone.style.margin = "0";
-
-            // Aplica largura e altura físicas exatas para o driver térmico
-            if (pageSize === "60mm 40mm") {
-                clone.style.width = "60mm";
-                clone.style.height = "40mm";
-                clone.style.maxWidth = "60mm";
-                clone.style.maxHeight = "40mm";
-                clone.style.padding = "2mm 2.5mm";
-            } else if (pageSize === "60mm 45mm") {
-                clone.style.width = "60mm";
-                clone.style.height = "45mm";
-                clone.style.maxWidth = "60mm";
-                clone.style.maxHeight = "45mm";
-                clone.style.padding = "2mm 2.5mm";
-            }
+            clone.style.width = "60mm";
+            clone.style.height = "40mm";
+            clone.style.maxWidth = "60mm";
+            clone.style.maxHeight = "40mm";
+            clone.style.padding = "1.8mm 2.2mm";
 
             printArea.appendChild(clone);
-
-            // Injeta o tamanho da folha dinamicamente
-            let styleTag = document.getElementById("dynamicPageStyle");
-            if (!styleTag) {
-                styleTag = document.createElement("style");
-                styleTag.id = "dynamicPageStyle";
-                document.head.appendChild(styleTag);
-            }
-            styleTag.textContent = `@page { size: ${pageSize}; margin: 0; } body { margin: 0; padding: 0; }`;
-
             printArea.classList.remove("hidden");
             window.print();
             setTimeout(() => {
@@ -1334,27 +532,10 @@
             }, 600);
         }
 
-        // Escolher Modelo
-        function chooseLayout(name) {
-            currentChoice = name;
-            localStorage.setItem("a5_chosen_label_layout", name);
-            document.getElementById("chosenLayoutName").textContent = name;
-            document.getElementById("chosenLayoutBadge").classList.remove("hidden");
-            document.getElementById("modalChoiceName").textContent = name;
-            document.getElementById("choiceModal").classList.remove("hidden");
-            document.getElementById("choiceModal").classList.add("flex");
-        }
-
-        function closeChoiceModal() {
-            document.getElementById("choiceModal").classList.add("hidden");
-            document.getElementById("choiceModal").classList.remove("flex");
-        }
-
-        function copyChoiceToClipboard() {
-            navigator.clipboard.writeText(currentChoice).then(() => {
-                alert(`Copiado para a área de transferência:\n\n${currentChoice}`);
-                closeChoiceModal();
-            });
+        // Aprovação Oficial
+        function confirmAsOfficial() {
+            localStorage.setItem("a5_chosen_label_layout", "Oficial A5 Otimizada (60x40mm) - Acessórios 2x2");
+            alert("✅ Modelo Oficial Definido com Sucesso!\n\nLayout 'Oficial A5 Otimizada 60x40mm' configurado.");
         }
 
         // Modo Clean / Dark
@@ -1373,16 +554,17 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            renderAllQRCodes();
-            renderBarcodes();
-            updateAllLabels();
+            updateLabel();
             if (window.lucide) lucide.createIcons();
 
-            const saved = localStorage.getItem("a5_chosen_label_layout");
-            if (saved) {
-                document.getElementById("chosenLayoutName").textContent = saved;
-                document.getElementById("chosenLayoutBadge").classList.remove("hidden");
-            }
+            // Seta data atual formatada
+            const now = new Date();
+            const d = String(now.getDate()).padStart(2, '0');
+            const m = String(now.getMonth() + 1).padStart(2, '0');
+            const y = String(now.getFullYear()).slice(-2);
+            const h = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById("labelData").textContent = `${d}/${m}/${y} ${h}:${min}`;
         });
     </script>
 </body>
