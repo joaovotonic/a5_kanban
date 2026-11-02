@@ -522,3 +522,25 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
      - Fixadas as dimensões externas para `w-[38px] h-[26px]`, eliminando quebras causadas por classes utilitárias indefinidas.
   2. **Padronização Visual da TV Idêntica à Consulta Rápida:**
      - Título da TV formatado com a mesma tipografia e cores aprovadas na Consulta Rápida: `font-bold text-sm text-[#254a93] dark:text-white` com ícone `text-sky-400` e subtítulo `A5 Tecnologia • Balanças e Sistemas` em `text-[10px] font-semibold text-[#2aa6c8] dark:text-sky-400`.
+
+---
+
+## 📌 Item 31: Reestruturação da Apresentação com Base no POP-TEC-001
+
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Diretoria / Sr. Jacson
+* **Telas & Arquivos Impactados:**
+  - `templates/apresentacao.html` (Reconstrução completa dos 7 slides com fundamentação no documento oficial POP-TEC-001)
+* **Principais Entregas:**
+  1. **Alinhamento Normativo 100% com o POP-TEC-001:**
+     - Apresentação reconstruída do zero, mapeando cada seção do POP:
+       * **Slide 1:** Capa Executiva formal para o Sr. Jacson com homologação do POP-TEC-001.
+       * **Slide 2:** O Choque de Realidade — Por que o POP em papel gerava gargalos diários.
+       * **Slide 3:** Regra Fundamental de Metrologia — Técnico só lacra na bancada com pesos-padrão ($\pm 2e$); Priscila sela na recepção com Selo Reparado (IPEM); a única folha impressa é a O.S. física oficial do Teorema ERP na retirada.
+       * **Slide 4:** Fluxograma Interativo das 6 Fases do POP (Recepção com fotos 360° e QR Code $60 \times 40\text{ mm}$ $\rightarrow$ Bancada & Estufa de PCI $\rightarrow$ Smart TV & Intercom $\rightarrow$ Reparo & Bateria de Testes $\rightarrow$ Calibração $\pm 2e$ & Lacração A5 $\rightarrow$ Balcão de Saída, Selagem e Teorema).
+       * **Slide 5:** Regra de Ouro do POP 7.3: Teste de Peça $\neq$ Instalação Definitiva (blindagem de estoque e trava sistêmica de execução).
+       * **Slide 6:** Comparativo de Produtividade: Minutos recuperados e eliminação de papel.
+       * **Slide 7:** Demonstração ao vivo dos módulos em 1 clique.
+  2. **Identidade Visual e Experiência de Uso:**
+     - Emblema oficial A5 proporcional com tipografia serifada romana e cantos arredondados sem fundo branco.
+     - Suporte a Modo Clean e Modo Escuro persistente, atalhos de teclado completos e navegação direta nas 6 fases do fluxo (teclas 1 a 6).

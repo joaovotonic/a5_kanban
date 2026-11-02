@@ -3,98 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apresentação Operacional • A5 Tecnologia | Eficiência & Organização</title>
+    <title>POP-TEC-001 na Prática • A5 Tecnologia | Apresentação Operacional</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-                        mono: ['"JetBrains Mono"', 'monospace']
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                        serif: ['"Times New Roman"', 'Georgia', 'serif']
                     }
                 }
             }
-        };
+        }
     </script>
-    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --bg-body: #06080d;
-            --text-main: #f1f5f9;
-            --card-bg: #0e131f;
+            --bg-color: #09090b;
+            --text-color: #f4f4f5;
+            --header-bg: rgba(9, 9, 11, 0.85);
+            --card-bg: rgba(24, 24, 27, 0.75);
             --card-border: rgba(255, 255, 255, 0.08);
-            --header-bg: rgba(9, 12, 20, 0.85);
+            --accent-glow: rgba(37, 74, 147, 0.25);
         }
 
         html.clean-mode {
-            --bg-body: #f8fafc;
-            --text-main: #0f172a;
-            --card-bg: #ffffff;
-            --card-border: #e2e8f0;
+            --bg-color: #f8fafc;
+            --text-color: #0f172a;
             --header-bg: rgba(255, 255, 255, 0.92);
+            --card-bg: #ffffff;
+            --card-border: rgba(15, 23, 42, 0.1);
+            --accent-glow: rgba(37, 74, 147, 0.1);
         }
 
         body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-            overflow-x: hidden;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
         }
 
         .slide {
             display: none;
             opacity: 0;
-            transform: translateY(16px) scale(0.99);
-            transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+            transform: translateY(12px);
+            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
         .slide.active {
             display: flex;
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
 
-        /* Estilo do Passado (Analógico / Manual) */
-        .pain-card {
-            background: #181512;
-            border: 2px dashed #78350f;
-            color: #fef3c7;
-            box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.6);
-        }
-        html.clean-mode .pain-card {
-            background: #fffbeb;
-            border: 2px dashed #d97706;
-            color: #78350f;
-            box-shadow: 0 4px 14px rgba(217, 119, 6, 0.08);
+        .pop-badge {
+            background: linear-gradient(135deg, rgba(37, 74, 147, 0.15) 0%, rgba(2, 132, 199, 0.15) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.3);
         }
 
-        /* Estilo da Tecnologia A5 (Moderno & Eficiente) */
-        .tech-card {
-            background: linear-gradient(135deg, rgba(14, 165, 233, 0.06) 0%, rgba(16, 185, 129, 0.06) 100%), var(--card-bg);
-            border: 1px solid rgba(14, 165, 233, 0.3);
-            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.08);
-        }
-        html.clean-mode .tech-card {
-            background: #ffffff;
-            border: 1px solid #38bdf8;
-            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.08);
-        }
-
-        /* Step do Fluxograma */
         .flow-step-btn {
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
         }
+
         .flow-step-btn.active {
             border-color: #0284c7;
             background: rgba(2, 132, 199, 0.12);
-            box-shadow: 0 0 20px rgba(2, 132, 199, 0.25);
+            box-shadow: 0 0 18px rgba(2, 132, 199, 0.2);
             transform: translateY(-2px);
         }
+
         html.clean-mode .flow-step-btn.active {
             background: #f0f9ff;
             border-color: #0284c7;
@@ -104,29 +88,33 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between select-none">
 
-    <!-- TOPBAR EXECUTIVA COM LOGO OFICIAL E MODO CLEAN (SEM FUNDO BRANCO) -->
+    <!-- =================================================================== -->
+    <!-- TOPBAR EXECUTIVA: EMBLEMA OFICIAL A5, NOME E MODO CLEAN             -->
+    <!-- =================================================================== -->
     <header class="px-5 py-3 border-b border-white/10 dark:border-white/10 clean:border-slate-200 bg-[var(--header-bg)] backdrop-blur-md flex items-center justify-between sticky top-0 z-40 transition-colors">
         <div class="flex items-center gap-2.5">
+            <!-- Emblema A5 Oficial com Geometria Fixa e Centralização Precisa -->
             <svg viewBox="0 0 48 32" class="w-[38px] h-[26px] shrink-0 select-none drop-shadow-sm" xmlns="http://www.w3.org/2000/svg">
                 <rect width="48" height="32" rx="7" fill="#254a93"/>
                 <rect x="0.75" y="0.75" width="46.5" height="30.5" rx="6.25" fill="none" stroke="#5a8fd9" stroke-width="1" stroke-opacity="0.4"/>
                 <text x="24" y="16.5" font-family="'Times New Roman', Georgia, serif" font-weight="bold" font-size="17" fill="#ffffff" text-anchor="middle" dominant-baseline="central" letter-spacing="-0.5">A5</text>
             </svg>
             <div>
-                <div class="flex items-center gap-1.5 leading-none">
-                    <span class="font-bold text-sm sm:text-base tracking-tight text-[#254a93] dark:text-white leading-none">Tecnologia</span>
-                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
-                        Toledo Prix 4.0
+                <h1 class="text-sm font-bold text-[#254a93] dark:text-white flex items-center gap-1.5 leading-none">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-sky-400"></i>
+                    <span>A5 Tecnologia</span>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-mono font-semibold bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-400/25 px-2 py-0.5 rounded-full ml-1">
+                        POP-TEC-001
                     </span>
-                </div>
-                <p class="text-[10px] sm:text-[11px] font-semibold text-[#2aa6c8] dark:text-sky-400 tracking-wide mt-0.5 leading-tight">Balanças e Sistemas</p>
+                </h1>
+                <p class="text-[10px] font-semibold text-[#2aa6c8] dark:text-sky-400 tracking-wide mt-0.5 leading-tight">Balanças e Sistemas • Apresentação Operacional</p>
             </div>
         </div>
 
-        <!-- Barra de Progresso e Botões de Controle -->
+        <!-- Controles Executivos da Apresentação -->
         <div class="flex items-center gap-3">
-            <!-- Alternador Modo Clean / Dark -->
-            <button onclick="toggleCleanMode()" id="cleanModeToggleBtn"
+            <!-- Botão Alternador Modo Clean / Escuro -->
+            <button type="button" onclick="toggleCleanMode()" id="cleanModeToggleBtn"
                 class="px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-zinc-700 shadow-sm"
                 title="Alternar Tema Claro / Escuro (Atalho: C)">
                 <i data-lucide="sun" class="w-4 h-4 text-amber-500 dark:hidden"></i>
@@ -134,34 +122,36 @@
                 <span id="cleanModeLabel">Modo Clean</span>
             </button>
 
-            <!-- Contador de Slide e Barra -->
+            <!-- Contador de Slide & Barra de Progresso -->
             <div class="flex items-center gap-2">
-                <span id="slideCounter" class="font-mono text-xs font-bold text-sky-500 dark:text-sky-400">1 / 6</span>
+                <span id="slideCounter" class="font-mono text-xs font-bold text-sky-500 dark:text-sky-400">1 / 7</span>
                 <div class="w-20 sm:w-28 h-2 bg-slate-200 dark:bg-zinc-800 rounded-full overflow-hidden">
-                    <div id="progressBar" class="h-full bg-gradient-to-r from-sky-500 to-emerald-500 transition-all duration-300" style="width: 16.6%;"></div>
+                    <div id="progressBar" class="h-full bg-gradient-to-r from-sky-500 to-emerald-500 transition-all duration-300" style="width: 14.2%;"></div>
                 </div>
             </div>
 
-            <!-- Tela Cheia -->
-            <button onclick="toggleFullscreen()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-slate-200 transition" title="Tela Cheia (F)">
+            <!-- Botão Tela Cheia -->
+            <button type="button" onclick="toggleFullscreen()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-slate-200 transition" title="Tela Cheia (Atalho: F)">
                 <i data-lucide="maximize" class="w-4 h-4"></i>
             </button>
         </div>
     </header>
 
-    <!-- CONTAINER DOS SLIDES -->
+    <!-- =================================================================== -->
+    <!-- CONTAINER CENTRAL DOS SLIDES                                        -->
+    <!-- =================================================================== -->
     <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex items-center justify-center">
 
-        <!-- =================================================================== -->
-        <!-- SLIDE 1: CAPA EXECUTIVA                                             -->
-        <!-- =================================================================== -->
+        <!-- =============================================================== -->
+        <!-- SLIDE 1: CAPA ESTRATÉGICA PARA O SR. JACSON                    -->
+        <!-- =============================================================== -->
         <section id="slide-1" class="slide active flex-col items-center text-center space-y-6 my-auto">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-600 dark:text-sky-400 text-xs font-bold tracking-widest uppercase">
-                <i data-lucide="sparkles" class="w-4 h-4"></i>
-                <span>Apresentação Estratégica • Diretoria A5 Tecnologia</span>
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full pop-badge text-sky-600 dark:text-sky-400 text-xs font-bold tracking-widest uppercase">
+                <i data-lucide="award" class="w-4 h-4 text-sky-400"></i>
+                <span>Diretoria A5 Tecnologia • Homologação do POP-TEC-001</span>
             </div>
 
-            <!-- EMBLEMA AZUL A5 CENTRALIZADO E NOME (SEM FUNDO BRANCO) -->
+            <!-- Emblema Oficial A5 em Destaque Executivo -->
             <div class="flex items-center justify-center gap-4">
                 <svg viewBox="0 0 88 62" class="w-20 h-14 sm:w-24 sm:h-17 shrink-0 shadow-xl shadow-blue-900/20 rounded-2xl select-none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="88" height="62" rx="14" fill="#254a93"/>
@@ -175,137 +165,134 @@
             </div>
 
             <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white max-w-3xl leading-tight">
-                Menos Papelada. <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-emerald-500">Mais Organização & Recuperação de Tempo</span>
+                Do POP no Papel à <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-blue-500 to-emerald-500">Operação 4.0 Blindada & Sem Papel</span>
             </h1>
 
             <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl font-medium leading-relaxed">
-                Um sistema construído para <strong>eliminar a caça diária a papéis</strong> e o <strong>desperdício de tempo de levar O.S. pela oficina e até a sala do Sr. Jacson</strong>. Um fluxo 100% digital até o momento final da entrega ao cliente.
+                Sr. Jacson, construímos o <strong>Sistema Kanban A5</strong> como a materialização digital exata do documento <strong>POP-TEC-001</strong>. Eliminamos o desperdício de tempo procurando folhas de O.S., blindamos o estoque de peças e conectamos Recepção, Bancada, Smart TV e Diretoria em tempo real.
             </p>
 
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 w-full max-w-4xl">
                 <div class="p-4 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm text-left">
                     <div class="flex items-center justify-between mb-2">
-                        <i data-lucide="clock" class="w-5 h-5 text-amber-500"></i>
-                        <span class="text-[10px] font-mono font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-full">TEMPO</span>
+                        <i data-lucide="file-x" class="w-5 h-5 text-emerald-500"></i>
+                        <span class="text-[10px] font-mono font-bold text-emerald-500 uppercase">100% Digital</span>
                     </div>
-                    <span class="block text-base font-bold text-slate-900 dark:text-white">Fim da Caça à O.S.</span>
-                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Busca imediata em 1s</span>
+                    <span class="block text-sm font-bold text-slate-900 dark:text-white">Zero Papel na Oficina</span>
+                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Nenhuma O.S. impressa circulando em bancadas.</span>
                 </div>
+
                 <div class="p-4 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm text-left">
                     <div class="flex items-center justify-between mb-2">
-                        <i data-lucide="qr-code" class="w-5 h-5 text-sky-500"></i>
-                        <span class="text-[10px] font-mono font-bold text-sky-500 bg-sky-500/10 px-2 py-0.5 rounded-full">QR CODE</span>
+                        <i data-lucide="boxes" class="w-5 h-5 text-sky-500"></i>
+                        <span class="text-[10px] font-mono font-bold text-sky-500 uppercase">POP Item 7.3</span>
                     </div>
-                    <span class="block text-base font-bold text-slate-900 dark:text-white">Bancada no Celular</span>
-                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Zero pranchetas ou rabiscos</span>
+                    <span class="block text-sm font-bold text-slate-900 dark:text-white">Teste ≠ Instalação</span>
+                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Estoque blindado contra uso sem aprovação.</span>
                 </div>
+
                 <div class="p-4 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm text-left">
                     <div class="flex items-center justify-between mb-2">
-                        <i data-lucide="tv" class="w-5 h-5 text-emerald-500"></i>
-                        <span class="text-[10px] font-mono font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">SMART TV</span>
+                        <i data-lucide="lock" class="w-5 h-5 text-indigo-500"></i>
+                        <span class="text-[10px] font-mono font-bold text-indigo-500 uppercase">POP Item 9.0</span>
                     </div>
-                    <span class="block text-base font-bold text-slate-900 dark:text-white">Oficina Conectada</span>
-                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Placar ao vivo & Intercom</span>
+                    <span class="block text-sm font-bold text-slate-900 dark:text-white">Técnico Só Lacra</span>
+                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Lacre A5 gravado digitalmente na calibração.</span>
                 </div>
+
                 <div class="p-4 rounded-2xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 shadow-sm text-left">
                     <div class="flex items-center justify-between mb-2">
-                        <i data-lucide="shield-check" class="w-5 h-5 text-indigo-500"></i>
-                        <span class="text-[10px] font-mono font-bold text-indigo-500 bg-indigo-500/10 px-2 py-0.5 rounded-full">METROLOGIA</span>
+                        <i data-lucide="printer" class="w-5 h-5 text-amber-500"></i>
+                        <span class="text-[10px] font-mono font-bold text-amber-500 uppercase">POP Item 10.0</span>
                     </div>
-                    <span class="block text-base font-bold text-slate-900 dark:text-white">Lacre & Selo IPEM</span>
-                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Canhoto na O.S. final</span>
+                    <span class="block text-sm font-bold text-slate-900 dark:text-white">Priscila Sela na Saída</span>
+                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Selo IPEM colado unicamente na O.S. Teorema.</span>
                 </div>
             </div>
         </section>
 
-        <!-- =================================================================== -->
-        <!-- SLIDE 2: O PROBLEMA REAL DO PASSADO (A CAÇA AO PAPEL)               -->
-        <!-- =================================================================== -->
+        <!-- =============================================================== -->
+        <!-- SLIDE 2: O CHOQUE DE REALIDADE (AS DORES DO PROCESSO EM PAPEL)  -->
+        <!-- =============================================================== -->
         <section id="slide-2" class="slide flex-col space-y-5 w-full">
             <div class="text-center space-y-1.5">
                 <span class="text-xs font-mono font-bold text-amber-600 dark:text-amber-400 uppercase tracking-widest">O Choque de Realidade</span>
-                <h2 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white">Por Que Criamos Este Sistema?</h2>
+                <h2 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white">Por Que o POP no Papel Falha no Dia a Dia?</h2>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
-                    O maior gargalo na A5 não era o conserto ou a calibração: <strong>era a perda de tempo com papelada solta</strong>.
+                    O <strong>POP-TEC-001</strong> foi criado para organizar a casa. Mas enquanto dependíamos de folhas físicas, o processo enfrentava 4 gargalos críticos:
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
-                <!-- PASSADO MANUAL -->
-                <div class="pain-card rounded-3xl p-5 sm:p-6 space-y-3.5 relative">
-                    <div class="flex items-center justify-between border-b border-amber-900/30 dark:border-stone-700 pb-2.5">
-                        <span class="text-xs font-mono font-black uppercase text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
-                            <i data-lucide="alert-triangle" class="w-4 h-4"></i>
-                            O Passado Manual em Papel
-                        </span>
-                        <span class="text-xs font-bold text-amber-700 dark:text-stone-400">Tempo Desperdiçado</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                <div class="p-5 rounded-3xl bg-white dark:bg-zinc-900 border border-rose-500/20 space-y-2.5 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="w-10 h-10 rounded-2xl bg-rose-500/10 text-rose-500 flex items-center justify-center font-bold">
+                            <i data-lucide="search" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-[11px] font-mono font-bold text-rose-500 bg-rose-500/10 px-2 py-0.5 rounded-full">Desperdício: 5 a 15 min</span>
                     </div>
-                    <ul class="space-y-3 text-xs sm:text-sm">
-                        <li class="flex items-start gap-2.5">
-                            <span class="text-rose-500 font-bold text-base leading-none">✕</span>
-                            <span><strong>A "Caça à O.S.":</strong> Minutos preciosos revirando pastas, gavetas e bancadas para saber onde estava a folha da balança que o cliente veio buscar ou cobrar no WhatsApp.</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <span class="text-rose-500 font-bold text-base leading-none">✕</span>
-                            <span><strong>O "Leva e Traz" de papéis:</strong> Andar até a bancada para entregar papel ao técnico, depois ir à sala do Sr. Jacson para aprovar pedidos, depois voltar para a recepção.</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <span class="text-rose-500 font-bold text-base leading-none">✕</span>
-                            <span><strong>Interrupções na Diretoria:</strong> O Sr. Jacson precisava parar tarefas para receber papéis ou caminhar até o fundo da oficina para dar recados ou cobrar prazos.</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <span class="text-rose-500 font-bold text-base leading-none">✕</span>
-                            <span><strong>Folhas rabiscadas e sujas:</strong> Papéis com graxa, preços anotados sem código oficial Toledo Prix e risco constante de extravio da via.</span>
-                        </li>
-                    </ul>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">1. A Caça Diária a Papéis e O.S. Perdidas</h3>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Quando um cliente ligava ou chegava no balcão, a Priscila tinha que vasculhar pilhas de papeladas e pranchetas para achar o status da balança, ou parar o que estava fazendo para ir até a oficina perguntar.
+                    </p>
                 </div>
 
-                <!-- PRESENTE DIGITAL A5 -->
-                <div class="tech-card rounded-3xl p-5 sm:p-6 space-y-3.5 relative overflow-hidden">
-                    <div class="flex items-center justify-between border-b border-sky-500/20 pb-2.5">
-                        <span class="text-xs font-mono font-black uppercase text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-                            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-                            O Novo Padrão A5 Tecnologia 4.0
-                        </span>
-                        <span class="text-xs font-mono font-bold text-sky-600 dark:text-sky-400">Organização & Agilidade</span>
+                <div class="p-5 rounded-3xl bg-white dark:bg-zinc-900 border border-amber-500/20 space-y-2.5 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold">
+                            <i data-lucide="footprints" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-[11px] font-mono font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-full">Deslocamento Inútil</span>
                     </div>
-                    <ul class="space-y-3 text-xs sm:text-sm text-slate-700 dark:text-slate-200">
-                        <li class="flex items-start gap-2.5">
-                            <i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5 font-bold"></i>
-                            <span><strong>Localização em 1 Segundo:</strong> A Priscila digita o número da O.S., cliente ou modelo e já vê na tela: qual bancada está, com qual técnico e o estágio exato.</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5 font-bold"></i>
-                            <span><strong>Zero "Leva e Traz":</strong> O técnico aponta a câmera para a etiqueta QR Code no chassi. O orçamento entra no sistema no mesmo instante.</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5 font-bold"></i>
-                            <span><strong>Sincronia Automática:</strong> Se o cliente aprova na recepção, a bancada do técnico destrava na hora e a TV da oficina atualiza sem ninguém dar um passo.</span>
-                        </li>
-                        <li class="flex items-start gap-2.5">
-                            <i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5 font-bold"></i>
-                            <span><strong>Intercom do Sr. Jacson:</strong> Quando o Sr. Jacson precisa falar com Priscila, Roosevelt, Arthur ou técnicos, aciona o intercom da sala com voz de estúdio na TV.</span>
-                        </li>
-                    </ul>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">2. O "Leva e Traz" de Folhas até a Sala do Sr. Jacson</h3>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Toda tomada de decisão, autorização especial ou conferência exigia alguém atravessar a oficina com a folha de papel na mão para levar até a mesa da diretoria, interrompendo o foco e gerando atrito contínuo.
+                    </p>
+                </div>
+
+                <div class="p-5 rounded-3xl bg-white dark:bg-zinc-900 border border-indigo-500/20 space-y-2.5 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="w-10 h-10 rounded-2xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-bold">
+                            <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-[11px] font-mono font-bold text-indigo-500 bg-indigo-500/10 px-2 py-0.5 rounded-full">Risco de Estoque</span>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">3. Violação do POP Item 7.3 (Peça de Teste no Equipamento)</h3>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                        O POP exige que <em>peça de teste volte imediatamente ao estoque</em> se o orçamento não for aprovado. No papel, não havia trava sistemática: peças novas corriam risco de ficar instaladas por engano sem aprovação.
+                    </p>
+                </div>
+
+                <div class="p-5 rounded-3xl bg-white dark:bg-zinc-900 border border-blue-500/20 space-y-2.5 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="w-10 h-10 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center font-bold">
+                            <i data-lucide="flame" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-[11px] font-mono font-bold text-blue-500 bg-blue-500/10 px-2 py-0.5 rounded-full">Falha de Procedimento</span>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">4. Confusão de Estufa e Execução Prematura</h3>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Sem controle digital, a balança inteira corria o risco de ser levada à estufa (quando apenas a PCI ou célula deve ir no orçamento), ou serviços eram iniciados antes do aceite formal do cliente.
+                    </p>
                 </div>
             </div>
         </section>
 
-        <!-- =================================================================== -->
-        <!-- SLIDE 3: A REGRA DE OURO DA A5: LACRE VS SELO REPARADO              -->
-        <!-- =================================================================== -->
+        <!-- =============================================================== -->
+        <!-- SLIDE 3: OS 3 PILARES DO POP-TEC-001 (DIVISÃO DE RESPONSABILIDADE) -->
+        <!-- =============================================================== -->
         <section id="slide-3" class="slide flex-col space-y-4 w-full">
             <div class="text-center space-y-1">
                 <span class="text-xs font-mono font-bold text-sky-600 dark:text-sky-400 uppercase tracking-widest">Rigor Metrológico & Operação Limpa</span>
                 <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">A Regra Fundamental: Lacre, Selagem e a O.S. do Teorema</h2>
                 <p class="text-xs text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                    Divisão exata de responsabilidades entre oficina e recepção na A5 Tecnologia:
+                    O POP-TEC-001 (Seções 6.14, 9.0 e 10.0) estabelece uma divisão cirúrgica de responsabilidades que o nosso sistema blinda:
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
-                <!-- CARD 1: O LACRE FÍSICO (TÉCNICO SÓ LACRA) -->
+                <!-- CARD 1: O TÉCNICO SÓ LACRA -->
                 <div class="p-5 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 space-y-3 shadow-sm">
                     <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center font-bold">
                         <i data-lucide="lock" class="w-5 h-5"></i>
@@ -315,14 +302,14 @@
                         <h3 class="text-sm font-bold text-slate-900 dark:text-white">1. O Lacre Físico Numerado</h3>
                     </div>
                     <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Após calibrar com pesos-padrão (±2e), o técnico coloca o <strong>lacre mecânico numerado</strong> no parafuso de ajuste para impedir violações. <strong>O técnico só lacra</strong> (não sela!).
+                        Concluídos os testes metrológicos com pesos-padrão (tolerância oficial $\pm 2e$), o técnico coloca o <strong>lacre mecânico numerado A5</strong> no parafuso de ajuste. <strong>O técnico só lacra (não sela!).</strong>
                     </p>
                     <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 text-[11px] text-slate-600 dark:text-slate-300">
-                        O técnico digita o número do Lacre no celular (`/saida`), gravando digitalmente na O.S. antes de mover para Balanças Prontas.
+                        O técnico digita o número do Lacre no celular em <code>/saida</code>. Fica gravado digitalmente no banco de dados e move o cartão para Balanças Prontas.
                     </div>
                 </div>
 
-                <!-- CARD 2: A SELAGEM OFICIAL (QUEM SELA É A PRISCILA) -->
+                <!-- CARD 2: A PRISCILA SELA NA SAÍDA -->
                 <div class="p-5 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 space-y-3 shadow-sm">
                     <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold">
                         <i data-lucide="stamp" class="w-5 h-5"></i>
@@ -332,33 +319,33 @@
                         <h3 class="text-sm font-bold text-slate-900 dark:text-white">2. O Selo Reparado (IPEM)</h3>
                     </div>
                     <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                        <strong>Quem sela a balança é a Priscila!</strong> Quando a balança está pronta para entrega no balcão, ela aplica o adesivo oficial do <strong>Selo Reparado (IPEM)</strong> na carcaça da balança.
+                        <strong>Quem sela a balança é a Priscila!</strong> Quando o cliente vem retirar a balança pronta no balcão, a Priscila aplica o adesivo oficial do <strong>Selo Reparado (IPEM)</strong> na carcaça do equipamento.
                     </p>
                     <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 text-[11px] text-slate-600 dark:text-slate-300">
-                        O selo permanece colado na balança e o seu <strong>canhoto destacável</strong> é retirado para ir para a documentação física.
+                        O adesivo permanece colado na carcaça da balança e o seu <strong>canhoto destacável numerado</strong> é retirado para anexação legal física.
                     </div>
                 </div>
 
-                <!-- CARD 3: A O.S. DO TEOREMA NA ENTREGA -->
+                <!-- CARD 3: A O.S. DO TEOREMA ERP -->
                 <div class="p-5 rounded-3xl bg-white dark:bg-zinc-900 border-2 border-emerald-500/40 space-y-3 shadow-sm relative">
                     <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-bold">
                         <i data-lucide="printer" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <span class="text-[10px] font-mono font-bold uppercase text-emerald-500">Documento Oficial</span>
+                        <span class="text-[10px] font-mono font-bold uppercase text-emerald-500">Única Folha Impressa</span>
                         <h3 class="text-sm font-bold text-slate-900 dark:text-white">3. A O.S. Impressa do Teorema</h3>
                     </div>
                     <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                        O nosso projeto Kanban opera <strong>100% digital e sem papel</strong>. O selo <strong>não é colado no sistema</strong>, e sim na <strong>O.S. física impressa do Teorema</strong> no momento da retirada:
+                        O nosso projeto Kanban opera <strong>100% digital e sem papel</strong>. O selo <strong>não é colado no sistema</strong>, e sim na <strong>O.S. física oficial impressa do Teorema ERP</strong> no momento da retirada:
                     </p>
                     <div class="space-y-1.5 text-[11px] font-medium text-slate-700 dark:text-slate-300">
                         <div class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-bold">
                             <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                            <span>Canhoto do Selo Reparado colado na O.S. do Teorema</span>
+                            <span>Canhoto do Selo Reparado colado na folha do Teorema</span>
                         </div>
                         <div class="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-bold">
                             <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                            <span>Assinatura do Cliente colhida na O.S. do Teorema</span>
+                            <span>Assinatura do Cliente colhida na folha do Teorema</span>
                         </div>
                     </div>
                 </div>
@@ -367,23 +354,23 @@
             <!-- REGRA RESUMIDA EM DESTAQUE -->
             <div class="p-3.5 rounded-2xl bg-sky-500/10 border border-sky-500/20 flex items-center gap-3 text-xs text-sky-700 dark:text-sky-300">
                 <i data-lucide="info" class="w-5 h-5 shrink-0 text-sky-500"></i>
-                <span><strong>Divisão Operacional A5:</strong> Na bancada, a estufa térmica é usada apenas para teste de PCI ou célula durante o orçamento. Ao finalizar os testes com pesos-padrão, o técnico <strong>SÓ LACRA</strong> no parafuso de ajuste. Quem <strong>SELA</strong> a balança é a <strong>Priscila</strong> na saída, que copia o Lacre com 1 clique para o Teorema, imprime a O.S. oficial do Teorema, cola o canhoto do Selo Reparado e colhe a assinatura do cliente.</span>
+                <span><strong>Sincronização com 1 Clique:</strong> A Priscila clica em <code>Copiar Lacre p/ Teorema</code> no Kanban, cola o número no ERP Teorema sem redigitar nada, imprime a O.S. fiscal, cola o canhoto do Selo Reparado e entrega a balança perfeitamente auditada.</span>
             </div>
         </section>
 
-        <!-- =================================================================== -->
-        <!-- SLIDE 4: O FLUXOGRAMA DINÂMICO DO CICLO OPERACIONAL 4.0             -->
-        <!-- =================================================================== -->
+        <!-- =============================================================== -->
+        <!-- SLIDE 4: FLUXOGRAMA INTERATIVO DO POP-TEC-001 (6 FASES)         -->
+        <!-- =============================================================== -->
         <section id="slide-4" class="slide flex-col space-y-4 w-full">
             <div class="text-center space-y-1">
-                <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Mapeamento de Processo de Ponta a Ponta</span>
-                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">Fluxograma Operacional da Balança na A5</h2>
+                <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Execução Interativa do Procedimento</span>
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">O Ciclo do POP-TEC-001 no Sistema Kanban</h2>
                 <p class="text-xs text-slate-600 dark:text-slate-400">
-                    Clique em qualquer etapa do fluxo abaixo para visualizar os detalhes operacionais em tempo real:
+                    Clique nas etapas abaixo (ou use as teclas 1 a 6) para ver como cada item do POP foi digitalizado:
                 </p>
             </div>
 
-            <!-- BOTÕES/NÓS DO FLUXOGRAMA INTERATIVO (PIPELINE) -->
+            <!-- NÓS/BOTÕES DA PIPELINE OPERACIONAL -->
             <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 pt-1">
                 <button type="button" onclick="selectFlowStep(1)" id="flowStepBtn-1"
                     class="flow-step-btn active p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-left space-y-1.5">
@@ -446,16 +433,83 @@
                 </button>
             </div>
 
-            <!-- CARD DINÂMICO COM OS DETALHES DA ETAPA SELECIONADA -->
+            <!-- DETALHAMENTO DINÂMICO DA ETAPA -->
             <div id="flowDetailCard" class="p-5 rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-md transition-all space-y-4">
-                <!-- Conteúdo injetado via JS pelo selectFlowStep() -->
+                <!-- Injetado dinamicamente pelo script selectFlowStep() -->
             </div>
         </section>
 
-        <!-- =================================================================== -->
-        <!-- SLIDE 5: ANTES VS AGORA (O IMPACTO NA ROTINA DA A5)                -->
-        <!-- =================================================================== -->
+        <!-- =============================================================== -->
+        <!-- SLIDE 5: REGRA DE OURO DO POP: TESTE DE PEÇA ≠ INSTALAÇÃO       -->
+        <!-- =============================================================== -->
         <section id="slide-5" class="slide flex-col space-y-5 w-full">
+            <div class="text-center space-y-1.5">
+                <span class="text-xs font-mono font-bold text-amber-500 uppercase tracking-widest">Controle de Estoque & Conformidade</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white">A Regra Central: Teste de Peça ≠ Instalação Definitiva</h2>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
+                    O <strong>POP Item 7.3</strong> veda terminantemente a instalação definitiva de componentes antes da aprovação do orçamento:
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
+                <div class="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-amber-500/30 space-y-3">
+                    <div class="flex items-center gap-2 text-amber-500 font-bold text-sm">
+                        <i data-lucide="cpu" class="w-5 h-5"></i>
+                        <span>1. Peça Utilizada Apenas para Teste (Diagnóstico)</span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Quando um componente novo é retirado do estoque para confirmar o laudo (POP 7.2):
+                    </p>
+                    <ul class="text-xs space-y-2 text-slate-600 dark:text-slate-400">
+                        <li class="flex items-center gap-2 text-amber-600 dark:text-amber-400 font-semibold">
+                            <i data-lucide="check" class="w-4 h-4"></i>
+                            <span>Retirada provisória exclusivamente para testar a balança na bancada.</span>
+                        </li>
+                        <li class="flex items-center gap-2 text-amber-600 dark:text-amber-400 font-semibold">
+                            <i data-lucide="check" class="w-4 h-4"></i>
+                            <span>Confirmado o diagnóstico, a peça é <strong>imediatamente retirada e devolvida ao estoque</strong>.</span>
+                        </li>
+                        <li class="flex items-center gap-2 text-rose-500 font-bold">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                            <span>NUNCA permanece instalada antes do cliente aprovar o orçamento!</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-emerald-500/30 space-y-3">
+                    <div class="flex items-center gap-2 text-emerald-500 font-bold text-sm">
+                        <i data-lucide="lock" class="w-5 h-5"></i>
+                        <span>2. Bloqueio Automático pelo Kanban A5</span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Como o sistema protege a A5 contra erros operacionais:
+                    </p>
+                    <ul class="text-xs space-y-2 text-slate-600 dark:text-slate-400">
+                        <li class="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold">
+                            <i data-lucide="shield-check" class="w-4 h-4"></i>
+                            <span>A tela do técnico em <code>/saida</code> bloqueia a execução enquanto a O.S. aguarda aceite.</span>
+                        </li>
+                        <li class="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold">
+                            <i data-lucide="shield-check" class="w-4 h-4"></i>
+                            <span>Apenas quando a Priscila aprova no painel, a O.S. destrava para montagem definitiva.</span>
+                        </li>
+                        <li class="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold">
+                            <i data-lucide="shield-check" class="w-4 h-4"></i>
+                            <span>Baixa real no estoque Toledo Prix com rastreabilidade total de cada componente.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-center text-xs text-amber-700 dark:text-amber-300 font-mono font-bold">
+                ⚠️ REGRA CENTRAL DO POP: TESTE ≠ INSTALAÇÃO. O Sistema Kanban impede que o estoque sofra furos por peças esquecidas.
+            </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- SLIDE 6: COMPARATIVO DIRETO (PAPEL VS SISTEMA KANBAN)           -->
+        <!-- =============================================================== -->
+        <section id="slide-6" class="slide flex-col space-y-5 w-full">
             <div class="text-center space-y-1.5">
                 <span class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Impacto Direto na Operação</span>
                 <h2 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white">Comparativo: O Fim do Desperdício de Tempo</h2>
@@ -503,60 +557,65 @@
             </div>
         </section>
 
-        <!-- =================================================================== -->
-        <!-- SLIDE 6: DEMONSTRAÇÃO AO VIVO COM 1 CLIQUE                          -->
-        <!-- =================================================================== -->
-        <section id="slide-6" class="slide flex-col items-center text-center space-y-6 my-auto">
+        <!-- =============================================================== -->
+        <!-- SLIDE 7: DEMONSTRAÇÃO AO VIVO COM 1 CLIQUE                      -->
+        <!-- =============================================================== -->
+        <section id="slide-7" class="slide flex-col items-center text-center space-y-6 my-auto">
             <div class="w-16 h-16 rounded-3xl bg-emerald-500/20 text-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
                 <i data-lucide="check-check" class="w-8 h-8"></i>
             </div>
 
             <h2 class="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white max-w-2xl leading-tight">
-                Pronto para Ver na Prática Funcionando?
+                Pronto para Ver o POP Funcionando ao Vivo?
             </h2>
 
             <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-xl font-medium">
-                Sr. Jacson, clique em qualquer módulo abaixo para testar ao vivo na rede da A5:
+                Sr. Jacson, clique em qualquer módulo abaixo para testar ao vivo na rede interna da A5 Tecnologia:
             </p>
 
             <div class="flex flex-wrap items-center justify-center gap-3 pt-2 max-w-3xl">
-                <a href="/admin" target="_blank" class="px-5 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-md">
-                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-                    <span>Painel Recepção (Priscila)</span>
-                </a>
-                <a href="/painel-tv" target="_blank" class="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-md">
+                <a href="/tv" target="_blank" class="px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-md">
                     <i data-lucide="tv" class="w-4 h-4"></i>
-                    <span>Painel TV Oficina</span>
-                </a>
-                <a href="/saida" target="_blank" class="px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-md">
-                    <i data-lucide="smartphone" class="w-4 h-4"></i>
-                    <span>Bancada Celular (/saida)</span>
+                    <span>Smart TV da Oficina</span>
                 </a>
                 <a href="/diretoria" target="_blank" class="px-5 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-md">
-                    <i data-lucide="radio" class="w-4 h-4"></i>
-                    <span>Intercom Sala do Sr. Jacson</span>
+                    <i data-lucide="volume-2" class="w-4 h-4"></i>
+                    <span>Intercom do Sr. Jacson</span>
                 </a>
-                <a href="/consulta" target="_blank" class="px-5 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs flex items-center gap-2 transition">
+                <a href="/admin" target="_blank" class="px-5 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-md">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                    <span>Painel da Priscila (Admin)</span>
+                </a>
+                <a href="/saida" target="_blank" class="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-md">
+                    <i data-lucide="smartphone" class="w-4 h-4"></i>
+                    <span>Bancada Técnica Mobile</span>
+                </a>
+                <a href="/recepcao-fotos" target="_blank" class="px-5 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-md">
+                    <i data-lucide="camera" class="w-4 h-4"></i>
+                    <span>Fotos na Entrada</span>
+                </a>
+                <a href="/consulta" target="_blank" class="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-2 transition shadow-md">
                     <i data-lucide="search" class="w-4 h-4"></i>
-                    <span>Consulta Balcão</span>
+                    <span>Consulta de Balcão</span>
                 </a>
-                <a href="/gerencia" target="_blank" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center gap-2 transition">
+                <a href="/gerencia" target="_blank" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center gap-2 transition shadow-md border border-slate-700">
                     <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
-                    <span>Métricas & Exportar CSV</span>
+                    <span>Gerência & Indicadores</span>
                 </a>
             </div>
         </section>
 
     </main>
 
-    <!-- RODAPÉ DE NAVEGAÇÃO DOS SLIDES -->
-    <footer class="px-5 py-3 border-t border-white/10 dark:border-white/10 clean:border-slate-200 bg-[var(--header-bg)] backdrop-blur-md flex items-center justify-between transition-colors">
-        <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-            <span class="hidden sm:inline">Navegue com:</span>
-            <kbd class="px-2 py-1 rounded bg-slate-200 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 font-mono text-[10px]">←</kbd>
-            <kbd class="px-2 py-1 rounded bg-slate-200 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 font-mono text-[10px]">→</kbd>
-            <kbd class="px-2 py-1 rounded bg-slate-200 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 font-mono text-[10px] hidden sm:inline">Espaço</kbd>
-            <span class="hidden md:inline">• Atalho Modo Clean: <kbd class="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-zinc-800 border font-mono text-[10px]">C</kbd></span>
+    <!-- =================================================================== -->
+    <!-- BARRA INFERIOR DE NAVEGAÇÃO ENTRE SLIDES                            -->
+    <!-- =================================================================== -->
+    <footer class="px-5 py-3 border-t border-white/10 dark:border-white/10 clean:border-slate-200 bg-[var(--header-bg)] backdrop-blur-md flex items-center justify-between text-xs z-30 transition-colors">
+        <div class="flex items-center gap-4 text-slate-500 dark:text-slate-400 text-[11px]">
+            <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-zinc-800 font-mono text-[10px]">Espaço</kbd> ou <kbd class="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-zinc-800 font-mono text-[10px]">Setas</kbd> Avançar</span>
+            <span class="hidden sm:flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-zinc-800 font-mono text-[10px]">1-6</kbd> Etapas do Fluxo</span>
+            <span class="hidden sm:flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-zinc-800 font-mono text-[10px]">C</kbd> Modo Clean</span>
+            <span class="hidden sm:flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-zinc-800 font-mono text-[10px]">F</kbd> Tela Cheia</span>
         </div>
 
         <div class="flex items-center gap-2">
@@ -564,72 +623,75 @@
                 <i data-lucide="chevron-left" class="w-4 h-4"></i>
                 <span>Anterior</span>
             </button>
-            <button onclick="nextSlide()" id="nextBtn" class="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-black text-xs flex items-center gap-1.5 transition shadow-lg shadow-sky-600/30">
+            <button onclick="nextSlide()" id="nextBtn" class="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-md shadow-sky-600/20">
                 <span>Próximo</span>
                 <i data-lucide="chevron-right" class="w-4 h-4"></i>
             </button>
         </div>
     </footer>
 
+    <!-- =================================================================== -->
+    <!-- SCRIPT DE NAVEGAÇÃO E DADOS OPERACIONAIS DO POP                     -->
+    <!-- =================================================================== -->
     <script>
         let curSlide = 1;
-        const totalSlides = 6;
+        const totalSlides = 7;
 
-        // DADOS DO FLUXOGRAMA DINÂMICO
+        // DADOS DETALHADOS DAS 6 ETAPAS BASEADAS NO POP-TEC-001
         const flowStepsData = {
             1: {
-                title: "Etapa 1 • Entrada & Triagem Digital na Recepção",
+                title: "Etapa 1 • Recebimento, Fotos de Entrada & Triagem (POP 6.1 a 6.3)",
                 actor: "Priscila (Recepção) & Cliente",
-                action: "A balança é recebida no balcão. A Priscila acessa `/recepcao-fotos` no celular e tira fotos de todos os ângulos da balança antes mesmo de abrir a O.S., garantindo segurança jurídica contra reclamações de arranhões ou peças faltando.",
-                tech: "Impressão imediata de Etiqueta Térmica adesiva (60x40mm) com QR Code colada no chassi. A balança vai direto para a prateleira de entrada.",
-                zeroPaper: "Zero papel impresso na chegada. Sem preencher talões ou vias carbonadas.",
-                gain: "Economia de ~12 minutos por atendimento e fim das disputas com clientes.",
-                badge: "Chegada Digital"
+                action: "A balança é recebida no balcão. A Priscila acessa `/recepcao-fotos` no celular e tira fotos de 360° do equipamento antes mesmo de abrir a O.S., garantindo segurança jurídica contra reclamações de danos preexistentes ou acessórios faltantes.",
+                tech: "Impressão imediata de Etiqueta Térmica adesiva (60x40mm) com QR Code colada no chassi. A balança vai direto para a prateleira de entrada com identificação instantânea.",
+                zeroPaper: "Zero papel impresso na chegada. Sem preencher talões manuais ou vias carbonadas sujas.",
+                gain: "Economia de ~12 minutos por atendimento e eliminação de disputas com clientes.",
+                badge: "POP Item 6.2 • Entrada Digital"
             },
             2: {
-                title: "Etapa 2 • Avaliação Técnica, Catálogo Toledo & Estufa de PCI",
+                title: "Etapa 2 • Avaliação Técnica, Catálogo Toledo & Estufa de PCI (POP 6.4 a 6.6)",
                 actor: "Técnico da Bancada",
-                action: "O técnico pega a balança da prateleira e bipa o QR Code pelo celular em `/saida`. A O.S. trava imediatamente para ele. Se houver suspeita de defeito térmico ou deriva de peso, o técnico retira unicamente a PCI (Placa de Circuito Impresso) ou a Célula de Carga e coloca na estufa térmica para teste com cronômetro na TV. A balança NUNCA vai para a estufa, e esse teste ocorre estritamente nesta fase de orçamento.",
+                action: "O técnico pega a balança da prateleira e bipa o QR Code pelo celular em `/saida`. A O.S. trava imediatamente para ele. Se houver suspeita de defeito térmico ou deriva de peso, o técnico retira unicamente a PCI (Placa de Circuito Impresso) ou a Célula de Carga e coloca na estufa térmica com cronômetro na TV. A balança NUNCA vai para a estufa, e esse teste ocorre estritamente nesta fase de orçamento.",
                 tech: "O técnico preenche o laudo digital no celular, seleciona peças no Catálogo Oficial Toledo Prix integrado (com cálculo de margem automático) e aciona o cronômetro da estufa com alarme sonoro na TV da oficina.",
                 zeroPaper: "Nenhum técnico anota código em papéis avulsos nem cola bilhetes na bancada para lembrar de tirar a placa da estufa.",
                 gain: "Diagnóstico preciso de falhas térmicas em placas/células e agilidade de +40% na montagem do orçamento.",
-                badge: "Orçamento & Estufa de PCI"
+                badge: "POP Item 6.6 • Orçamento & Estufa"
             },
             3: {
-                title: "Etapa 3 • Sincronização, Painel TV & Sala do Sr. Jacson",
+                title: "Etapa 3 • Sincronização, Smart TV & Intercom do Sr. Jacson (POP 6.7)",
                 actor: "Smart TV da Oficina & Diretoria (Sr. Jacson)",
                 action: "Ao finalizar a análise técnica, a Priscila recebe notificação instantânea no painel `/admin` com um clique para enviar a proposta ao cliente. A Smart TV da oficina atualiza o quadro em milissegundos.",
                 tech: "O Sr. Jacson acompanha o andamento em `/diretoria`. Quando precisa falar com Priscila, Roosevelt, Arthur ou os técnicos, aciona o Intercom que emite aviso sonoro com voz neural (Edge-TTS) e ducking automático da música na oficina.",
                 zeroPaper: "Zero deslocamentos físicos. Ninguém precisa andar até a sala do Sr. Jacson para levar O.S.",
                 gain: "Elimina dezenas de caminhadas diárias e interrupções desnecessárias.",
-                badge: "Gestão Visual"
+                badge: "POP Item 6.7 • Gestão Visual"
             },
             4: {
-                title: "Etapa 4 • Aprovação Digital, Reparo & Testes Operacionais",
+                title: "Etapa 4 • Aprovação Digital, Reparo & Testes Operacionais (POP 6.9 a 6.10)",
                 actor: "Cliente & Técnico Responsável",
                 action: "O cliente aprova o orçamento. No mesmo segundo, a tela do técnico em `/saida` destrava para execução. O técnico realiza a substituição das peças originais Toledo Prix, limpeza técnica interna, remontagem e bateria completa de testes de funcionamento.",
                 tech: "Execução de testes elétricos, testes de display, teclado, fonte e estabilidade operacional da balança na bancada, com baixa automática de peças no estoque Toledo Prix.",
                 zeroPaper: "Controle 100% automatizado na TV e no celular, sem necessidade de bilhetes colados na bancada ou fichas de papel.",
                 gain: "Garantia de montagem perfeita e testes funcionais concluídos com peças originais antes da calibração.",
-                badge: "Reparo & Testes"
+                badge: "POP Item 6.10 • Reparo & Testes"
             },
             5: {
-                title: "Etapa 5 • Calibração Metrológica ±2e & Lacração Física (Técnico)",
+                title: "Etapa 5 • Calibração Metrológica ±2e & Lacração Física (POP 6.11 a 6.14)",
                 actor: "Técnico Finalizador",
                 action: "A balança é submetida aos testes metrológicos oficiais com pesos-padrão rastreados (linearidade, repetibilidade e teste de excentricidade nos 4 cantos do prato, dentro da tolerância oficial de oficina de até ±2e). O TÉCNICO NÃO SELA A BALANÇA: ELE SÓ LACRA!",
                 tech: "O técnico coloca o LACRE FÍSICO NUMERADO (IPEM A5) no parafuso de calibração para travar o ajuste mecânico e digita o número no celular em `/saida`. O cartão move para 'BALANÇAS PRONTAS' e a TV toca a fanfarra comemorativa.",
                 zeroPaper: "O número do Lacre e dados de calibração ficam salvos no banco de dados local com rastreabilidade total.",
                 gain: "Rigor metrológico oficial blindado e separação clara: o técnico apenas calibra e lacra; quem sela é a recepção.",
-                badge: "Calibração & Lacre Técnico"
+                badge: "POP Item 6.14 • Lacração A5"
             },
             6: {
-                title: "Etapa 6 • Balcão de Saída: Selagem Oficial (Priscila) & O.S. Teorema",
+                title: "Etapa 6 • Balcão de Saída: Selagem Oficial (Priscila) & O.S. Teorema (POP 6.15 a 6.16)",
                 actor: "Priscila (Recepção) & Cliente",
                 action: "A balança pronta vai para o balcão da recepção. QUEM SELA A BALANÇA É A PRISCILA! Ela aplica o adesivo oficial do SELO REPARADO (IPEM) na carcaça da balança ao preparar o equipamento para a entrega final.",
                 tech: "A Priscila clica em 'Copiar Lacre p/ Teorema' com 1 clique (transferindo o número de lacre digitado pelo técnico), abre o Teorema ERP, imprime a O.S. oficial física, cola o CANHOTO destacável do Selo Reparado exclusivamente na folha do Teorema e colhe a ASSINATURA FÍSICA DO CLIENTE.",
                 zeroPaper: "O projeto Kanban opera 100% sem papel. O selo não é colado no sistema; a única folha impressa em toda a jornada é a O.S. oficial do Teorema na saída do cliente.",
                 gain: "Processo à prova de falhas: divisão clara entre o técnico (que lacra) e a recepção (que sela, confere e formaliza no Teorema).",
-                badge: "Selagem Oficial & Teorema"
+                badge: "POP Item 10.0 • Entrega Teorema"
             }
         };
 
@@ -711,12 +773,15 @@
             });
 
             document.getElementById("slideCounter").textContent = `${curSlide} / ${totalSlides}`;
-            document.getElementById("progressBar").style.width = `${(curSlide / totalSlides) * 100}%`;
+            const pct = (curSlide / totalSlides) * 100;
+            document.getElementById("progressBar").style.width = `${pct}%`;
 
-            document.getElementById("prevBtn").disabled = curSlide === 1;
+            const prevBtn = document.getElementById("prevBtn");
             const nextBtn = document.getElementById("nextBtn");
+
+            prevBtn.disabled = (curSlide === 1);
             if (curSlide === totalSlides) {
-                nextBtn.innerHTML = `<span>Reiniciar</span> <i data-lucide="rotate-ccw" class="w-4 h-4"></i>`;
+                nextBtn.innerHTML = `<span>Início</span> <i data-lucide="rotate-ccw" class="w-4 h-4"></i>`;
             } else {
                 nextBtn.innerHTML = `<span>Próximo</span> <i data-lucide="chevron-right" class="w-4 h-4"></i>`;
             }
@@ -748,11 +813,12 @@
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(() => {});
             } else {
-                document.exitFullscreen().catch(() => {});
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
             }
         }
 
-        // MODO CLEAN
         function toggleCleanMode() {
             const html = document.documentElement;
             const isClean = html.classList.toggle("clean-mode");
