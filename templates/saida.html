@@ -612,18 +612,12 @@
                         class="w-full min-w-0 surface-inner rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-sky-500"></textarea>
                 </div>
 
-                <!-- LACRE IPEM A5 E PRATELEIRA -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="min-w-0">
-                        <label class="block text-xs font-bold uppercase text-slate-300 mb-1 truncate">Lacre IPEM A5 *</label>
-                        <input type="text" inputmode="numeric" pattern="[0-9]*" name="inmetro_seal" id="inmetroSealInput" required placeholder="Nº Lacre IPEM A5"
-                            class="w-full min-w-0 surface-inner rounded-xl px-3 py-2.5 font-bold text-sky-300 focus:outline-none focus:border-sky-500">
-                    </div>
-                    <div class="min-w-0">
-                        <label class="block text-xs font-bold uppercase text-slate-300 mb-1 truncate">Prateleira de Saída</label>
-                        <input type="text" name="shelf_location" id="shelfInput" placeholder="Ex: Prontas B-1"
-                            class="w-full min-w-0 surface-inner rounded-xl px-3 py-2.5 focus:outline-none focus:border-sky-500">
-                    </div>
+                <!-- LACRE IPEM A5 -->
+                <div>
+                    <label class="block text-xs font-bold uppercase text-slate-300 mb-1 truncate">Lacre Físico A5 *</label>
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" name="inmetro_seal" id="inmetroSealInput" required placeholder="Nº Lacre Físico A5"
+                        class="w-full min-w-0 surface-inner rounded-xl px-3 py-2.5 font-bold text-sky-300 focus:outline-none focus:border-sky-500">
+                    <input type="hidden" name="shelf_location" id="shelfInput" value="">
                 </div>
 
                 <!-- TESTES DE PESOS FINAL (Corrigido L-01: min-w-0 flex-1) -->

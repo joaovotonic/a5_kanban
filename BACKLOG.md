@@ -649,3 +649,21 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
 - **Ajuste:** Posicionamento do número da O.S. em caixa preta maciça com tipografia gigante (16px monoespaçada) exatamente ao lado do nome do cliente (12.5px font-black).
 - **Prateleira no Topo:** A indicação de Prateleira (PRAT: B-04) foi movida para o cabeçalho superior direito.
 - **Sincronização:** Atualizadas as páginas templates/etiquetas_catalogo.html e templates/etiqueta.html.
+
+---
+
+## 📌 Item 36: Remoção do Sistema de Prateleiras de Todas as Telas e Fluxos
+
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Gerência Operacional / Diretoria
+* **Telas & Arquivos Impactados:**
+  - templates/etiquetas_catalogo.html (Removido campo e exibição de prateleira da etiqueta térmica)
+  - templates/etiqueta.html (Removido cabeçalho de prateleira da etiqueta oficial)
+  - templates/admin.html (Removido input de prateleira na criação de O.S., prévia do cartão Kanban e modal de detalhes)
+  - templates/saida.html (Removido campo de prateleira de saída na tela mobile do técnico)
+  - templates/consulta.html (Removido filtro e exibição de prateleira na busca de balcão)
+  - templates/tv.html (Removido badge de estante na Smart TV da oficina)
+* **Principais Entregas:**
+  1. Sistema de prateleiras completamente desativado da interface do usuário.
+  2. Layout da etiqueta térmica simplificado e focado nos itens essenciais (Cliente, O.S., Acessórios e QR Code).
+  3. Telas administrativas e mobile limpas, sem campos desnecessários para a equipe.

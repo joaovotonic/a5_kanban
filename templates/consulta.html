@@ -125,7 +125,7 @@
             const container = document.getElementById("resultsGrid");
 
             const filtered = allCards.filter(c => {
-                const str = `${c.os_number} ${c.client_name} ${c.equipment_type} ${c.equipment_model} ${c.shelf_location} ${c.inmetro_seal}`.toLowerCase();
+                const str = `${c.os_number} ${c.client_name} ${c.equipment_type} ${c.equipment_model} ${c.inmetro_seal}`.toLowerCase();
                 return str.includes(q);
             });
 
@@ -156,10 +156,6 @@
                             <p class="text-xs text-slate-500 dark:text-zinc-400 mb-3 break-words">${esc(c.equipment_type)} ${c.equipment_model ? '• ' + esc(c.equipment_model) : ''}</p>
 
                             <div class="text-xs space-y-1.5 bg-slate-50 dark:bg-zinc-950/60 p-3 rounded-lg border border-slate-200 dark:border-zinc-800/80">
-                                <div class="flex items-center gap-1.5">
-                                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
-                                    <span>Local: <strong>${esc(c.shelf_location || 'Recepção')}</strong></span>
-                                </div>
                                 <div class="flex items-center gap-1.5">
                                     <i data-lucide="user" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
                                     <span>Técnico: <strong>${esc(c.tech_name || 'Fila')}</strong></span>

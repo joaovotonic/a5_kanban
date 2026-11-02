@@ -213,10 +213,6 @@
                         <label class="text-[10px] uppercase font-bold text-slate-500">Balança:</label>
                         <input type="text" id="inputModelo" value="Toledo Prix 4 Uno" oninput="updateLabel()" class="bg-transparent text-xs w-36 outline-none text-slate-900 dark:text-slate-100 font-medium">
                     </div>
-                    <div class="flex items-center gap-1 bg-slate-100 dark:bg-zinc-800 px-2 py-1 rounded-lg border border-slate-200 dark:border-zinc-700">
-                        <label class="text-[10px] uppercase font-bold text-slate-500">Prateleira:</label>
-                        <input type="text" id="inputPrat" value="B-04" oninput="updateLabel()" class="bg-transparent font-mono font-bold text-xs w-16 outline-none text-emerald-500">
-                    </div>
                 </div>
 
                 <!-- Controles de Zoom da Prévia na Tela -->
@@ -315,7 +311,7 @@
                 <!-- ======================================================= -->
                 <div id="optimizedLabel" class="thermal-label-wrap size-60x40 flex flex-col justify-between">
                     
-                    <!-- LINHA 1: CABEÇALHO COM LOGO A5 E PRATELEIRA EM DESTAQUE NO TOPO -->
+                    <!-- LINHA 1: CABEÇALHO COM LOGO A5 E SUBTÍTULO -->
                     <div class="flex items-center justify-between border-b-2 border-black pb-1">
                         <div class="flex items-center gap-1.5">
                             <svg viewBox="0 0 48 32" class="w-[26px] h-[18px] shrink-0" xmlns="http://www.w3.org/2000/svg">
@@ -324,10 +320,8 @@
                             </svg>
                             <span class="text-[10px] font-extrabold tracking-tight">A5 TECNOLOGIA</span>
                         </div>
-                        <!-- PRATELEIRA NO TOPO DIREITO -->
-                        <div class="flex items-center gap-1 font-mono font-bold text-[9px]">
-                            <span class="text-zinc-600 text-[8px] uppercase">PRAT:</span>
-                            <span id="labelPrat" class="val-prat bg-black text-white px-1.5 py-0.5 rounded-sm text-[10px] font-black">B-04</span>
+                        <div class="text-[8.5px] font-bold text-zinc-700 tracking-tight">
+                            <span>BALANÇAS & SISTEMAS</span>
                         </div>
                     </div>
 
@@ -487,12 +481,10 @@
             const os = document.getElementById("inputOS").value || "1024";
             const cliente = document.getElementById("inputCliente").value || "Cliente";
             const modelo = document.getElementById("inputModelo").value || "Balança";
-            const prat = document.getElementById("inputPrat").value || "B-01";
 
             document.getElementById("labelOS").textContent = os;
             document.getElementById("labelCliente").textContent = cliente;
             document.getElementById("labelModelo").textContent = modelo;
-            document.getElementById("labelPrat").textContent = prat;
 
             // Atualiza checkboxes
             const temPrato = document.getElementById("chkPrato").checked;

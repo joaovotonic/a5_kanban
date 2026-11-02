@@ -628,12 +628,6 @@
                     <div class="text-xs card-equip-desc text-slate-600 dark:text-zinc-400 truncate">
                         ${esc(c.equipment_type)}${c.equipment_model ? ' • ' + esc(c.equipment_model) : ''}
                     </div>
-                    ${c.shelf_location ? `
-                        <div class="text-[11px] font-semibold text-sky-400 mt-1 flex items-center gap-1">
-                            <i data-lucide="map-pin" class="w-3 h-3 text-sky-400"></i>
-                            <span>Estante: ${esc(c.shelf_location)}</span>
-                        </div>
-                    ` : ''}
                     ${timerHTML}
                 </div>
             `;

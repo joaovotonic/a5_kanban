@@ -329,7 +329,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-3 gap-3">
+                <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-[11px] font-bold uppercase tracking-wider mb-1 text-slate-500 dark:text-zinc-400">Equipamento</label>
                         <select name="equipment_type" id="newOsEquipTypeSelect" class="w-full px-2.5 py-2 rounded-xl border border-slate-300 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900 text-xs focus:outline-none focus:border-sky-500">
@@ -349,11 +349,7 @@
                             class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900 text-xs focus:outline-none focus:border-sky-500">
                         <div id="newOsModelSuggestions" class="hidden absolute left-0 right-0 top-full mt-1 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl shadow-2xl z-50 max-h-52 overflow-y-auto divide-y divide-slate-100 dark:divide-zinc-800"></div>
                     </div>
-                    <div>
-                        <label class="block text-[11px] font-bold uppercase tracking-wider mb-1 text-slate-500 dark:text-zinc-400">Prateleira</label>
-                        <input type="text" name="shelf_location" placeholder="Ex: Estante A-2"
-                            class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900 text-xs focus:outline-none focus:border-sky-500">
-                    </div>
+                    <input type="hidden" name="shelf_location" value="">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
@@ -1031,9 +1027,8 @@
                     ` : ''}
 
                     <div class="mt-2.5 pt-2 border-t border-slate-100 dark:border-zinc-800/80 flex items-center justify-between gap-2 text-[11px] text-slate-400 dark:text-zinc-500">
-                        <span class="min-w-0 flex-1 truncate flex items-center gap-1" title="${esc(card.shelf_location || 'Recepção')}">
-                            <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i>
-                            <span>${esc(card.shelf_location || 'Recepção')}</span>
+                        <span class="min-w-0 flex-1 truncate text-[10px] text-slate-400 dark:text-zinc-500">
+                            ${card.created_at ? card.created_at.slice(0, 10) : ''}
                         </span>
                         <div class="flex items-center gap-2 shrink-0">
                             ${card.admin_notes ? `<i data-lucide="file-text" class="w-3 h-3 text-sky-400" title="Possui anotação interna"></i>` : ''}
@@ -1605,7 +1600,6 @@
                         <span>Modelo: <strong class="text-slate-200">${esc(card.equipment_model || 'N/I')}</strong></span>
                         <span>•</span>
                         <span>Série: <strong class="text-slate-200 font-mono">${esc(card.serial_number || 'N/I')}</strong></span>
-                        ${card.shelf_location ? `<span>•</span><span>Prateleira: <strong class="text-sky-400">${esc(card.shelf_location)}</strong></span>` : ''}
                     </p>
                 </div>
 
