@@ -557,7 +557,37 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
 
 ---
 
-## 📌 Item 33: Apresentação Visual do Software: Passo a Passo do Projeto Tela por Tela com Capturas Reais do Sistema
+## 📌 Item 34: Limpeza de Backups, Banco Zerado para Operação e Captura Completa das 9 Telas do Projeto com Balanças Realistas
+
+* **Status:** ✅ **Implementado e Homologado em Produção**
+* **Solicitante:** Diretoria / Gerência
+* **Telas & Arquivos Impactados:**
+  - `backups/` (Eliminação completa de todos os backups e dumps legados)
+  - `database/a5_kanban.db` (Truncate e reset completo das tabelas operacionais `cards`, `card_history` e `pending_entries`)
+  - `static/uploads/` (Remoção das pastas de uploads de teste de O.S. antigas)
+  - `templates/apresentacao.html` (Reconstrução com 11 slides contemplando todas as 9 telas do sistema)
+  - `static/img/screens/` (9 capturas de tela reais em alta definição com balanças Toledo Prix)
+* **Principais Entregas:**
+  1. **Purga Completa de Backups e Arquivos de Teste:**
+     - Diretório `backups/` esvaziado (todos os arquivos `.db` e `.json` anteriores removidos).
+     - Pastas de teste em `static/uploads/` purgadas, preservando `.gitkeep`.
+  2. **Banco de Dados Zerado para Entrada em Produção:**
+     - Tabelas `cards`, `card_history` e `pending_entries` zeradas e contadores de auto-incremento resetados.
+     - Pronto para receber as primeiras O.S. reais da oficina sem resquícios de testes.
+  3. **Apresentação com as 9 Telas do Sistema:**
+     - Todas as telas do software integradas tela por tela:
+       * Tela 1: `/recepcao-fotos` (Recepção com Fotos e QR Code)
+       * Tela 2: `/etiqueta/<os>` (Etiqueta Térmica Adesiva 60x40mm)
+       * Tela 3: `/admin` (Painel Kanban da Recepção e Gestão)
+       * Tela 4: `/saida` (Bancada Mobile do Técnico com Catálogo Toledo Prix)
+       * Tela 5: `/folha/<os>` (Folha Digital de Laudo Técnico e Prontuário)
+       * Tela 6: `/tv` (Smart TV 55" do Chão de Fábrica com Placar e Estufa)
+       * Tela 7: `/diretoria` (Intercom do Sr. Jacson com Voz Neural Edge-TTS)
+       * Tela 8: `/consulta` (Consulta Rápida de Balcão e Integração Teorema)
+       * Tela 9: `/gerencia` (Painel Gerencial de Métricas e Lead Time)
+       * Slide 10: Central de Teste e Demonstração ao Vivo
+     - Modal Lightbox com zoom em alta resolução em cada captura.
+
 
 * **Status:** ✅ **Implementado e Homologado em Produção**
 * **Solicitante:** Diretoria / Sr. Jacson
