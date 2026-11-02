@@ -172,7 +172,7 @@
         </button>
         <button type="button" onclick="goToSlide(2)" id="tabBtn-2" class="nav-step-btn px-2.5 py-1.5 rounded-xl border border-transparent transition flex items-center gap-1 text-slate-700 dark:text-slate-200 shrink-0">
             <span class="w-4 h-4 rounded-full bg-sky-500 text-slate-950 font-mono text-[10px] flex items-center justify-center font-black">1</span>
-            <span>Recepção Fotos</span>
+            <span>Pré-Entrada & CNPJ</span>
         </button>
         <button type="button" onclick="goToSlide(3)" id="tabBtn-3" class="nav-step-btn px-2.5 py-1.5 rounded-xl border border-transparent transition flex items-center gap-1 text-slate-700 dark:text-slate-200 shrink-0">
             <span class="w-4 h-4 rounded-full bg-slate-300 dark:bg-zinc-700 text-slate-900 dark:text-slate-200 font-mono text-[10px] flex items-center justify-center font-black">2</span>
@@ -271,22 +271,25 @@
         </section>
 
         <!-- =============================================================== -->
-        <!-- SLIDE 2: TELA 1 • ENTRADA & FOTOS DA RECEPÇÃO                   -->
+        <!-- SLIDE 2: TELA 1 • PRÉ-ENTRADA, CNPJ & O.S. A4 TEOREMA            -->
         <!-- =============================================================== -->
         <section id="slide-2" class="slide-pane flex-col space-y-4 w-full max-w-6xl">
             <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 dark:border-zinc-800 pb-2">
                 <div class="flex items-center gap-2">
                     <span class="w-6 h-6 rounded-lg bg-sky-500 text-slate-950 font-black font-mono text-xs flex items-center justify-center">1</span>
                     <div>
-                        <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Tela 1 • Recepção com Fotos & Identificação Térmica</h2>
-                        <span class="text-xs font-mono font-semibold text-sky-600 dark:text-sky-400">Rota do Sistema: /recepcao-fotos</span>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <span>Tela 1 • Pré-Entrada com Busca Automática de CNPJ, Fotos & O.S. A4</span>
+                            <span class="text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25 px-2 py-0.5 rounded-full font-mono uppercase font-bold">Novo</span>
+                        </h2>
+                        <span class="text-xs font-mono font-semibold text-sky-600 dark:text-sky-400">Rotas: /recepcao • /recepcao-fotos • /comprovante-entrada</span>
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
-                    <span class="text-xs text-slate-500 dark:text-slate-400">Usuário: <strong>Priscila (Balcão / Celular)</strong></span>
-                    <a href="/recepcao-fotos" target="_blank" class="px-3 py-1 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 text-xs font-bold hover:bg-sky-500/20 transition flex items-center gap-1">
+                    <span class="text-xs text-slate-500 dark:text-slate-400">Operador: <strong>Priscila (Balcão / Celular)</strong></span>
+                    <a href="/recepcao" target="_blank" class="px-3 py-1 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 text-xs font-bold hover:bg-sky-500/20 transition flex items-center gap-1">
                         <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                        <span>Abrir Tela</span>
+                        <span>Abrir Recepção</span>
                     </a>
                 </div>
             </div>
@@ -299,40 +302,41 @@
                                 <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
                                 <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
                                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                                <span class="ml-2 font-mono text-[11px] text-slate-600 dark:text-slate-400 font-bold">http://127.0.0.1:5000/recepcao-fotos</span>
+                                <span class="ml-2 font-mono text-[11px] text-slate-600 dark:text-slate-400 font-bold">http://127.0.0.1:5000/recepcao</span>
                             </div>
-                            <span class="text-[10px] font-mono uppercase bg-sky-500/10 text-sky-500 px-2 py-0.5 rounded">Captura Real do Projeto</span>
+                            <span class="text-[10px] font-mono uppercase bg-sky-500/10 text-sky-500 px-2 py-0.5 rounded">Otimização de Atendimento</span>
                         </div>
-                        <img src="/static/img/screens/recepcao_fotos.png" alt="Tela de Recepção com Fotos" onclick="openLightbox(this.src)" class="screenshot-img w-full h-auto object-cover max-h-[460px] border-t border-slate-200 dark:border-zinc-800" title="Clique para ampliar">
+                        <img src="/static/img/screens/recepcao_fotos.png" alt="Tela de Recepção com Busca de CNPJ e Fotos" onclick="openLightbox(this.src)" class="screenshot-img w-full h-auto object-cover max-h-[460px] border-t border-slate-200 dark:border-zinc-800" title="Clique para ampliar">
                     </div>
                 </div>
 
                 <div class="lg:col-span-5 space-y-3 text-xs leading-relaxed">
                     <div class="p-3.5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-sm space-y-1.5">
                         <div class="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-1.5">
-                            <i data-lucide="camera" class="w-4 h-4 text-sky-500"></i>
-                            <span>O Que Esta Tela Faz no Sistema:</span>
+                            <i data-lucide="zap" class="w-4 h-4 text-amber-500"></i>
+                            <span>Otimização Radical no Atendimento da Priscila:</span>
                         </div>
                         <p class="text-slate-600 dark:text-slate-300">
-                            A Priscila abre esta tela no celular do balcão ou computador assim que o cliente entrega a balança. Registra a O.S., cliente, modelo e tira fotos de todos os ângulos antes de abrir o equipamento.
+                            Quando o cliente chega no balcão, a Priscila digita o <strong>CNPJ</strong> no celular/tablet. O sistema conecta na <strong>Receita Federal em menos de 1 segundo</strong> e preenche Razão Social, Fantasia, Endereço e Telefone automaticamente.
                         </p>
                     </div>
 
                     <div class="p-3.5 rounded-2xl bg-sky-500/5 dark:bg-sky-950/20 border border-sky-500/20 space-y-1.5">
                         <div class="font-bold text-sm text-sky-700 dark:text-sky-300 flex items-center gap-1.5">
-                            <i data-lucide="qr-code" class="w-4 h-4 text-sky-500"></i>
-                            <span>Automação do Fluxo Digital:</span>
+                            <i data-lucide="file-check" class="w-4 h-4 text-sky-500"></i>
+                            <span>Ordem de Serviço A4 Estilo Teorema na Hora:</span>
                         </div>
                         <ul class="space-y-1 text-slate-600 dark:text-slate-300 list-disc list-inside">
-                            <li><strong>Fotos 360° no Celular:</strong> Clica nos botões e anexa fotos da frente, traseira, prato e etiqueta do cliente diretamente à O.S. digital.</li>
-                            <li><strong>Entrada Instantânea no Kanban:</strong> Ao salvar, o cartão digital aparece imediatamente na coluna de ENTRADA do painel admin.</li>
-                            <li><strong>Botão de Etiqueta Térmica:</strong> Permite gerar e imprimir imediatamente a etiqueta com QR Code para identificação física.</li>
+                            <li><strong>Checklist de Acessórios:</strong> Caixas rápidas para marcar <code>[✓] Prato</code>, <code>[✓] Fonte</code>, <code>[✓] Cabo</code> e <code>[✓] Bateria</code>.</li>
+                            <li><strong>Via do Cliente Imediata:</strong> Gera e imprime a folha A4 com os dados completos e linhas de assinatura. O cliente assina e vai embora em menos de 2 minutos.</li>
+                            <li><strong>Respeito à Numeração do Teorema:</strong> O equipamento fica guardado em <em>"Aguardando Teorema"</em>. A Priscila gera a O.S. oficial no Teorema no PC com calma e apenas vincula o número.</li>
+                            <li><strong>Oficina Sempre Limpa:</strong> A balança só vai para a Smart TV da oficina e gera a etiqueta térmica adesiva quando a O.S. real do Teorema é informada.</li>
                         </ul>
                     </div>
 
                     <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-300 font-bold flex items-center gap-2">
                         <i data-lucide="shield-check" class="w-4 h-4 shrink-0 text-emerald-500"></i>
-                        <span>Proteção jurídica e técnica total contra reclamações de avarias prévias.</span>
+                        <span>Zero fila no balcão, zero duplicidade de O.S. e proteção jurídica total.</span>
                     </div>
                 </div>
             </div>
@@ -791,7 +795,7 @@
                             <span>Fechamento no Teorema ERP:</span>
                         </div>
                         <ul class="space-y-1 text-slate-600 dark:text-slate-300 list-disc list-inside">
-                            <li><strong>Localização e Prateleira:</strong> Informa exatamente onde a balança está guardada na oficina.</li>
+                            <li><strong>Status em Tempo Real:</strong> Informa com precisão cirúrgica a etapa e o técnico responsável pela balança.</li>
                             <li><strong>Quem Sela é a Priscila:</strong> Na retirada do cliente, a Priscila aplica o <strong>Selo Reparado IPEM</strong> na balança.</li>
                             <li><strong>Copia o Lacre pro Teorema:</strong> Clica em copiar lacre com 1 clique, cola no Teorema ERP, imprime a O.S. física oficial do Teorema e cola o canhoto do selo para o cliente assinar.</li>
                         </ul>
@@ -892,12 +896,12 @@
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 w-full max-w-4xl text-left">
-                <a href="/recepcao-fotos" target="_blank" class="p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-sky-500 transition shadow-sm space-y-1 block">
+                <a href="/recepcao" target="_blank" class="p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-sky-500 transition shadow-sm space-y-1 block">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-slate-900 dark:text-white">1. Recepção</span>
-                        <i data-lucide="camera" class="w-4 h-4 text-sky-500"></i>
+                        <span class="text-xs font-bold text-slate-900 dark:text-white">1. Pré-Entrada & CNPJ</span>
+                        <i data-lucide="zap" class="w-4 h-4 text-sky-500"></i>
                     </div>
-                    <p class="text-[11px] text-slate-500">Fotos 360° & Cadastro</p>
+                    <p class="text-[11px] text-slate-500">Busca Receita & O.S. A4</p>
                 </a>
 
                 <a href="/etiqueta/01042" target="_blank" class="p-3 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 hover:border-sky-500 transition shadow-sm space-y-1 block">

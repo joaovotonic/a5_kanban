@@ -61,21 +61,6 @@
             font-weight: 900;
             letter-spacing: -0.2px;
         }
-        .header-prat {
-            font-family: monospace;
-            font-size: 8pt;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            gap: 0.8mm;
-        }
-        .prat-badge {
-            background: #000000;
-            color: #ffffff;
-            padding: 0.3mm 1.2mm;
-            border-radius: 0.4mm;
-            font-size: 8.5pt;
-        }
 
         /* Linha do Cliente com O.S. Grande ao Lado */
         .client-os-row {
@@ -291,12 +276,12 @@
             <div class="accessories-grid">
                 <div class="acc-title">ACESSÓRIOS RECEBIDOS:</div>
                 <div class="acc-row">
-                    <span class="acc-item"><span class="chk-box checked">✓</span>Prato</span>
-                    <span class="acc-item"><span class="chk-box"> </span>Fonte</span>
+                    <span class="acc-item"><span class="chk-box {% if card.accessories and 'Prato' in card.accessories %}checked{% endif %}">{% if card.accessories and 'Prato' in card.accessories %}✓{% else %}&nbsp;{% endif %}</span>Prato</span>
+                    <span class="acc-item"><span class="chk-box {% if card.accessories and 'Fonte' in card.accessories %}checked{% endif %}">{% if card.accessories and 'Fonte' in card.accessories %}✓{% else %}&nbsp;{% endif %}</span>Fonte</span>
                 </div>
                 <div class="acc-row">
-                    <span class="acc-item"><span class="chk-box"> </span>Cabo</span>
-                    <span class="acc-item"><span class="chk-box"> </span>Bateria</span>
+                    <span class="acc-item"><span class="chk-box {% if card.accessories and 'Cabo' in card.accessories %}checked{% endif %}">{% if card.accessories and 'Cabo' in card.accessories %}✓{% else %}&nbsp;{% endif %}</span>Cabo</span>
+                    <span class="acc-item"><span class="chk-box {% if card.accessories and 'Bateria' in card.accessories %}checked{% endif %}">{% if card.accessories and 'Bateria' in card.accessories %}✓{% else %}&nbsp;{% endif %}</span>Bateria</span>
                 </div>
             </div>
             <div class="qr-box-wrap">
