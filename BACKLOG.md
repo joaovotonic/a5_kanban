@@ -614,7 +614,7 @@ Quando um técnico conclui a folha digital de orçamento na tela mobile (`/saida
 
 ---
 
-## 📌 Item 35: Catálogo Interativo de Layouts de Etiqueta Térmica (10 Opções em 60x40mm e 60x55mm)
+## 📌 Item 35: Catálogo Interativo de Etiquetas Térmicas (12 Novos Layouts em 60x40mm e 60x45mm com Foco em Acessórios)
 
 * **Status:** ✅ **Implementado e Homologado em Produção**
 * **Solicitante:** Gerência Operacional / Oficina A5
